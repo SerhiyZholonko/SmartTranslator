@@ -8,6 +8,7 @@ struct TextTranslatorView: View {
     @StateObject private var translationService = GoogleTranslateParser()
     @StateObject private var speechRecognizer = SpeechRecognizer()
     @StateObject private var permissionsManager = PermissionsManager.shared
+    @StateObject private var flashcardManager = FlashcardManager.shared
     
     @State private var sourceLanguage = "auto"
     @State private var targetLanguage = "en"
@@ -19,6 +20,10 @@ struct TextTranslatorView: View {
     @State private var alternatives: [String] = []
     @State private var isRecording = false
     @State private var showPermissionAlert = false
+    @State private var showFlashcardOptions = false
+    @State private var selectedDeck: FlashcardDeck?
+    @State private var showDeckSelection = false
+    @State private var flashcardSaved = false
     
     let languages = [
         ("auto", "Auto-detect"),
@@ -160,6 +165,20 @@ struct TextTranslatorView: View {
                                     
                                     Spacer()
                                     
+                                    // Add to Flashcards button
+                                    Button(action: { showDeckSelection = true }) {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: flashcardSaved ? "checkmark.circle.fill" : "plus.circle")
+                                                .foregroundColor(flashcardSaved ? .green : .orange)
+                                            if !flashcardSaved {
+                                                Text("Add to Flashcards")
+                                                    .font(.caption)
+                                                    .foregroundColor(.orange)
+                                            }
+                                        }
+                                    }
+                                    .disabled(flashcardSaved)
+                                    
                                     Button(action: copyTranslation) {
                                         Image(systemName: "doc.on.doc")
                                             .foregroundColor(.blue)
@@ -209,6 +228,20 @@ struct TextTranslatorView: View {
         } message: {
             Text("Будь ласка, увімкніть доступ до мікрофона в Налаштуваннях для використання голосового вводу.")
         }
+        .sheet(isPresented: $showDeckSelection) {
+            DeckSelectionView(
+                decks: flashcardManager.decks,
+                onDeckSelected: { deck in
+                    selectedDeck = deck
+                    addToFlashcards(deck: deck)
+                    showDeckSelection = false
+                },
+                onCreateNew: {
+                    createAndAddToNewDeck()
+                    showDeckSelection = false
+                }
+            )
+        }
     }
     
     private func translate() {
@@ -217,6 +250,7 @@ struct TextTranslatorView: View {
         isTranslating = true
         translatedText = ""
         alternatives = []
+        flashcardSaved = false // Reset flashcard saved status
         
         Task {
             do {
@@ -487,6 +521,187 @@ struct TextTranslatorView: View {
     private func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
+        }
+    }
+    
+    // MARK: - Flashcard Functions
+    
+    private func addToFlashcards(deck: FlashcardDeck) {
+        guard !inputText.isEmpty && !translatedText.isEmpty else { return }
+        
+        // Determine actual source language if auto-detect was used
+        let actualSourceLanguage = sourceLanguage == "auto" ? "en" : sourceLanguage // Default to English if auto
+        
+        let flashcard = flashcardManager.createFlashcard(
+            frontText: inputText.trimmingCharacters(in: .whitespacesAndNewlines),
+            backText: translatedText,
+            sourceLanguage: actualSourceLanguage,
+            targetLanguage: targetLanguage,
+            category: "From Translation"
+        )
+        
+        flashcardManager.addFlashcardToDeck(flashcard, deck: deck)
+        flashcardSaved = true
+        
+        // Show success feedback
+        withAnimation(.easeInOut(duration: 0.3)) {
+            // The UI will update automatically due to flashcardSaved state
+        }
+    }
+    
+    private func createAndAddToNewDeck() {
+        guard !inputText.isEmpty && !translatedText.isEmpty else { return }
+        
+        // Determine actual source language if auto-detect was used
+        let actualSourceLanguage = sourceLanguage == "auto" ? "en" : sourceLanguage
+        
+        // Create new deck with a descriptive name
+        let deckName = "Translation Cards (\(languageCodeToName(actualSourceLanguage)) → \(languageCodeToName(targetLanguage)))"
+        let newDeck = flashcardManager.createDeck(
+            name: deckName,
+            description: "Cards from text translations",
+            sourceLanguage: actualSourceLanguage,
+            targetLanguage: targetLanguage
+        )
+        
+        // Add the flashcard to the new deck
+        addToFlashcards(deck: newDeck)
+    }
+    
+    private func languageCodeToName(_ code: String) -> String {
+        return languages.first(where: { $0.0 == code })?.1 ?? code.uppercased()
+    }
+}
+
+// MARK: - Deck Selection View
+
+struct DeckSelectionView: View {
+    let decks: [FlashcardDeck]
+    let onDeckSelected: (FlashcardDeck) -> Void
+    let onCreateNew: () -> Void
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                Text("Choose a deck to add this flashcard")
+                    .font(.headline)
+                    .padding(.top)
+                
+                if decks.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "rectangle.stack.badge.plus")
+                            .font(.system(size: 50))
+                            .foregroundColor(.gray)
+                        
+                        Text("No decks available")
+                            .font(.title2)
+                            .fontWeight(.medium)
+                        
+                        Text("Create your first deck to start collecting flashcards")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .padding(.vertical, 40)
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
+                            ForEach(decks) { deck in
+                                DeckSelectionCard(deck: deck) {
+                                    onDeckSelected(deck)
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+                
+                Spacer()
+                
+                // Create New Deck Button
+                Button(action: onCreateNew) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Create New Deck")
+                    }
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(Color.blue)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+            .navigationTitle("Add to Flashcards")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct DeckSelectionCard: View {
+    let deck: FlashcardDeck
+    let onSelect: () -> Void
+    
+    var body: some View {
+        Button(action: onSelect) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(deck.name)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Text("\(languageName(deck.sourceLanguage)) → \(languageName(deck.targetLanguage))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                if !deck.description.isEmpty {
+                    Text(deck.description)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
+                }
+                
+                HStack {
+                    Text("\(deck.flashcardIds.count) cards")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.right.circle")
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func languageName(_ code: String) -> String {
+        switch code {
+        case "en": return "EN"
+        case "uk": return "UK" 
+        case "ru": return "RU"
+        case "es": return "ES"
+        case "fr": return "FR"
+        case "de": return "DE"
+        default: return code.uppercased()
         }
     }
 }
