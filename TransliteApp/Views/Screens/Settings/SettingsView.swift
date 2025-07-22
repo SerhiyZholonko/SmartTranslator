@@ -7,10 +7,43 @@ struct SettingsView: View {
     @State private var enableSmartCache = true
     @State private var maxCacheSize = 50
     @State private var enableHistory = true
+    @State private var selectedTranslationService: TranslationService = UserDefaults.standard.selectedTranslationService
+    @State private var showingServiceAlert = false
     
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("Translation Service")) {
+                    Picker("Service", selection: $selectedTranslationService) {
+                        ForEach(TranslationService.allCases, id: \.self) { service in
+                            HStack {
+                                Image(systemName: service.systemImageName)
+                                Text(service.displayName)
+                            }
+                            .tag(service)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .onChange(of: selectedTranslationService) { oldValue, newValue in
+                        if !newValue.isAvailable {
+                            selectedTranslationService = oldValue
+                            showingServiceAlert = true
+                        } else {
+                            UserDefaults.standard.selectedTranslationService = newValue
+                        }
+                    }
+                    
+                    if selectedTranslationService == .apple {
+                        HStack {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.blue)
+                            Text("Apple Translation requires iOS 17.4+")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                
                 Section(header: Text("Default Languages")) {
                     Picker("Source Language", selection: $defaultSourceLanguage) {
                         Text("Auto Detect").tag("auto")
@@ -92,12 +125,6 @@ struct SettingsView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    HStack {
-                        Text("Translation Services")
-                        Spacer()
-                        Text("Google Translate")
-                            .foregroundColor(.secondary)
-                    }
                     
                     Button("Reset to Defaults") {
                         resetToDefaults()
@@ -119,6 +146,11 @@ struct SettingsView: View {
         .onAppear {
             loadSettings()
         }
+        .alert("Service Not Available", isPresented: $showingServiceAlert) {
+            Button("OK") { }
+        } message: {
+            Text("Apple Translation requires iOS 17.4 or later. Please update your device to use this feature.")
+        }
     }
     
     private func loadSettings() {
@@ -128,6 +160,7 @@ struct SettingsView: View {
         enableSmartCache = preferences.bool(forKey: "enableSmartCache")
         maxCacheSize = preferences.integer(forKey: "maxCacheSize") == 0 ? 50 : preferences.integer(forKey: "maxCacheSize")
         enableHistory = preferences.bool(forKey: "enableHistory")
+        selectedTranslationService = preferences.selectedTranslationService
     }
     
     private func saveSettings() {
@@ -149,6 +182,8 @@ struct SettingsView: View {
         enableSmartCache = true
         maxCacheSize = 50
         enableHistory = true
+        selectedTranslationService = .google
+        UserDefaults.standard.selectedTranslationService = .google
     }
 }
 

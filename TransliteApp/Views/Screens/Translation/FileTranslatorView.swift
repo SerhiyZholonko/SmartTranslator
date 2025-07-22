@@ -306,6 +306,9 @@ struct FileTranslatorView: View {
                 processPDF()
             }
         }
+        .onAppear {
+            loadLanguageSettings()
+        }
     }
     
     private func processImage() {
@@ -458,6 +461,19 @@ struct FileTranslatorView: View {
     
     private func copyTranslation() {
         UIPasteboard.general.string = translatedText
+    }
+    
+    private func loadLanguageSettings() {
+        let preferences = UserDefaults.standard
+        
+        // Завантажуємо збережені налаштування мов з Settings
+        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") {
+            sourceLanguage = savedSourceLanguage
+        }
+        
+        if let savedTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") {
+            targetLanguage = savedTargetLanguage
+        }
     }
 }
 

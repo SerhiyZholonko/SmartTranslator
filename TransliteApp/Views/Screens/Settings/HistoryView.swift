@@ -327,10 +327,13 @@ struct HistoryDetailView: View {
             .sheet(isPresented: $showingDeckSelector) {
                 DeckSelectorView(
                     decks: flashcardManager.decks,
+                    sourceLanguage: item.sourceLanguage,
+                    targetLanguage: item.targetLanguage,
                     onDeckSelected: { deck in
                         let flashcard = flashcardManager.createFlashcardFromTranslation(item)
-                        flashcardManager.addFlashcardToDeck(flashcard, deck: deck)
-                        flashcardCreated = true
+                        if flashcardManager.addFlashcardToDeck(flashcard, deck: deck) {
+                            flashcardCreated = true
+                        }
                         showingDeckSelector = false
                     },
                     onCreateNewDeck: {
@@ -340,7 +343,7 @@ struct HistoryDetailView: View {
                             targetLanguage: item.targetLanguage
                         )
                         let flashcard = flashcardManager.createFlashcardFromTranslation(item)
-                        flashcardManager.addFlashcardToDeck(flashcard, deck: newDeck)
+                        _ = flashcardManager.addFlashcardToDeck(flashcard, deck: newDeck)
                         flashcardCreated = true
                         showingDeckSelector = false
                     }
@@ -473,23 +476,33 @@ struct StatisticsView: View {
 struct DeckSelectorView: View {
     @Environment(\.dismiss) var dismiss
     let decks: [FlashcardDeck]
+    let sourceLanguage: String
+    let targetLanguage: String
     let onDeckSelected: (FlashcardDeck) -> Void
     let onCreateNewDeck: () -> Void
+    
+    private var matchingDecks: [FlashcardDeck] {
+        decks.filter { $0.sourceLanguage == sourceLanguage && $0.targetLanguage == targetLanguage }
+    }
     
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Select a deck")) {
-                    ForEach(decks) { deck in
-                        Button(action: { onDeckSelected(deck) }) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(deck.name)
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                
-                                Text("\(languageName(deck.sourceLanguage)) → \(languageName(deck.targetLanguage))")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                if !matchingDecks.isEmpty {
+                    Section(header: Text("Compatible Decks (\(languageName(sourceLanguage)) → \(languageName(targetLanguage)))")) {
+                        ForEach(matchingDecks) { deck in
+                            Button(action: { onDeckSelected(deck) }) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(deck.name)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    
+                                    HStack {
+                                        Text("\(deck.flashcardIds.count) cards")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
                             }
                             .padding(.vertical, 4)
                         }
@@ -502,8 +515,27 @@ struct DeckSelectorView: View {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.green)
                             
-                            Text("Create New Deck")
-                                .foregroundColor(.green)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Create New Deck")
+                                    .foregroundColor(.green)
+                                Text("\(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                        }
+                    }
+                }
+                
+                if matchingDecks.isEmpty {
+                    Section {
+                        HStack {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.blue)
+                            Text("No decks found for \(languageName(sourceLanguage)) → \(languageName(targetLanguage)). Create a new deck to start.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                     }
                 }

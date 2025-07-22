@@ -85,8 +85,13 @@ class FlashcardManager: ObservableObject {
         saveDecks()
     }
     
-    func addFlashcardToDeck(_ flashcard: Flashcard, deck: FlashcardDeck) {
-        guard let deckIndex = decks.firstIndex(where: { $0.id == deck.id }) else { return }
+    func addFlashcardToDeck(_ flashcard: Flashcard, deck: FlashcardDeck) -> Bool {
+        guard let deckIndex = decks.firstIndex(where: { $0.id == deck.id }) else { return false }
+        
+        // Validate language pair matches deck's language pair
+        if flashcard.sourceLanguage != deck.sourceLanguage || flashcard.targetLanguage != deck.targetLanguage {
+            return false
+        }
         
         if !flashcards.contains(where: { $0.id == flashcard.id }) {
             flashcards.append(flashcard)
@@ -98,6 +103,7 @@ class FlashcardManager: ObservableObject {
         
         saveFlashcards()
         saveDecks()
+        return true
     }
     
     private func createDefaultDeckIfNeeded() {
@@ -112,7 +118,7 @@ class FlashcardManager: ObservableObject {
             ]
             
             for card in sampleCards {
-                addFlashcardToDeck(card, deck: defaultDeck)
+                _ = addFlashcardToDeck(card, deck: defaultDeck)
             }
         }
     }

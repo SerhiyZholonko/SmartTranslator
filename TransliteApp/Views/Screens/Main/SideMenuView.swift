@@ -7,6 +7,7 @@ struct SideMenuView: View {
     @Binding var showPremiumScreen: Bool
     @State private var showHistory = false
     @State private var showFlashcards = false
+    @State private var showSettings = false
     @State private var showShareSheet = false
     @State private var showContactSheet = false
     @State private var showPrivacySheet = false
@@ -152,6 +153,19 @@ struct SideMenuView: View {
                         .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.18), value: menuItemsOpacity)
                 
                         MenuItemView(
+                            icon: "gear",
+                            title: "Settings",
+                            iconColor: Color(red: 0.5, green: 0.5, blue: 0.5),
+                            action: {
+                                showSettings = true
+                                closeMenu()
+                            }
+                        )
+                        .opacity(menuItemsOpacity)
+                        .offset(x: menuItemsOpacity == 1 ? 0 : -50)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.21), value: menuItemsOpacity)
+                
+                        MenuItemView(
                             icon: "star.fill",
                             title: "Rate us",
                             iconColor: Color(red: 1.0, green: 0.8, blue: 0.2),
@@ -161,7 +175,7 @@ struct SideMenuView: View {
                         )
                         .opacity(menuItemsOpacity)
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.23), value: menuItemsOpacity)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.24), value: menuItemsOpacity)
                 
                         MenuItemView(
                             icon: "square.and.arrow.up",
@@ -173,7 +187,7 @@ struct SideMenuView: View {
                         )
                         .opacity(menuItemsOpacity)
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.28), value: menuItemsOpacity)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.27), value: menuItemsOpacity)
                 
                         MenuItemView(
                             icon: "message.fill",
@@ -185,7 +199,7 @@ struct SideMenuView: View {
                         )
                         .opacity(menuItemsOpacity)
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.33), value: menuItemsOpacity)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.30), value: menuItemsOpacity)
                 
                         MenuItemView(
                             icon: "lock.shield.fill",
@@ -197,7 +211,7 @@ struct SideMenuView: View {
                         )
                         .opacity(menuItemsOpacity)
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.38), value: menuItemsOpacity)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.33), value: menuItemsOpacity)
                     }
                     .padding(.top, 10)
             
@@ -225,7 +239,7 @@ struct SideMenuView: View {
                         .padding()
                         .opacity(menuItemsOpacity)
                         .scaleEffect(menuItemsOpacity)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.4), value: menuItemsOpacity)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.36), value: menuItemsOpacity)
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.75)
@@ -255,6 +269,9 @@ struct SideMenuView: View {
         }
         .fullScreenCover(isPresented: $showFlashcards) {
             FlashcardsView()
+        }
+        .fullScreenCover(isPresented: $showSettings) {
+            SettingsView()
         }
         .sheet(isPresented: $showShareSheet) {
             ShareView()

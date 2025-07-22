@@ -5,7 +5,7 @@ import AVFoundation
 struct TextTranslatorView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var historyManager = TranslationHistoryManager.shared
-    @StateObject private var translationService = GoogleTranslateParser()
+    @StateObject private var translationManager = TranslationManager.shared
     @StateObject private var speechRecognizer = SpeechRecognizer()
     @StateObject private var permissionsManager = PermissionsManager.shared
     @StateObject private var flashcardManager = FlashcardManager.shared
@@ -14,7 +14,6 @@ struct TextTranslatorView: View {
     @State private var targetLanguage = "en"
     @State private var inputText = ""
     @State private var translatedText = ""
-    @State private var isTranslating = false
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var alternatives: [String] = []
@@ -48,8 +47,18 @@ struct TextTranslatorView: View {
                     
                     Spacer()
                     
-                    Text("Text Translator")
-                        .font(.system(size: 20, weight: .semibold))
+                    VStack(spacing: 2) {
+                        Text("Text Translator")
+                            .font(.system(size: 20, weight: .semibold))
+                        
+                        HStack(spacing: 4) {
+                            Image(systemName: translationManager.currentService.systemImageName)
+                                .font(.caption)
+                            Text(translationManager.currentServiceName)
+                                .font(.caption)
+                        }
+                        .foregroundColor(.secondary)
+                    }
                     
                     Spacer()
                     
@@ -136,7 +145,7 @@ struct TextTranslatorView: View {
                         // Translate button
                         Button(action: translate) {
                             HStack {
-                                if isTranslating {
+                                if translationManager.isTranslating {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                         .scaleEffect(0.8)
@@ -153,7 +162,7 @@ struct TextTranslatorView: View {
                             .cornerRadius(25)
                         }
                         .padding(.horizontal)
-                        .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isTranslating)
+                        .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || translationManager.isTranslating)
                         
                         // Translation result
                         if !translatedText.isEmpty {
@@ -231,6 +240,8 @@ struct TextTranslatorView: View {
         .sheet(isPresented: $showDeckSelection) {
             DeckSelectionView(
                 decks: flashcardManager.decks,
+                sourceLanguage: sourceLanguage == "auto" ? "en" : sourceLanguage,
+                targetLanguage: targetLanguage,
                 onDeckSelected: { deck in
                     selectedDeck = deck
                     addToFlashcards(deck: deck)
@@ -242,19 +253,21 @@ struct TextTranslatorView: View {
                 }
             )
         }
+        .onAppear {
+            loadLanguageSettings()
+        }
     }
     
     private func translate() {
         guard !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         
-        isTranslating = true
         translatedText = ""
         alternatives = []
         flashcardSaved = false // Reset flashcard saved status
         
         Task {
             do {
-                let result = try await translationService.translate(
+                let result = try await translationManager.translate(
                     text: inputText,
                     from: sourceLanguage,
                     to: targetLanguage
@@ -272,13 +285,11 @@ struct TextTranslatorView: View {
                     )
                     historyManager.addTranslation(historyItem)
                     
-                    isTranslating = false
                 }
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
                     showError = true
-                    isTranslating = false
                 }
             }
         }
@@ -540,7 +551,7 @@ struct TextTranslatorView: View {
             category: "From Translation"
         )
         
-        flashcardManager.addFlashcardToDeck(flashcard, deck: deck)
+        _ = flashcardManager.addFlashcardToDeck(flashcard, deck: deck)
         flashcardSaved = true
         
         // Show success feedback
@@ -571,15 +582,34 @@ struct TextTranslatorView: View {
     private func languageCodeToName(_ code: String) -> String {
         return languages.first(where: { $0.0 == code })?.1 ?? code.uppercased()
     }
+    
+    private func loadLanguageSettings() {
+        let preferences = UserDefaults.standard
+        
+        // Завантажуємо збережені налаштування мов з Settings
+        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") {
+            sourceLanguage = savedSourceLanguage
+        }
+        
+        if let savedTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") {
+            targetLanguage = savedTargetLanguage
+        }
+    }
 }
 
 // MARK: - Deck Selection View
 
 struct DeckSelectionView: View {
     let decks: [FlashcardDeck]
+    let sourceLanguage: String
+    let targetLanguage: String
     let onDeckSelected: (FlashcardDeck) -> Void
     let onCreateNew: () -> Void
     @Environment(\.dismiss) var dismiss
+    
+    private var matchingDecks: [FlashcardDeck] {
+        decks.filter { $0.sourceLanguage == sourceLanguage && $0.targetLanguage == targetLanguage }
+    }
     
     var body: some View {
         NavigationView {
@@ -588,17 +618,17 @@ struct DeckSelectionView: View {
                     .font(.headline)
                     .padding(.top)
                 
-                if decks.isEmpty {
+                if matchingDecks.isEmpty {
                     VStack(spacing: 16) {
                         Image(systemName: "rectangle.stack.badge.plus")
                             .font(.system(size: 50))
                             .foregroundColor(.gray)
                         
-                        Text("No decks available")
+                        Text("No compatible decks available")
                             .font(.title2)
                             .fontWeight(.medium)
                         
-                        Text("Create your first deck to start collecting flashcards")
+                        Text("Create a new deck for \(languageName(sourceLanguage)) → \(languageName(targetLanguage)) translations")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -608,7 +638,7 @@ struct DeckSelectionView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 12) {
-                            ForEach(decks) { deck in
+                            ForEach(matchingDecks) { deck in
                                 DeckSelectionCard(deck: deck) {
                                     onDeckSelected(deck)
                                 }
@@ -622,11 +652,17 @@ struct DeckSelectionView: View {
                 
                 // Create New Deck Button
                 Button(action: onCreateNew) {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Create New Deck")
+                    VStack(spacing: 4) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Create New Deck")
+                        }
+                        .font(.system(size: 16, weight: .semibold))
+                        
+                        Text("\(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
+                            .font(.caption)
+                            .opacity(0.9)
                     }
-                    .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -645,6 +681,22 @@ struct DeckSelectionView: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func languageName(_ code: String) -> String {
+        switch code {
+        case "auto": return "Auto"
+        case "en": return "English"
+        case "uk": return "Ukrainian"
+        case "ru": return "Russian"
+        case "es": return "Spanish"
+        case "fr": return "French"
+        case "de": return "German"
+        case "it": return "Italian"
+        case "pl": return "Polish"
+        case "cs": return "Czech"
+        default: return code.uppercased()
         }
     }
 }

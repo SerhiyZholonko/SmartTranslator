@@ -145,6 +145,7 @@ struct VoiceChatView: View {
         }
         .onAppear {
             requestPermissions()
+            loadLanguageSettings()
         }
     }
     
@@ -322,6 +323,20 @@ struct VoiceChatView: View {
     private func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
+        }
+    }
+    
+    private func loadLanguageSettings() {
+        let preferences = UserDefaults.standard
+        
+        // Завантажуємо збережені налаштування мов з Settings
+        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage"),
+           savedSourceLanguage != "auto" { // VoiceChat не підтримує auto-detect
+            sourceLanguage = savedSourceLanguage
+        }
+        
+        if let savedTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") {
+            targetLanguage = savedTargetLanguage
         }
     }
 }

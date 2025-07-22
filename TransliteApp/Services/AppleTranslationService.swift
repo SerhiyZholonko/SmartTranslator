@@ -1,12 +1,13 @@
 import Foundation
-import Network
+import Translation
 
-// Stub implementation - Translation framework not available in current iOS version
+@available(iOS 17.4, *)
 class AppleTranslationService: ObservableObject {
     static let shared = AppleTranslationService()
     
-    @Published var availableLanguages: Set<String> = []
+    @Published var availableLanguages: Set<Locale.Language> = []
     @Published var isTranslationAvailable: Bool = false
+    @Published var downloadedLanguages: Set<Locale.Language> = []
     
     private init() {
         checkAvailability()
@@ -16,20 +17,27 @@ class AppleTranslationService: ObservableObject {
     
     func checkAvailability() {
         Task {
-            await MainActor.run {
-                self.isTranslationAvailable = false // Stub: not available
-                self.loadAvailableLanguages()
+            do {
+                let availability = LanguageAvailability()
+                let supportedLanguages = await availability.supportedLanguages
+                
+                await MainActor.run {
+                    self.availableLanguages = Set(supportedLanguages)
+                    self.isTranslationAvailable = !supportedLanguages.isEmpty
+                }
+                
+                // Note: Language download status checking would require specific language pairs
+                // For now, we'll assume all supported languages are available
+                await MainActor.run {
+                    self.downloadedLanguages = Set(supportedLanguages)
+                }
+            } catch {
+                print("Error checking language availability: \(error)")
+                await MainActor.run {
+                    self.isTranslationAvailable = false
+                }
             }
         }
-    }
-    
-    private func loadAvailableLanguages() {
-        // Common languages that would be supported by Apple Translation
-        let supportedLanguages = [
-            "en", "uk", "ru", "es", "fr", "de", "it", "pt", "zh", "ja", "ko", "ar"
-        ]
-        
-        availableLanguages = Set(supportedLanguages)
     }
     
     // MARK: - Translation Methods
@@ -41,22 +49,60 @@ class AppleTranslationService: ObservableObject {
     ) async throws -> String {
         guard !text.isEmpty else { return "" }
         
-        // Stub implementation - return placeholder
+        // For now, since the Translation API is complex and iOS 17.4+ specific,
+        // we'll throw an error to fall back to Google Translate
         throw TranslationError.noTranslationAvailable
     }
     
     func canTranslate(from: String, to: String) -> Bool {
-        // Stub implementation
-        return false
+        let sourceLang = Locale.Language(identifier: from)
+        let targetLang = Locale.Language(identifier: to)
+        
+        return availableLanguages.contains(sourceLang) && availableLanguages.contains(targetLang)
     }
     
-    func downloadLanguage(_ language: String) async throws {
-        // Stub implementation
-        throw TranslationError.noTranslationAvailable
+    func downloadLanguage(from: String, to: String) async throws {
+        // The Translation framework handles language downloads automatically
+        // when a translation is requested. We'll just update our availability.
+        await checkAvailability()
     }
     
-    func isLanguageDownloaded(_ language: String) -> Bool {
-        // Stub implementation
+    func isLanguageDownloaded(from: String, to: String) -> Bool {
+        let sourceLang = Locale.Language(identifier: from)
+        let targetLang = Locale.Language(identifier: to)
+        
+        return downloadedLanguages.contains(sourceLang) && downloadedLanguages.contains(targetLang)
+    }
+}
+
+// Wrapper for iOS versions before 17.4
+class AppleTranslationServiceWrapper: ObservableObject {
+    static let shared = AppleTranslationServiceWrapper()
+    
+    @Published var isAvailable: Bool = false
+    
+    private init() {
+        if #available(iOS 17.4, *) {
+            isAvailable = true
+        }
+    }
+    
+    func translate(text: String, from: String, to: String) async throws -> String {
+        if #available(iOS 17.4, *) {
+            return try await AppleTranslationService.shared.translate(
+                text: text,
+                from: from,
+                to: to
+            )
+        } else {
+            throw TranslationError.unsupportedLanguage
+        }
+    }
+    
+    func canTranslate(from: String, to: String) -> Bool {
+        if #available(iOS 17.4, *) {
+            return AppleTranslationService.shared.canTranslate(from: from, to: to)
+        }
         return false
     }
 }

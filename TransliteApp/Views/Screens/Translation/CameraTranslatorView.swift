@@ -139,6 +139,7 @@ struct CameraTranslatorView: View {
             }
         }
         .onAppear {
+            loadLanguageSettings()
             Task {
                 print("📷 CameraTranslatorView appeared")
                 let granted = await permissionsManager.requestCameraPermission()
@@ -247,6 +248,19 @@ struct CameraTranslatorView: View {
                 print("Text recognition error: \(error)")
                 completion(nil)
             }
+        }
+    }
+    
+    private func loadLanguageSettings() {
+        let preferences = UserDefaults.standard
+        
+        // Завантажуємо збережені налаштування мов з Settings
+        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") {
+            sourceLanguage = savedSourceLanguage
+        }
+        
+        if let savedTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") {
+            targetLanguage = savedTargetLanguage
         }
     }
 }

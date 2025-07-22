@@ -335,8 +335,8 @@ struct AddCardView: View {
     let onAdd: () -> Void
     @Environment(\.dismiss) var dismiss
     
-    @State private var sourceLanguage: String
-    @State private var targetLanguage: String
+    let sourceLanguage: String
+    let targetLanguage: String
     @State private var isTranslating = false
     @State private var translationAlternatives: [String] = []
     @State private var showingAlternatives = false
@@ -360,34 +360,47 @@ struct AddCardView: View {
         self._frontText = frontText
         self._backText = backText
         self.onAdd = onAdd
-        self._sourceLanguage = State(initialValue: deck.sourceLanguage)
-        self._targetLanguage = State(initialValue: deck.targetLanguage)
+        self.sourceLanguage = deck.sourceLanguage
+        self.targetLanguage = deck.targetLanguage
     }
     
     var body: some View {
         NavigationView {
             Form {
-                // Language Selection Section
+                // Language Selection Section (Fixed for this deck)
                 Section(header: Text("Languages")) {
-                    Picker("From", selection: $sourceLanguage) {
-                        ForEach(languages, id: \.0) { code, name in
-                            Text(name).tag(code)
-                        }
-                    }
-                    
                     HStack {
-                        Button(action: swapLanguages) {
-                            Image(systemName: "arrow.up.arrow.down")
-                                .foregroundColor(.blue)
+                        VStack(alignment: .leading) {
+                            Text("From")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(languageName(sourceLanguage))
+                                .font(.body)
                         }
                         
                         Spacer()
                         
-                        Picker("To", selection: $targetLanguage) {
-                            ForEach(languages.filter { $0.0 != "auto" }, id: \.0) { code, name in
-                                Text(name).tag(code)
-                            }
+                        Image(systemName: "arrow.right")
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .trailing) {
+                            Text("To")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(languageName(targetLanguage))
+                                .font(.body)
                         }
+                    }
+                    .padding(.vertical, 4)
+                    
+                    HStack {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                        Text("Cards in this deck must use \(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
                 
@@ -479,11 +492,7 @@ struct AddCardView: View {
     }
     
     private func swapLanguages() {
-        guard sourceLanguage != "auto" else { return }
-        let temp = sourceLanguage
-        sourceLanguage = targetLanguage
-        targetLanguage = temp
-        
+        // Language swap disabled when languages are fixed to deck
         let tempText = frontText
         frontText = backText
         backText = tempText
