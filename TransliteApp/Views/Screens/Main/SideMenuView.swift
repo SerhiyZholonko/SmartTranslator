@@ -127,7 +127,8 @@ struct SideMenuView: View {
                     .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.1), value: menuItemsOpacity)
             
                     // Menu items with staggered animation
-                    VStack(alignment: .leading, spacing: 8) {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 4) {
                         MenuItemView(
                             icon: "clock.arrow.circlepath",
                             title: "History",
@@ -212,8 +213,10 @@ struct SideMenuView: View {
                         .opacity(menuItemsOpacity)
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
                         .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.33), value: menuItemsOpacity)
+                        }
+                        .padding(.top, 10)
                     }
-                    .padding(.top, 10)
+                    .scrollIndicators(.hidden)
             
                     Spacer()
                     
@@ -372,12 +375,14 @@ struct MenuItemView: View {
                     .foregroundColor(.gray.opacity(0.5))
                     .offset(x: isHovered ? 2 : 0)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.gray.opacity(isHovered ? 0.08 : 0.0))
+                Color.gray.opacity(isHovered ? 0.08 : 0.0)
             )
+            .padding(.horizontal, 4)
+            .contentShape(Rectangle())
             .scaleEffect(isPressed ? 0.98 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())

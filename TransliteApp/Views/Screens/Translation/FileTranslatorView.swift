@@ -12,6 +12,7 @@ enum FileType {
 struct FileTranslatorView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var permissionsManager = PermissionsManager.shared
+    @StateObject private var translationManager = TranslationManager.shared
     @State private var selectedImage: UIImage?
     @State private var selectedFile: URL?
     @State private var fileType: FileType = .image
@@ -39,8 +40,14 @@ struct FileTranslatorView: View {
                     
                     Spacer()
                     
-                    Text("File Translator")
-                        .font(.system(size: 20, weight: .semibold))
+                    VStack(spacing: 2) {
+                        Text("File Translator")
+                            .font(.system(size: 20, weight: .semibold))
+                        
+                        Text(translationManager.currentServiceName)
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                    }
                     
                     Spacer()
                     
@@ -363,8 +370,7 @@ struct FileTranslatorView: View {
         // Translate the text
         Task {
             do {
-                let translator = GoogleTranslateParser()
-                let translated = try await translator.translate(
+                let translated = try await translationManager.translate(
                     text: text,
                     from: sourceLanguage,
                     to: targetLanguage
