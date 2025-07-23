@@ -28,6 +28,7 @@ struct FileTranslatorView: View {
     @State private var showDocumentPicker = false
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             VStack(spacing: 0) {
                 // Header
@@ -41,7 +42,7 @@ struct FileTranslatorView: View {
                     Spacer()
                     
                     VStack(spacing: 2) {
-                        Text("File Translator")
+                        Text("file_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
                         Text(translationManager.currentServiceName)
@@ -68,15 +69,15 @@ struct FileTranslatorView: View {
                             FileLanguageSelector(
                                 selectedLanguage: $sourceLanguage,
                                 languages: [
-                                    ("auto", "Auto-detect"),
-                                    ("en", "English"),
-                                    ("uk", "Ukrainian"),
-                                    ("ru", "Russian"),
-                                    ("es", "Spanish"),
-                                    ("fr", "French"),
-                                    ("de", "German")
+                                    ("auto", "auto_detect".localized),
+                                    ("en", "language_english".localized),
+                                    ("uk", "language_ukrainian".localized),
+                                    ("ru", "language_russian".localized),
+                                    ("es", "language_spanish".localized),
+                                    ("fr", "language_french".localized),
+                                    ("de", "language_german".localized)
                                 ],
-                                title: "From"
+                                title: "from".localized
                             )
                             
                             Image(systemName: "arrow.right")
@@ -85,14 +86,14 @@ struct FileTranslatorView: View {
                             FileLanguageSelector(
                                 selectedLanguage: $targetLanguage,
                                 languages: [
-                                    ("en", "English"),
-                                    ("uk", "Ukrainian"),
-                                    ("ru", "Russian"),
-                                    ("es", "Spanish"),
-                                    ("fr", "French"),
-                                    ("de", "German")
+                                    ("en", "language_english".localized),
+                                    ("uk", "language_ukrainian".localized),
+                                    ("ru", "language_russian".localized),
+                                    ("es", "language_spanish".localized),
+                                    ("fr", "language_french".localized),
+                                    ("de", "language_german".localized)
                                 ],
-                                title: "To"
+                                title: "to".localized
                             )
                         }
                         .padding(.horizontal)
@@ -121,7 +122,7 @@ struct FileTranslatorView: View {
                                             .font(.system(size: 16, weight: .medium))
                                             .foregroundColor(.primary)
                                         
-                                        Text(fileType == .pdf ? "PDF Document" : "Image File")
+                                        Text(fileType == .pdf ? "pdf_document".localized : "image_file".localized)
                                             .font(.system(size: 14))
                                             .foregroundColor(.gray)
                                     }
@@ -135,7 +136,7 @@ struct FileTranslatorView: View {
                                 if isProcessing {
                                     HStack {
                                         ProgressView()
-                                        Text("Processing file...")
+                                        Text("processing_file".localized)
                                             .font(.system(size: 14))
                                             .foregroundColor(.gray)
                                     }
@@ -152,11 +153,11 @@ struct FileTranslatorView: View {
                                         .font(.system(size: 60))
                                         .foregroundColor(.blue.opacity(0.6))
                                     
-                                    Text("Select a file to translate")
+                                    Text("select_file_to_translate".localized)
                                         .font(.system(size: 16))
                                         .foregroundColor(.gray)
                                     
-                                    Text("Supported: Images, PDF documents")
+                                    Text("supported_files_note".localized)
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray.opacity(0.7))
                                     
@@ -168,7 +169,7 @@ struct FileTranslatorView: View {
                                                     .font(.system(size: 30))
                                                     .foregroundColor(.white)
                                                 
-                                                Text("Gallery")
+                                                Text("gallery".localized)
                                                     .font(.system(size: 14))
                                                     .foregroundColor(.white)
                                             }
@@ -219,7 +220,7 @@ struct FileTranslatorView: View {
                                                     .font(.system(size: 30))
                                                     .foregroundColor(.white)
                                                 
-                                                Text("Camera")
+                                                Text("camera".localized)
                                                     .font(.system(size: 14))
                                                     .foregroundColor(.white)
                                             }
@@ -250,7 +251,7 @@ struct FileTranslatorView: View {
                                 // Detected text
                                 if !detectedText.isEmpty {
                                     VStack(alignment: .leading, spacing: 8) {
-                                        Text("Detected Text")
+                                        Text("detected_text_title".localized)
                                             .font(.system(size: 14))
                                             .foregroundColor(.gray)
                                         
@@ -267,7 +268,7 @@ struct FileTranslatorView: View {
                                 if !translatedText.isEmpty {
                                     VStack(alignment: .leading, spacing: 8) {
                                         HStack {
-                                            Text("Translation")
+                                            Text("translation_title".localized)
                                                 .font(.system(size: 14))
                                                 .foregroundColor(.gray)
                                             
@@ -316,6 +317,7 @@ struct FileTranslatorView: View {
         .onAppear {
             loadLanguageSettings()
         }
+        }
     }
     
     private func processImage() {
@@ -331,7 +333,7 @@ struct FileTranslatorView: View {
             guard let text = recognizedText, !text.isEmpty else {
                 isProcessing = false
                 showResults = true
-                detectedText = "No text detected in the image"
+                detectedText = "no_text_detected_image".localized
                 return
             }
             
@@ -354,7 +356,7 @@ struct FileTranslatorView: View {
                 DispatchQueue.main.async {
                     self.isProcessing = false
                     self.showResults = true
-                    self.detectedText = "No text found in the PDF"
+                    self.detectedText = "no_text_found_pdf".localized
                 }
                 return
             }
@@ -392,7 +394,7 @@ struct FileTranslatorView: View {
                 }
             } catch {
                 await MainActor.run {
-                    translatedText = "Translation error: \(error.localizedDescription)"
+                    translatedText = "translation_error_prefix".localized(with: error.localizedDescription)
                     showResults = true
                     isProcessing = false
                 }

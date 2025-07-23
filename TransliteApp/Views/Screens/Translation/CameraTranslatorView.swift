@@ -14,6 +14,7 @@ struct CameraTranslatorView: View {
     @State private var showTranslation = false
     
     var body: some View {
+        LocalizedView {
         ZStack {
             // Camera preview
             CameraPreview(camera: camera)
@@ -34,7 +35,7 @@ struct CameraTranslatorView: View {
                     
                     Spacer()
                     
-                    Text("Camera Translator")
+                    Text("camera_translator_title".localized)
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
                     
@@ -58,7 +59,7 @@ struct CameraTranslatorView: View {
                     .stroke(Color.green, lineWidth: 3)
                     .frame(width: 300, height: 200)
                     .overlay(
-                        Text("Point camera at text")
+                        Text("point_camera_at_text".localized)
                             .font(.system(size: 16))
                             .foregroundColor(.white)
                             .padding(8)
@@ -72,7 +73,7 @@ struct CameraTranslatorView: View {
                 // Translation result overlay
                 if showTranslation && !translatedText.isEmpty {
                     VStack(spacing: 12) {
-                        Text("Detected: \(detectedText)")
+                        Text("detected_text".localized(with: detectedText))
                             .font(.system(size: 14))
                             .foregroundColor(.white)
                             .padding(.horizontal)
@@ -97,7 +98,7 @@ struct CameraTranslatorView: View {
                     HStack(spacing: 20) {
                         LanguagePicker(
                             selectedLanguage: $sourceLanguage,
-                            title: "From",
+                            title: "from".localized,
                             includeAuto: true
                         )
                         
@@ -106,7 +107,7 @@ struct CameraTranslatorView: View {
                         
                         LanguagePicker(
                             selectedLanguage: $targetLanguage,
-                            title: "To",
+                            title: "to".localized,
                             includeAuto: false
                         )
                     }
@@ -153,15 +154,16 @@ struct CameraTranslatorView: View {
                 }
             }
         }
-        .alert("Потрібен доступ до камери", isPresented: $camera.showPermissionAlert) {
-            Button("Відкрити Налаштування", action: {
+        .alert("camera_permission_required".localized, isPresented: $camera.showPermissionAlert) {
+            Button("open_settings".localized, action: {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
             })
-            Button("Скасувати", role: .cancel) { }
+            Button("cancel".localized, role: .cancel) { }
         } message: {
-            Text("Будь ласка, увімкніть доступ до камери в Налаштуваннях для використання перекладу через камеру.")
+            Text("camera_permission_required_message".localized)
+        }
         }
     }
     
@@ -272,16 +274,16 @@ struct LanguagePicker: View {
     
     var languages: [(String, String)] {
         var list = [
-            ("en", "English"),
-            ("uk", "Ukrainian"),
-            ("ru", "Russian"),
-            ("es", "Spanish"),
-            ("fr", "French"),
-            ("de", "German")
+            ("en", "language_english".localized),
+            ("uk", "language_ukrainian".localized),
+            ("ru", "language_russian".localized),
+            ("es", "language_spanish".localized),
+            ("fr", "language_french".localized),
+            ("de", "language_german".localized)
         ]
         
         if includeAuto {
-            list.insert(("auto", "Auto"), at: 0)
+            list.insert(("auto", "auto_detect".localized), at: 0)
         }
         
         return list

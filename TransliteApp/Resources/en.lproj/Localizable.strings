@@ -1,0 +1,379 @@
+/* 
+  Localizable.strings
+  TransliteApp
+  
+  English localization
+*/
+
+// MARK: - Main Screen
+"app_name" = "Smart Translator";
+"text_translator" = "Text Translator";
+"voice_chat" = "Voice Chat";
+"camera_translator" = "Camera Translator";
+"file_translator" = "File Translator";
+"offline_translator" = "Offline Translator";
+
+// MARK: - Side Menu
+"menu_title" = "Menu";
+"menu_history" = "History";
+"menu_flashcards" = "Flashcards";
+"menu_settings" = "Settings";
+"menu_rate_us" = "Rate us";
+"menu_share_app" = "Share app";
+"menu_contact_us" = "Contact Us";
+"menu_privacy_policy" = "Privacy Policy";
+
+// MARK: - Premium
+"premium_title" = "Premium";
+"lifetime_premium" = "LIFETIME PREMIUM";
+"get_premium" = "Get Premium";
+"get_premium_for_price" = "Get Premium For UAH 169.99";
+"premium_features" = "Premium Features";
+"premium_no_ads_full" = "100% No Annoying ADS";
+"premium_faster_translation" = "Faster Translation";
+"premium_unlimited_camera" = "Unlimited Camera Translator";
+"premium_unlimited_photo" = "Unlimited Photo Translator";
+"premium_unlimited_translations" = "Unlimited translations";
+"premium_camera_translation" = "Camera translation";
+"premium_file_translation" = "File translation";
+"premium_no_ads" = "No ads";
+"premium_offline_mode" = "Offline mode";
+"premium_price_monthly" = "$4.99/month";
+"premium_price_yearly" = "$39.99/year";
+"restore_purchase" = "Restore purchase";
+"premium_active" = "Premium Active";
+"coming_soon" = "Coming Soon";
+
+// MARK: - Text Translator
+"text_translator_title" = "Text Translator";
+"from" = "From";
+"to" = "To";
+"enter_text_label" = "Enter text";
+"character_count" = "%d / 5000";
+"source_language" = "Source Language";
+"target_language" = "Target Language";
+"enter_text" = "Enter text to translate...";
+"translate" = "Translate";
+"translating" = "Translating...";
+"translation_result" = "Translation";
+"alternatives" = "Alternatives";
+"add_to_flashcards" = "Add to Flashcards";
+"clear" = "Clear";
+"copy" = "Copy";
+"speak" = "Speak";
+"paste" = "Paste";
+"switch_languages" = "Switch languages";
+"auto_detect" = "Auto Detect";
+
+// MARK: - Flashcards Integration
+"choose_deck_to_add" = "Choose a deck to add this flashcard";
+"no_compatible_decks" = "No compatible decks available";
+"create_deck_for_languages" = "Create a new deck for %@ → %@ translations";
+"create_new_deck" = "Create New Deck";
+"add_to_flashcards_title" = "Add to Flashcards";
+"cards_count_simple" = "%d cards";
+
+// MARK: - Voice Recognition
+"microphone_access_needed" = "Microphone access needed";
+"open_settings" = "Open Settings";
+"please_enable_microphone" = "Please enable microphone access in Settings to use voice input.";
+
+// MARK: - Language Names (shorter versions)
+"language_auto" = "Auto";
+"language_en_short" = "EN";
+"language_uk_short" = "UK";
+"language_ru_short" = "RU";
+"language_es_short" = "ES";
+"language_fr_short" = "FR";
+"language_de_short" = "DE";
+
+// MARK: - Voice Chat
+"voice_chat_title" = "Voice Chat";
+"no_chats_yet" = "No chats yet..";
+"start_conversation" = "Start conversation";
+"speak_up" = "Speak up...";
+"tap_to_speak" = "Tap to speak";
+"listening" = "Listening...";
+"processing" = "Processing...";
+"microphone_permission_required" = "Microphone permission is required for voice translation";
+"grant_permission" = "Grant Permission";
+
+// MARK: - Camera Translator
+"camera_translator_title" = "Camera Translator";
+"point_camera_at_text" = "Point camera at text";
+"take_photo" = "Take Photo";
+"retake" = "Retake";
+"camera_permission_required" = "Camera permission is required for camera translation";
+"photo_library_permission_required" = "Photo library permission is required to select photos";
+"choose_from_library" = "Choose from Library";
+"detected_text" = "Detected: %@";
+"camera_permission_required_message" = "Please enable camera access in Settings to use camera translation.";
+
+// MARK: - File Translator
+"file_translator_title" = "File Translator";
+"select_file" = "Select File";
+"supported_formats" = "Supported formats: PDF, DOC, DOCX, TXT";
+"file_selected" = "File selected:";
+"translate_file" = "Translate File";
+"translating_file" = "Translating file...";
+"file_translation_complete" = "Translation complete";
+"download_translation" = "Download Translation";
+"select_file_to_translate" = "Select a file to translate";
+"supported_files_note" = "Supported: Images, PDF documents";
+"gallery" = "Gallery";
+"camera" = "Camera";
+"processing_file" = "Processing file...";
+"pdf_document" = "PDF Document";
+"image_file" = "Image File";
+"detected_text_title" = "Detected Text";
+"translation_title" = "Translation";
+"no_text_detected_image" = "No text detected in the image";
+"no_text_found_pdf" = "No text found in the PDF";
+"translation_error_prefix" = "Translation error: %@";
+
+// MARK: - Offline Translator
+"offline_translator_title" = "Offline Translator";
+"download_language_packs" = "Download language packs for offline translation";
+"available_languages" = "Available Languages";
+"downloaded" = "Downloaded";
+"download" = "Download";
+"delete" = "Delete";
+"offline_mode_limited" = "Offline mode has limited translation accuracy";
+
+// MARK: - History
+"history_title" = "History";
+"search_history" = "Search history...";
+"no_history" = "No translation history";
+"clear_history" = "Clear History";
+"clear_history_confirm" = "Are you sure you want to clear all history?";
+"favorite" = "Favorite";
+"unfavorite" = "Unfavorite";
+"favorites_only" = "Favorites Only";
+"all_translations" = "All Translations";
+"no_results_found" = "No results found";
+"history_description" = "Your translation history will appear here";
+"original_text" = "Original Text";
+"translation_details" = "Translation Details";
+"corrections" = "Grammar Corrections";
+"flashcard_added_description" = "The translation has been added to your flashcards for studying.";
+"overview" = "Overview";
+"total_translations" = "Total Translations";
+"favorite_count" = "Favorite Count";
+"average_text_length" = "Average Text Length";
+"characters_count" = "%.0f characters";
+"language_pairs" = "Language Pairs";
+"translations_count" = "%d translations";
+"most_frequent_phrases" = "Most Frequent Phrases";
+"times_count" = "%d times";
+"learning_suggestions" = "Learning Suggestions";
+"no_suggestions_available" = "No suggestions available yet";
+"statistics" = "Statistics";
+"compatible_decks_with_languages" = "Compatible Decks (%@ → %@)";
+"no_decks_found_for_languages" = "No decks found for %@ → %@. Create a new deck to start.";
+
+// MARK: - Flashcards
+"flashcards_title" = "Flashcards";
+"language_learning" = "Language Learning";
+"study_flashcards_description" = "Study flashcards to improve your vocabulary";
+"create_new_deck" = "Create New Deck";
+"cards" = "Cards";
+"studied" = "Studied";
+"success" = "Success";
+"last_studied" = "Last studied %@";
+"add_card" = "Add Card";
+"delete_deck" = "Delete Deck";
+"delete_deck_confirm" = "Are you sure you want to delete \"%@\" and all its cards? This action cannot be undone.";
+"cards_due" = "%d due";
+"my_decks" = "My Decks";
+"create_deck" = "Create Deck";
+"deck_name" = "Deck Name";
+"enter_deck_name" = "Enter deck name...";
+"cards_count" = "%d cards";
+"study_now" = "Study Now";
+"edit_deck" = "Edit Deck";
+"no_decks" = "No flashcard decks yet";
+"create_first_deck" = "Create your first deck to start learning";
+
+// MARK: - Create Deck
+"new_deck" = "New Deck";
+"deck_information" = "Deck Information";
+"description_optional" = "Description (optional)";
+"languages" = "Languages";
+"create" = "Create";
+
+// MARK: - Flashcard Study
+"study_title" = "Study";
+"no_cards_to_study" = "No Cards to Study";
+"add_flashcards_to_study" = "Add some flashcards to this deck to start studying";
+"all_caught_up" = "All caught up!";
+"no_cards_due_now" = "No cards are due for review right now.";
+"end_session" = "End Session";
+"how_well_did_you_know" = "How well did you know this?";
+"tap_to_reveal_answer" = "Tap to reveal answer";
+"session_complete" = "Session Complete!";
+"cards_studied" = "Cards studied: %d";
+"accuracy" = "Accuracy: %d%%";
+"time_spent" = "Time: %dm %ds";
+"success_rate" = "Success Rate: %d%%";
+"studied_times" = "Studied %d times";
+"show_answer" = "Show Answer";
+"next_card" = "Next Card";
+"previous_card" = "Previous";
+"mark_as_learned" = "Mark as Learned";
+"study_complete" = "Study Complete!";
+"cards_learned" = "You've learned %d cards";
+"review_again" = "Review Again";
+"back_to_decks" = "Back to Decks";
+
+// MARK: - Study Results
+"again" = "Again";
+"hard" = "Hard";
+"good" = "Good";
+"easy" = "Easy";
+
+// MARK: - Difficulty levels
+"difficulty_easy" = "Easy";
+"difficulty_medium" = "Medium";
+"difficulty_hard" = "Hard";
+
+// MARK: - Add Card
+"add_card_title" = "Add Card";
+"front_side" = "Front";
+"back_side" = "Back";
+"enter_translation_or_use_auto" = "Enter translation or use auto-translate";
+"enter_text_to_translate" = "Enter text to translate";
+"cards_must_use_languages" = "Cards in this deck must use %@ → %@ languages";
+"translation_options" = "Translation Options";
+"use" = "Use";
+"tip_translate_button" = "Tip: Use the translate button to get multiple translation options";
+"add" = "Add";
+"add_flashcard" = "Add Flashcard";
+"enter_front_text" = "Enter text for front side...";
+"enter_back_text" = "Enter text for back side...";
+"auto_translate" = "Auto Translate";
+"save_card" = "Save Card";
+"card_added" = "Card Added";
+"flashcard_created" = "Flashcard created successfully";
+
+// MARK: - Settings
+"settings_title" = "Settings";
+"general" = "General";
+"app_language" = "App Language";
+"default_source_language" = "Default Source Language";
+"default_target_language" = "Default Target Language";
+"auto_detect_language" = "Auto-detect language";
+"auto_play_pronunciation" = "Auto-play pronunciation";
+"translation_service" = "Translation Service";
+"apple_translation_ios_requirement" = "Apple Translation requires iOS 17.4+";
+"cache_settings" = "Cache Settings";
+"enable_smart_cache" = "Enable Smart Cache";
+"cache_usage" = "Cache Usage";
+"cached_items" = "Cached Items";
+"cache_size_limit" = "Cache Size Limit";
+"save_translation_history" = "Save Translation History";
+"cache" = "Cache";
+"cache_size" = "Cache Size: %@";
+"clear_cache" = "Clear Cache";
+"clear_cache_confirm" = "Are you sure you want to clear the cache?";
+"about" = "About";
+"version" = "Version";
+"app_version" = "Version %@";
+"terms_of_service" = "Terms of Service";
+"privacy_policy" = "Privacy Policy";
+"reset_to_defaults" = "Reset to Defaults";
+"service_not_available" = "Service Not Available";
+"apple_translation_update_message" = "Apple Translation requires iOS 17.4 or later. Please update your device to use this feature.";
+
+// MARK: - Common Actions
+"cancel" = "Cancel";
+"done" = "Done";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"close" = "Close";
+"ok" = "OK";
+"yes" = "Yes";
+"no" = "No";
+"retry" = "Retry";
+"loading" = "Loading...";
+"error" = "Error";
+"success" = "Success";
+"warning" = "Warning";
+"unknown" = "Unknown";
+
+// MARK: - Error Messages
+"error_translation_failed" = "Translation failed. Please try again.";
+"error_network_unavailable" = "Network connection unavailable";
+"error_invalid_input" = "Please enter valid text";
+"error_language_not_supported" = "This language combination is not supported";
+"error_file_too_large" = "File is too large. Maximum size is 10MB";
+"error_invalid_file_format" = "Invalid file format";
+"error_microphone_access_denied" = "Microphone access denied";
+"error_camera_access_denied" = "Camera access denied";
+"error_photo_library_access_denied" = "Photo library access denied";
+
+// MARK: - Success Messages
+"success_copied_to_clipboard" = "Copied to clipboard";
+"success_cache_cleared" = "Cache cleared successfully";
+"success_history_cleared" = "History cleared successfully";
+"success_deck_created" = "Deck created successfully";
+"success_deck_deleted" = "Deck deleted successfully";
+"success_card_saved" = "Card saved successfully";
+"success_purchase_restored" = "Purchase restored successfully";
+
+// MARK: - Language Names
+"language_english" = "English";
+"language_spanish" = "Spanish";
+"language_french" = "French";
+"language_german" = "German";
+"language_italian" = "Italian";
+"language_portuguese" = "Portuguese";
+"language_russian" = "Russian";
+"language_chinese_simplified" = "Chinese (Simplified)";
+"language_chinese_traditional" = "Chinese (Traditional)";
+"language_japanese" = "Japanese";
+"language_korean" = "Korean";
+"language_arabic" = "Arabic";
+"language_hindi" = "Hindi";
+"language_turkish" = "Turkish";
+"language_polish" = "Polish";
+"language_dutch" = "Dutch";
+"language_swedish" = "Swedish";
+"language_norwegian" = "Norwegian";
+"language_danish" = "Danish";
+"language_finnish" = "Finnish";
+"language_greek" = "Greek";
+"language_czech" = "Czech";
+"language_romanian" = "Romanian";
+"language_hungarian" = "Hungarian";
+"language_ukrainian" = "Ukrainian";
+"language_thai" = "Thai";
+"language_vietnamese" = "Vietnamese";
+"language_indonesian" = "Indonesian";
+"language_malay" = "Malay";
+"language_hebrew" = "Hebrew";
+
+// MARK: - ShareView, ContactView, PrivacyPolicyView
+"share_app_title" = "Share Voice Translate";
+"share_app_description" = "Help your friends discover this amazing translation app!";
+"share_via_messages" = "Share via Messages";
+"share_via_email" = "Share via Email";
+"more_options" = "More Options";
+"contact_description" = "We'd love to hear from you! Get in touch with our support team.";
+"email_support" = "Email Support";
+"visit_website" = "Visit Website";
+"rate_and_review" = "Rate & Review";
+"rate_help_improve" = "Help us improve the app";
+"information_we_collect" = "Information We Collect";
+"information_collect_description" = "We collect minimal information necessary to provide translation services. This includes text you translate, language preferences, and basic usage analytics to improve our service.";
+"how_we_use_information" = "How We Use Information";
+"how_we_use_description" = "Your translation data is processed locally on your device whenever possible. We use anonymous analytics to improve translation accuracy and app performance.";
+"data_storage" = "Data Storage";
+"data_storage_description" = "Translation history is stored locally on your device. We do not store your personal translations on our servers unless you explicitly enable cloud sync.";
+"third_party_services" = "Third-Party Services";
+"third_party_description" = "We use Google Translate API for online translations. Please refer to Google's Privacy Policy for information about their data handling practices.";
+"your_rights" = "Your Rights";
+"your_rights_description" = "You can delete your translation history at any time through the app settings. You can also disable analytics collection in the privacy settings.";
+"privacy_contact_description" = "If you have questions about this privacy policy, please contact us at privacy@voicetranslate.com";
+"view_full_privacy_policy" = "View Full Privacy Policy";
+"last_updated_date" = "Last updated: December 2024";

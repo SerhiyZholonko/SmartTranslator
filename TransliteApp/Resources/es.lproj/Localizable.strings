@@ -1,0 +1,381 @@
+/* 
+  Localizable.strings
+  TransliteApp
+  
+  Spanish localization
+*/
+
+// MARK: - Main Screen
+"app_name" = "Traductor Inteligente";
+"text_translator" = "Traductor de texto";
+"voice_chat" = "Chat de voz";
+"camera_translator" = "Traductor con cámara";
+"file_translator" = "Traductor de archivos";
+"offline_translator" = "Traductor sin conexión";
+
+// MARK: - Side Menu
+"menu_title" = "Menú";
+"menu_history" = "Historial";
+"menu_flashcards" = "Tarjetas";
+"menu_settings" = "Configuración";
+"menu_rate_us" = "Califícanos";
+"menu_share_app" = "Compartir app";
+"menu_contact_us" = "Contáctanos";
+"menu_privacy_policy" = "Política de privacidad";
+
+// MARK: - Premium
+"premium_title" = "Premium";
+"get_premium" = "Obtener Premium";
+"premium_features" = "Funciones Premium";
+"premium_unlimited_translations" = "Traducciones ilimitadas";
+"premium_camera_translation" = "Traducción con cámara";
+"premium_file_translation" = "Traducción de archivos";
+"premium_no_ads" = "Sin anuncios";
+"premium_offline_mode" = "Modo sin conexión";
+"premium_price_monthly" = "$4.99/mes";
+"premium_price_yearly" = "$39.99/año";
+"restore_purchase" = "Restaurar compra";
+"premium_active" = "Premium Activo";
+"coming_soon" = "Próximamente";
+"lifetime_premium" = "PREMIUM VITALICIO";
+"get_premium_for_price" = "Obtener Premium por UAH 169.99";
+"premium_no_ads_full" = "100% Sin anuncios molestos";
+"premium_faster_translation" = "Traducción más rápida";
+"premium_unlimited_camera" = "Traductor con cámara ilimitado";
+"premium_unlimited_photo" = "Traductor de fotos ilimitado";
+
+// MARK: - Text Translator
+"source_language" = "Idioma de origen";
+"target_language" = "Idioma de destino";
+"enter_text" = "Introduce el texto a traducir...";
+"translate" = "Traducir";
+"translating" = "Traduciendo...";
+"translation_result" = "Resultado de la traducción";
+"clear" = "Borrar";
+"copy" = "Copiar";
+"speak" = "Hablar";
+"paste" = "Pegar";
+"switch_languages" = "Cambiar idiomas";
+"auto_detect" = "Detección automática";
+
+// MARK: - Text Translator
+"text_translator_title" = "Traductor de texto";
+"from" = "De";
+"to" = "A";
+"enter_text_label" = "Introduce el texto";
+"character_count" = "%d / 5000";
+"alternatives" = "Alternativas";
+"add_to_flashcards" = "Añadir a tarjetas";
+
+// MARK: - Flashcards Integration
+"choose_deck_to_add" = "Elige un mazo para añadir esta tarjeta";
+"no_compatible_decks" = "No hay mazos compatibles disponibles";
+"create_deck_for_languages" = "Crear nuevo mazo para traducciones %@ → %@";
+"create_new_deck" = "Crear nuevo mazo";
+"add_to_flashcards_title" = "Añadir a tarjetas";
+"cards_count_simple" = "%d tarjetas";
+
+// MARK: - Voice Recognition
+"microphone_access_needed" = "Se necesita acceso al micrófono";
+"open_settings" = "Abrir ajustes";
+"please_enable_microphone" = "Por favor habilita el acceso al micrófono en Ajustes para usar la entrada de voz.";
+
+// MARK: - Language Names (shorter versions)
+"language_auto" = "Auto";
+"language_en_short" = "EN";
+"language_uk_short" = "UK";
+"language_ru_short" = "RU";
+"language_es_short" = "ES";
+"language_fr_short" = "FR";
+"language_de_short" = "DE";
+
+// MARK: - Voice Chat
+"voice_chat_title" = "Chat de voz";
+"tap_to_speak" = "Toca para hablar";
+"listening" = "Escuchando...";
+"processing" = "Procesando...";
+"microphone_permission_required" = "Se requiere permiso de micrófono para la traducción por voz";
+"grant_permission" = "Conceder permiso";
+"no_chats_yet" = "Aún no hay chats..";
+"start_conversation" = "Iniciar conversación";
+"speak_up" = "Habla...";
+
+// MARK: - Camera Translator
+"camera_translator_title" = "Traductor con cámara";
+"point_camera_at_text" = "Apunta la cámara al texto";
+"take_photo" = "Tomar foto";
+"retake" = "Repetir";
+"camera_permission_required" = "Se requiere permiso de cámara para la traducción con cámara";
+"photo_library_permission_required" = "Se requiere permiso de galería para seleccionar fotos";
+"choose_from_library" = "Elegir de la galería";
+"detected_text" = "Detectado: %@";
+"camera_permission_required_message" = "Por favor habilita el acceso a la cámara en Ajustes para usar la traducción por cámara.";
+
+// MARK: - File Translator
+"file_translator_title" = "Traductor de archivos";
+"select_file" = "Seleccionar archivo";
+"supported_formats" = "Formatos compatibles: PDF, DOC, DOCX, TXT";
+"file_selected" = "Archivo seleccionado:";
+"translate_file" = "Traducir archivo";
+"translating_file" = "Traduciendo archivo...";
+"file_translation_complete" = "Traducción completada";
+"download_translation" = "Descargar traducción";
+"select_file_to_translate" = "Seleccionar archivo para traducir";
+"supported_files_note" = "Compatible: Imágenes, documentos PDF";
+"gallery" = "Galería";
+"camera" = "Cámara";
+"processing_file" = "Procesando archivo...";
+"pdf_document" = "Documento PDF";
+"image_file" = "Archivo de imagen";
+"detected_text_title" = "Texto detectado";
+"translation_title" = "Traducción";
+"no_text_detected_image" = "No se detectó texto en la imagen";
+"no_text_found_pdf" = "No se encontró texto en el PDF";
+"translation_error_prefix" = "Error de traducción: %@";
+
+// MARK: - Offline Translator
+"offline_translator_title" = "Traductor sin conexión";
+"download_language_packs" = "Descarga paquetes de idiomas para traducción sin conexión";
+"available_languages" = "Idiomas disponibles";
+"downloaded" = "Descargado";
+"download" = "Descargar";
+"delete" = "Eliminar";
+"offline_mode_limited" = "El modo sin conexión tiene precisión limitada";
+
+// MARK: - History
+"history_title" = "Historial";
+"search_history" = "Buscar en el historial...";
+"no_history" = "Sin historial de traducciones";
+"clear_history" = "Borrar historial";
+"clear_history_confirm" = "¿Estás seguro de que quieres borrar todo el historial?";
+"favorite" = "Favorito";
+"unfavorite" = "Quitar de favoritos";
+"favorites_only" = "Solo favoritos";
+"all_translations" = "Todas las traducciones";
+"no_results_found" = "No se encontraron resultados";
+"history_description" = "Tu historial de traducciones aparecerá aquí";
+"original_text" = "Texto original";
+"translation_details" = "Detalles de traducción";
+"corrections" = "Correcciones gramaticales";
+"flashcard_added_description" = "La traducción ha sido añadida a tus tarjetas para estudiar.";
+"overview" = "Resumen";
+"total_translations" = "Total de traducciones";
+"favorite_count" = "Número de favoritos";
+"average_text_length" = "Longitud promedio del texto";
+"characters_count" = "%.0f caracteres";
+"language_pairs" = "Pares de idiomas";
+"translations_count" = "%d traducciones";
+"most_frequent_phrases" = "Frases más frecuentes";
+"times_count" = "%d veces";
+"learning_suggestions" = "Sugerencias de aprendizaje";
+"no_suggestions_available" = "No hay sugerencias disponibles aún";
+"statistics" = "Estadísticas";
+"compatible_decks_with_languages" = "Mazos compatibles (%@ → %@)";
+"no_decks_found_for_languages" = "No se encontraron mazos para %@ → %@. Crea un nuevo mazo para comenzar.";
+
+// MARK: - Flashcards
+"flashcards_title" = "Tarjetas";
+"language_learning" = "Aprendizaje de idiomas";
+"study_flashcards_description" = "Estudia tarjetas para mejorar tu vocabulario";
+"create_new_deck" = "Crear nuevo mazo";
+"cards" = "Tarjetas";
+"studied" = "Estudiado";
+"success" = "Éxito";
+"last_studied" = "Último estudio %@";
+"add_card" = "Añadir tarjeta";
+"delete_deck" = "Eliminar mazo";
+"delete_deck_confirm" = "¿Estás seguro de que quieres eliminar \"%@\" y todas sus tarjetas? Esta acción no se puede deshacer.";
+"cards_due" = "%d pendientes";
+"my_decks" = "Mis mazos";
+"create_deck" = "Crear mazo";
+"deck_name" = "Nombre del mazo";
+"enter_deck_name" = "Introduce el nombre del mazo...";
+"cards_count" = "%d tarjetas";
+"study_now" = "Estudiar ahora";
+"edit_deck" = "Editar mazo";
+"no_decks" = "No hay mazos de tarjetas todavía";
+"create_first_deck" = "Crea tu primer mazo para empezar a aprender";
+
+// MARK: - Create Deck
+"new_deck" = "Nuevo mazo";
+"deck_information" = "Información del mazo";
+"description_optional" = "Descripción (opcional)";
+"languages" = "Idiomas";
+"create" = "Crear";
+
+// MARK: - Flashcard Study
+"study_title" = "Estudiar";
+"no_cards_to_study" = "No hay tarjetas para estudiar";
+"add_flashcards_to_study" = "Añade tarjetas a este mazo para empezar a estudiar";
+"all_caught_up" = "¡Todo al día!";
+"no_cards_due_now" = "No hay tarjetas pendientes de revisión ahora mismo.";
+"end_session" = "Terminar sesión";
+"how_well_did_you_know" = "¿Qué tal lo conocías?";
+"tap_to_reveal_answer" = "Toca para revelar la respuesta";
+"session_complete" = "¡Sesión completada!";
+"cards_studied" = "Tarjetas estudiadas: %d";
+"accuracy" = "Precisión: %d%%";
+"time_spent" = "Tiempo: %dm %ds";
+"success_rate" = "Tasa de éxito: %d%%";
+"studied_times" = "Estudiado %d veces";
+"show_answer" = "Mostrar respuesta";
+"next_card" = "Siguiente tarjeta";
+"previous_card" = "Anterior";
+"mark_as_learned" = "Marcar como aprendida";
+"study_complete" = "¡Estudio completado!";
+"cards_learned" = "Has aprendido %d tarjetas";
+"review_again" = "Repasar de nuevo";
+"back_to_decks" = "Volver a los mazos";
+
+// MARK: - Study Results
+"again" = "Otra vez";
+"hard" = "Difícil";
+"good" = "Bien";
+"easy" = "Fácil";
+
+// MARK: - Difficulty levels
+"difficulty_easy" = "Fácil";
+"difficulty_medium" = "Medio";
+"difficulty_hard" = "Difícil";
+
+// MARK: - Add Card
+"add_card_title" = "Añadir tarjeta";
+"front_side" = "Frontal";
+"back_side" = "Posterior";
+"enter_translation_or_use_auto" = "Introduce la traducción o usa auto-traducción";
+"enter_text_to_translate" = "Introduce el texto a traducir";
+"cards_must_use_languages" = "Las tarjetas de este mazo deben usar idiomas %@ → %@";
+"translation_options" = "Opciones de traducción";
+"use" = "Usar";
+"tip_translate_button" = "Consejo: Usa el botón de traducir para obtener múltiples opciones";
+"add" = "Añadir";
+"add_flashcard" = "Añadir tarjeta";
+"enter_front_text" = "Introduce texto para el lado frontal...";
+"enter_back_text" = "Introduce texto para el lado posterior...";
+"auto_translate" = "Traducción automática";
+"save_card" = "Guardar tarjeta";
+"card_added" = "Tarjeta añadida";
+"flashcard_created" = "Tarjeta creada correctamente";
+
+// MARK: - Settings
+"settings_title" = "Configuración";
+"general" = "General";
+"app_language" = "Idioma de la app";
+"default_source_language" = "Idioma de origen predeterminado";
+"default_target_language" = "Idioma de destino predeterminado";
+"auto_detect_language" = "Detectar idioma automáticamente";
+"auto_play_pronunciation" = "Reproducir pronunciación automáticamente";
+"translation_service" = "Servicio de traducción";
+"apple_translation_ios_requirement" = "Apple Translation requiere iOS 17.4+";
+"cache_settings" = "Configuración de caché";
+"enable_smart_cache" = "Habilitar caché inteligente";
+"cache_usage" = "Uso de caché";
+"cached_items" = "Elementos en caché";
+"cache_size_limit" = "Límite de tamaño de caché";
+"save_translation_history" = "Guardar historial de traducciones";
+"cache" = "Caché";
+"cache_size" = "Tamaño del caché: %@";
+"clear_cache" = "Borrar caché";
+"clear_cache_confirm" = "¿Estás seguro de que quieres borrar el caché?";
+"about" = "Acerca de";
+"version" = "Versión";
+"app_version" = "Versión %@";
+"terms_of_service" = "Términos de servicio";
+"privacy_policy" = "Política de privacidad";
+"reset_to_defaults" = "Restablecer valores predeterminados";
+"service_not_available" = "Servicio no disponible";
+"apple_translation_update_message" = "Apple Translation requiere iOS 17.4 o posterior. Por favor, actualice su dispositivo para usar esta función.";
+
+// MARK: - Common Actions
+"cancel" = "Cancelar";
+"done" = "Hecho";
+"save" = "Guardar";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"close" = "Cerrar";
+"ok" = "OK";
+"yes" = "Sí";
+"no" = "No";
+"retry" = "Reintentar";
+"loading" = "Cargando...";
+"error" = "Error";
+"success" = "Éxito";
+"warning" = "Advertencia";
+"unknown" = "Desconocido";
+
+// MARK: - Error Messages
+"error_translation_failed" = "La traducción falló. Por favor, inténtalo de nuevo.";
+"error_network_unavailable" = "Conexión de red no disponible";
+"error_invalid_input" = "Por favor, introduce un texto válido";
+"error_language_not_supported" = "Esta combinación de idiomas no está soportada";
+"error_file_too_large" = "El archivo es demasiado grande. Tamaño máximo 10MB";
+"error_invalid_file_format" = "Formato de archivo no válido";
+"error_microphone_access_denied" = "Acceso al micrófono denegado";
+"error_camera_access_denied" = "Acceso a la cámara denegado";
+"error_photo_library_access_denied" = "Acceso a la galería denegado";
+
+// MARK: - Success Messages
+"success_copied_to_clipboard" = "Copiado al portapapeles";
+"success_cache_cleared" = "Caché borrado correctamente";
+"success_history_cleared" = "Historial borrado correctamente";
+"success_deck_created" = "Mazo creado correctamente";
+"success_deck_deleted" = "Mazo eliminado correctamente";
+"success_card_saved" = "Tarjeta guardada correctamente";
+"success_purchase_restored" = "Compra restaurada correctamente";
+
+// MARK: - Language Names
+"language_english" = "Inglés";
+"language_spanish" = "Español";
+"language_french" = "Francés";
+"language_german" = "Alemán";
+"language_italian" = "Italiano";
+"language_portuguese" = "Portugués";
+"language_russian" = "Ruso";
+"language_chinese_simplified" = "Chino (simplificado)";
+"language_chinese_traditional" = "Chino (tradicional)";
+"language_japanese" = "Japonés";
+"language_korean" = "Coreano";
+"language_arabic" = "Árabe";
+"language_hindi" = "Hindi";
+"language_turkish" = "Turco";
+"language_polish" = "Polaco";
+"language_dutch" = "Holandés";
+"language_swedish" = "Sueco";
+"language_norwegian" = "Noruego";
+"language_danish" = "Danés";
+"language_finnish" = "Finés";
+"language_greek" = "Griego";
+"language_czech" = "Checo";
+"language_romanian" = "Rumano";
+"language_hungarian" = "Húngaro";
+"language_ukrainian" = "Ucraniano";
+"language_thai" = "Tailandés";
+"language_vietnamese" = "Vietnamita";
+"language_indonesian" = "Indonesio";
+"language_malay" = "Malayo";
+"language_hebrew" = "Hebreo";
+
+// MARK: - ShareView, ContactView, PrivacyPolicyView
+"share_app_title" = "Compartir Traductor de Voz";
+"share_app_description" = "¡Ayuda a tus amigos a descubrir esta increíble aplicación de traducción!";
+"share_via_messages" = "Compartir por Mensajes";
+"share_via_email" = "Compartir por Correo";
+"more_options" = "Más Opciones";
+"contact_description" = "¡Nos encantaría saber de ti! Ponte en contacto con nuestro equipo de soporte.";
+"email_support" = "Soporte por Correo";
+"visit_website" = "Visitar Sitio Web";
+"rate_and_review" = "Calificar y Reseñar";
+"rate_help_improve" = "Ayúdanos a mejorar la aplicación";
+"information_we_collect" = "Información que Recopilamos";
+"information_collect_description" = "Recopilamos información mínima necesaria para proporcionar servicios de traducción. Esto incluye el texto que traduces, preferencias de idioma y análisis básicos de uso para mejorar nuestro servicio.";
+"how_we_use_information" = "Cómo Usamos la Información";
+"how_we_use_description" = "Los datos de tu traducción se procesan localmente en tu dispositivo cuando es posible. Utilizamos análisis anónimos para mejorar la precisión de la traducción y el rendimiento de la aplicación.";
+"data_storage" = "Almacenamiento de Datos";
+"data_storage_description" = "El historial de traducción se almacena localmente en tu dispositivo. No almacenamos tus traducciones personales en nuestros servidores a menos que habilites explícitamente la sincronización en la nube.";
+"third_party_services" = "Servicios de Terceros";
+"third_party_description" = "Utilizamos la API de Google Translate para traducciones en línea. Consulta la Política de Privacidad de Google para información sobre sus prácticas de manejo de datos.";
+"your_rights" = "Tus Derechos";
+"your_rights_description" = "Puedes eliminar tu historial de traducción en cualquier momento a través de la configuración de la aplicación. También puedes desactivar la recopilación de análisis en la configuración de privacidad.";
+"privacy_contact_description" = "Si tienes preguntas sobre esta política de privacidad, por favor contáctanos en privacy@voicetranslate.com";
+"view_full_privacy_policy" = "Ver Política de Privacidad Completa";
+"last_updated_date" = "Última actualización: diciembre 2024";

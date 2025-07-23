@@ -57,7 +57,7 @@ struct FeatureCard: View {
                         }
                     }
                     
-                    Text(feature.rawValue)
+                    Text(feature.localizedTitle)
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)

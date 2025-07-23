@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HistoryView: View {
+    @ObservedObject private var localizationManager = LocalizationManager.shared
     @Environment(\.dismiss) var dismiss
     @StateObject private var historyManager = TranslationHistoryManager.shared
     
@@ -20,6 +21,7 @@ struct HistoryView: View {
     }
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             VStack {
                 // Search and filter bar
@@ -28,7 +30,7 @@ struct HistoryView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.secondary)
                         
-                        TextField("Search translations", text: $searchText)
+                        TextField("search_history".localized, text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                     }
                     .padding(8)
@@ -50,11 +52,11 @@ struct HistoryView: View {
                             .font(.system(size: 60))
                             .foregroundColor(.secondary)
                         
-                        Text(searchText.isEmpty ? "No translations yet" : "No results found")
+                        Text(searchText.isEmpty ? "no_history".localized : "no_results_found".localized)
                             .font(.headline)
                             .foregroundColor(.secondary)
                         
-                        Text("Your translation history will appear here")
+                        Text("history_description".localized)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -73,11 +75,11 @@ struct HistoryView: View {
                     .listStyle(PlainListStyle())
                 }
             }
-            .navigationTitle("History")
+            .navigationTitle("history_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Done") {
+                    Button("done".localized) {
                         dismiss()
                     }
                 }
@@ -94,6 +96,7 @@ struct HistoryView: View {
             .sheet(isPresented: $showStatistics) {
                 StatisticsView()
             }
+        }
         }
     }
     
@@ -169,13 +172,13 @@ struct HistoryItemRow: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto"
-        case "en": return "EN"
-        case "uk": return "UK"
-        case "ru": return "RU"
-        case "es": return "ES"
-        case "fr": return "FR"
-        case "de": return "DE"
+        case "auto": return "language_auto".localized
+        case "en": return "language_en_short".localized
+        case "uk": return "language_uk_short".localized
+        case "ru": return "language_ru_short".localized
+        case "es": return "language_es_short".localized
+        case "fr": return "language_fr_short".localized
+        case "de": return "language_de_short".localized
         default: return code.uppercased()
         }
     }
@@ -230,7 +233,7 @@ struct HistoryDetailView: View {
                     
                     // Source text
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Original Text")
+                        Text("original_text".localized)
                             .font(.headline)
                         
                         Text(item.sourceText)
@@ -244,7 +247,7 @@ struct HistoryDetailView: View {
                     // Translation
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("Translation")
+                            Text("translation_title".localized)
                                 .font(.headline)
                             
                             Spacer()
@@ -271,7 +274,7 @@ struct HistoryDetailView: View {
                     // Alternatives
                     if !item.alternatives.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Alternative Translations")
+                            Text("alternatives".localized)
                                 .font(.headline)
                             
                             ForEach(item.alternatives, id: \.self) { alternative in
@@ -298,7 +301,7 @@ struct HistoryDetailView: View {
                     // Corrections
                     if !item.corrections.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Grammar Corrections")
+                            Text("corrections".localized)
                                 .font(.headline)
                             
                             ForEach(item.corrections, id: \.self) { correction in
@@ -315,11 +318,11 @@ struct HistoryDetailView: View {
                 }
                 .padding(.vertical)
             }
-            .navigationTitle("Translation Details")
+            .navigationTitle("translation_details".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button("done".localized) {
                         dismiss()
                     }
                 }
@@ -349,10 +352,10 @@ struct HistoryDetailView: View {
                     }
                 )
             }
-            .alert("Flashcard Created", isPresented: $flashcardCreated) {
-                Button("OK") { }
+            .alert("flashcard_created".localized, isPresented: $flashcardCreated) {
+                Button("ok".localized) { }
             } message: {
-                Text("The translation has been added to your flashcards for studying.")
+                Text("flashcard_added_description".localized)
             }
         }
     }
@@ -375,13 +378,13 @@ struct HistoryDetailView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto Detect"
-        case "en": return "English"
-        case "uk": return "Ukrainian"
-        case "ru": return "Russian"
-        case "es": return "Spanish"
-        case "fr": return "French"
-        case "de": return "German"
+        case "auto": return "auto_detect".localized
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
         default: return code.uppercased()
         }
     }
@@ -394,57 +397,57 @@ struct StatisticsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Overview")) {
+                Section(header: Text("overview".localized)) {
                     HStack {
-                        Text("Total Translations")
+                        Text("total_translations".localized)
                         Spacer()
                         Text("\(historyManager.statistics.totalTranslations)")
                             .foregroundColor(.secondary)
                     }
                     
                     HStack {
-                        Text("Favorite Count")
+                        Text("favorite_count".localized)
                         Spacer()
                         Text("\(historyManager.statistics.favoriteCount)")
                             .foregroundColor(.secondary)
                     }
                     
                     HStack {
-                        Text("Average Text Length")
+                        Text("average_text_length".localized)
                         Spacer()
-                        Text(String(format: "%.0f characters", historyManager.statistics.averageTextLength))
+                        Text(String(format: "characters_count".localized, historyManager.statistics.averageTextLength))
                             .foregroundColor(.secondary)
                     }
                 }
                 
-                Section(header: Text("Language Pairs")) {
+                Section(header: Text("language_pairs".localized)) {
                     ForEach(Array(historyManager.statistics.languagePairs.sorted(by: { $0.value > $1.value })), id: \.key) { pair in
                         HStack {
                             Text(pair.key)
                             Spacer()
-                            Text("\(pair.value) translations")
+                            Text(String(format: "translations_count".localized, pair.value))
                                 .foregroundColor(.secondary)
                         }
                     }
                 }
                 
-                Section(header: Text("Most Frequent Phrases")) {
+                Section(header: Text("most_frequent_phrases".localized)) {
                     let frequentPhrases = historyManager.getMostFrequentPhrases(limit: 5)
                     ForEach(frequentPhrases, id: \.phrase) { item in
                         HStack {
                             Text(item.phrase)
                                 .lineLimit(1)
                             Spacer()
-                            Text("\(item.count) times")
+                            Text(String(format: "times_count".localized, item.count))
                                 .foregroundColor(.secondary)
                         }
                     }
                 }
                 
-                Section(header: Text("Learning Suggestions")) {
+                Section(header: Text("learning_suggestions".localized)) {
                     let suggestions = historyManager.getLearningSuggestions()
                     if suggestions.isEmpty {
-                        Text("No suggestions available yet")
+                        Text("no_suggestions_available".localized)
                             .foregroundColor(.secondary)
                     } else {
                         ForEach(suggestions) { suggestion in
@@ -460,11 +463,11 @@ struct StatisticsView: View {
                     }
                 }
             }
-            .navigationTitle("Statistics")
+            .navigationTitle("statistics".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button("done".localized) {
                         dismiss()
                     }
                 }
@@ -489,7 +492,7 @@ struct DeckSelectorView: View {
         NavigationView {
             List {
                 if !matchingDecks.isEmpty {
-                    Section(header: Text("Compatible Decks (\(languageName(sourceLanguage)) → \(languageName(targetLanguage)))")) {
+                    Section(header: Text("compatible_decks_with_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))) {
                         ForEach(matchingDecks) { deck in
                             Button(action: { onDeckSelected(deck) }) {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -498,7 +501,7 @@ struct DeckSelectorView: View {
                                         .foregroundColor(.primary)
                                     
                                     HStack {
-                                        Text("\(deck.flashcardIds.count) cards")
+                                        Text(String(format: "cards_count".localized, deck.flashcardIds.count))
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
@@ -516,7 +519,7 @@ struct DeckSelectorView: View {
                                 .foregroundColor(.green)
                             
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Create New Deck")
+                                Text("create_new_deck".localized)
                                     .foregroundColor(.green)
                                 Text("\(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
                                     .font(.caption)
@@ -533,18 +536,18 @@ struct DeckSelectorView: View {
                         HStack {
                             Image(systemName: "info.circle")
                                 .foregroundColor(.blue)
-                            Text("No decks found for \(languageName(sourceLanguage)) → \(languageName(targetLanguage)). Create a new deck to start.")
+                            Text("no_decks_found_for_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                     }
                 }
             }
-            .navigationTitle("Add to Flashcards")
+            .navigationTitle("add_to_flashcards_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
+                    Button("cancel".localized) {
                         dismiss()
                     }
                 }
@@ -554,13 +557,13 @@ struct DeckSelectorView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto Detect"
-        case "en": return "English"
-        case "uk": return "Ukrainian"
-        case "ru": return "Russian"
-        case "es": return "Spanish"
-        case "fr": return "French"
-        case "de": return "German"
+        case "auto": return "auto_detect".localized
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
         default: return code.uppercased()
         }
     }

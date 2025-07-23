@@ -1,10 +1,19 @@
 import SwiftUI
 
 enum FeatureType: String, CaseIterable {
-    case textTranslator = "Text\nTranslator"
-    case voiceChat = "Voice\nChat"
-    case cameraTranslator = "Camera\nTranslator"
-    case fileTranslator = "File\nTranslator"
+    case textTranslator = "text_translator"
+    case voiceChat = "voice_chat"
+    case cameraTranslator = "camera_translator"
+    case fileTranslator = "file_translator"
+    
+    var localizedTitle: String {
+        switch self {
+        case .textTranslator: return "text_translator".localized
+        case .voiceChat: return "voice_chat".localized
+        case .cameraTranslator: return "camera_translator".localized
+        case .fileTranslator: return "file_translator".localized
+        }
+    }
     
     var icon: String {
         switch self {

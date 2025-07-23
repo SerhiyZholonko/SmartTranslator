@@ -21,6 +21,7 @@ struct VoiceChatView: View {
     }
     
     var body: some View {
+        LocalizedView {
         ZStack {
             // Background gradient
             LinearGradient(
@@ -44,7 +45,7 @@ struct VoiceChatView: View {
                     
                     Spacer()
                     
-                    Text("Voice Chat")
+                    Text("voice_chat_title".localized)
                         .font(.system(size: 20, weight: .semibold))
                     
                     Spacer()
@@ -64,10 +65,10 @@ struct VoiceChatView: View {
                 VStack(spacing: 20) {
                     Spacer()
                     
-                    Text("No chats yet..")
+                    Text("no_chats_yet".localized)
                         .font(.system(size: 24, weight: .medium))
                     
-                    Text("Start conversation")
+                    Text("start_conversation".localized)
                         .font(.system(size: 18))
                         .foregroundColor(.gray)
                     
@@ -90,7 +91,7 @@ struct VoiceChatView: View {
                     // Dynamic waveform animation
                     SpeakingAnimationView(audioLevels: audioLevels, recordingSide: currentRecordingSide)
                     
-                    Text("Speak up...")
+                    Text("speak_up".localized)
                         .font(.system(size: 20, weight: .medium))
                 }
                 .padding(30)
@@ -137,15 +138,16 @@ struct VoiceChatView: View {
             .background(Color.gray.opacity(0.1))
         }
         }
-        .alert("Потрібен доступ до мікрофона", isPresented: $showPermissionAlert) {
-            Button("Відкрити Налаштування", action: openSettings)
-            Button("Скасувати", role: .cancel) { }
+        .alert("microphone_access_needed".localized, isPresented: $showPermissionAlert) {
+            Button("open_settings".localized, action: openSettings)
+            Button("cancel".localized, role: .cancel) { }
         } message: {
-            Text("Будь ласка, увімкніть доступ до мікрофона в Налаштуваннях для використання голосового перекладу.")
+            Text("please_enable_microphone".localized)
         }
         .onAppear {
             requestPermissions()
             loadLanguageSettings()
+        }
         }
     }
     
@@ -362,12 +364,12 @@ struct VoiceButton: View {
             }
             
             Menu {
-                Button("🇬🇧 English") { language = "en-US" }
-                Button("🇺🇦 Ukrainian") { language = "uk-UA" }
-                Button("🇷🇺 Russian") { language = "ru-RU" }
-                Button("🇪🇸 Spanish") { language = "es-ES" }
-                Button("🇫🇷 French") { language = "fr-FR" }
-                Button("🇩🇪 German") { language = "de-DE" }
+                Button("🇬🇧 \("language_english".localized)") { language = "en-US" }
+                Button("🇺🇦 \("language_ukrainian".localized)") { language = "uk-UA" }
+                Button("🇷🇺 \("language_russian".localized)") { language = "ru-RU" }
+                Button("🇪🇸 \("language_spanish".localized)") { language = "es-ES" }
+                Button("🇫🇷 \("language_french".localized)") { language = "fr-FR" }
+                Button("🇩🇪 \("language_german".localized)") { language = "de-DE" }
             } label: {
                 HStack {
                     Text(getFlag(for: language))
@@ -399,13 +401,13 @@ struct VoiceButton: View {
     
     private func getLanguageName(for languageCode: String) -> String {
         switch languageCode {
-        case "en-US", "en": return "English"
-        case "uk-UA", "uk": return "Ukrainian"
-        case "ru-RU", "ru": return "Russian"
-        case "es-ES", "es": return "Spanish"
-        case "fr-FR", "fr": return "French"
-        case "de-DE", "de": return "German"
-        default: return "Unknown"
+        case "en-US", "en": return "language_english".localized
+        case "uk-UA", "uk": return "language_ukrainian".localized
+        case "ru-RU", "ru": return "language_russian".localized
+        case "es-ES", "es": return "language_spanish".localized
+        case "fr-FR", "fr": return "language_french".localized
+        case "de-DE", "de": return "language_german".localized
+        default: return "unknown".localized
         }
     }
 }

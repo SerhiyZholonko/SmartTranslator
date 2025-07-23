@@ -82,7 +82,7 @@ struct SideMenuView: View {
                             }
                             .frame(width: 230, height: 100)
                     
-                            Text("Voice Translate")
+                            Text("app_name".localized)
                                 .font(.system(size: 26, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 2)
@@ -101,7 +101,7 @@ struct SideMenuView: View {
                             Image(systemName: "crown.fill")
                                 .foregroundColor(.white)
                                 .font(.system(size: 18))
-                            Text("Get Premium")
+                            Text("get_premium".localized)
                                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                                 .foregroundColor(.white)
                         }
@@ -131,7 +131,7 @@ struct SideMenuView: View {
                         VStack(alignment: .leading, spacing: 4) {
                         MenuItemView(
                             icon: "clock.arrow.circlepath",
-                            title: "History",
+                            title: "menu_history".localized,
                             iconColor: Color(red: 0.4, green: 0.6, blue: 1.0),
                             action: {
                                 showHistory = true
@@ -143,7 +143,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "rectangle.stack.fill",
-                            title: "Flashcards",
+                            title: "menu_flashcards".localized,
                             iconColor: Color(red: 0.2, green: 0.7, blue: 0.9),
                             action: {
                                 showFlashcards = true
@@ -155,7 +155,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "gear",
-                            title: "Settings",
+                            title: "menu_settings".localized,
                             iconColor: Color(red: 0.5, green: 0.5, blue: 0.5),
                             action: {
                                 showSettings = true
@@ -168,7 +168,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "star.fill",
-                            title: "Rate us",
+                            title: "menu_rate_us".localized,
                             iconColor: Color(red: 1.0, green: 0.8, blue: 0.2),
                             action: {
                                 rateApp()
@@ -180,7 +180,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "square.and.arrow.up",
-                            title: "Share app",
+                            title: "menu_share_app".localized,
                             iconColor: Color(red: 0.3, green: 0.7, blue: 0.5),
                             action: {
                                 showShareSheet = true
@@ -192,7 +192,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "message.fill",
-                            title: "Contact Us",
+                            title: "menu_contact_us".localized,
                             iconColor: Color(red: 0.6, green: 0.4, blue: 1.0),
                             action: {
                                 showContactSheet = true
@@ -204,7 +204,7 @@ struct SideMenuView: View {
                 
                         MenuItemView(
                             icon: "lock.shield.fill",
-                            title: "Privacy Policy",
+                            title: "menu_privacy_policy".localized,
                             iconColor: Color(red: 0.9, green: 0.3, blue: 0.3),
                             action: {
                                 showPrivacySheet = true
@@ -225,7 +225,7 @@ struct SideMenuView: View {
                         HStack {
                             Image(systemName: "crown.fill")
                                 .foregroundColor(.green)
-                            Text("Premium Active")
+                            Text("premium_active".localized)
                                 .font(.system(size: 14, weight: .medium, design: .rounded))
                                 .foregroundColor(.green)
                         }
@@ -407,6 +407,7 @@ struct ShareView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             ScrollView {
             VStack(spacing: 30) {
@@ -414,11 +415,11 @@ struct ShareView: View {
                     .font(.system(size: 80))
                     .foregroundColor(.blue)
                 
-                Text("Share Voice Translate")
+                Text("share_app_title".localized)
                     .font(.title)
                     .fontWeight(.bold)
                 
-                Text("Help your friends discover this amazing translation app!")
+                Text("share_app_description".localized)
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
@@ -426,19 +427,19 @@ struct ShareView: View {
                 VStack(spacing: 15) {
                     ShareButton(
                         icon: "message.fill",
-                        title: "Share via Messages",
+                        title: "share_via_messages".localized,
                         action: { shareViaMessages() }
                     )
                     
                     ShareButton(
                         icon: "envelope.fill",
-                        title: "Share via Email",
+                        title: "share_via_email".localized,
                         action: { shareViaEmail() }
                     )
                     
                     ShareButton(
                         icon: "square.and.arrow.up.fill",
-                        title: "More Options",
+                        title: "more_options".localized,
                         action: { shareViaActivityController() }
                     )
                 }
@@ -447,9 +448,10 @@ struct ShareView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Share App")
+            }
+            .navigationTitle("menu_share_app".localized)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Done") { dismiss() })
+            .navigationBarItems(trailing: Button("done".localized) { dismiss() })
         }
         }
     }
@@ -525,17 +527,18 @@ struct ContactView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             VStack(spacing: 30) {
                 Image(systemName: "message.fill")
                     .font(.system(size: 80))
                     .foregroundColor(.blue)
                 
-                Text("Contact Us")
+                Text("menu_contact_us".localized)
                     .font(.title)
                     .fontWeight(.bold)
                 
-                Text("We'd love to hear from you! Get in touch with our support team.")
+                Text("contact_description".localized)
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
@@ -543,22 +546,22 @@ struct ContactView: View {
                 VStack(spacing: 15) {
                     ContactButton(
                         icon: "envelope.fill",
-                        title: "Email Support",
+                        title: "email_support".localized,
                         subtitle: "support@voicetranslate.com",
                         action: { contactViaEmail() }
                     )
                     
                     ContactButton(
                         icon: "globe",
-                        title: "Visit Website",
+                        title: "visit_website".localized,
                         subtitle: "www.voicetranslate.com",
                         action: { openWebsite() }
                     )
                     
                     ContactButton(
                         icon: "star.fill",
-                        title: "Rate & Review",
-                        subtitle: "Help us improve the app",
+                        title: "rate_and_review".localized,
+                        subtitle: "rate_help_improve".localized,
                         action: { openAppStore() }
                     )
                 }
@@ -567,9 +570,10 @@ struct ContactView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Contact")
+            .navigationTitle("menu_contact_us".localized)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Done") { dismiss() })
+            .navigationBarItems(trailing: Button("done".localized) { dismiss() })
+        }
         }
     }
     
@@ -640,47 +644,48 @@ struct PrivacyPolicyView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
                     PolicySection(
-                        title: "Information We Collect",
-                        content: "We collect minimal information necessary to provide translation services. This includes text you translate, language preferences, and basic usage analytics to improve our service."
+                        title: "information_we_collect".localized,
+                        content: "information_collect_description".localized
                     )
                     
                     PolicySection(
-                        title: "How We Use Information",
-                        content: "Your translation data is processed locally on your device whenever possible. We use anonymous analytics to improve translation accuracy and app performance."
+                        title: "how_we_use_information".localized,
+                        content: "how_we_use_description".localized
                     )
                     
                     PolicySection(
-                        title: "Data Storage",
-                        content: "Translation history is stored locally on your device. We do not store your personal translations on our servers unless you explicitly enable cloud sync."
+                        title: "data_storage".localized,
+                        content: "data_storage_description".localized
                     )
                     
                     PolicySection(
-                        title: "Third-Party Services",
-                        content: "We use Google Translate API for online translations. Please refer to Google's Privacy Policy for information about their data handling practices."
+                        title: "third_party_services".localized,
+                        content: "third_party_description".localized
                     )
                     
                     PolicySection(
-                        title: "Your Rights",
-                        content: "You can delete your translation history at any time through the app settings. You can also disable analytics collection in the privacy settings."
+                        title: "your_rights".localized,
+                        content: "your_rights_description".localized
                     )
                     
                     PolicySection(
-                        title: "Contact Us",
-                        content: "If you have questions about this privacy policy, please contact us at privacy@voicetranslate.com"
+                        title: "menu_contact_us".localized,
+                        content: "privacy_contact_description".localized
                     )
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Button("View Full Privacy Policy") {
+                        Button("view_full_privacy_policy".localized) {
                             openFullPrivacyPolicy()
                         }
                         .foregroundColor(.blue)
                         
-                        Text("Last updated: December 2024")
+                        Text("last_updated_date".localized)
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
@@ -688,9 +693,10 @@ struct PrivacyPolicyView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Privacy Policy")
+            .navigationTitle("menu_privacy_policy".localized)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Done") { dismiss() })
+            .navigationBarItems(trailing: Button("done".localized) { dismiss() })
+        }
         }
     }
     

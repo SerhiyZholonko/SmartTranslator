@@ -1,0 +1,379 @@
+/* 
+  Localizable.strings
+  TransliteApp
+  
+  Ukrainian localization
+*/
+
+// MARK: - Main Screen
+"app_name" = "Розумний Перекладач";
+"text_translator" = "Текстовий перекладач";
+"voice_chat" = "Голосовий чат";
+"camera_translator" = "Переклад з камери";
+"file_translator" = "Переклад файлів";
+"offline_translator" = "Офлайн перекладач";
+
+// MARK: - Side Menu
+"menu_title" = "Меню";
+"menu_history" = "Історія";
+"menu_flashcards" = "Картки";
+"menu_settings" = "Налаштування";
+"menu_rate_us" = "Оцініть нас";
+"menu_share_app" = "Поділитися";
+"menu_contact_us" = "Зв'язатися з нами";
+"menu_privacy_policy" = "Політика конфіденційності";
+
+// MARK: - Premium
+"premium_title" = "Преміум";
+"get_premium" = "Отримати Преміум";
+"premium_features" = "Преміум функції";
+"premium_unlimited_translations" = "Необмежені переклади";
+"premium_camera_translation" = "Переклад з камери";
+"premium_file_translation" = "Переклад файлів";
+"premium_no_ads" = "Без реклами";
+"premium_offline_mode" = "Офлайн режим";
+"premium_price_monthly" = "$4.99/місяць";
+"premium_price_yearly" = "$39.99/рік";
+"restore_purchase" = "Відновити покупку";
+"premium_active" = "Преміум активний";
+"coming_soon" = "Незабаром";
+"lifetime_premium" = "LIFETIME PREMIUM";
+"get_premium_for_price" = "Отримати Преміум за UAH 169.99";
+"premium_no_ads_full" = "100% Без нудної реклами";
+"premium_faster_translation" = "Швидший переклад";
+"premium_unlimited_camera" = "Необмежений переклад з камери";
+"premium_unlimited_photo" = "Необмежений переклад фото";
+
+// MARK: - Text Translator
+"text_translator_title" = "Текстовий перекладач";
+"from" = "З";
+"to" = "На";
+"enter_text_label" = "Введіть текст";
+"character_count" = "%d / 5000";
+"source_language" = "Мова оригіналу";
+"target_language" = "Мова перекладу";
+"enter_text" = "Введіть текст для перекладу...";
+"translate" = "Перекласти";
+"translating" = "Перекладаємо...";
+"translation_result" = "Переклад";
+"alternatives" = "Альтернативи";
+"add_to_flashcards" = "Додати до карток";
+"clear" = "Очистити";
+"copy" = "Копіювати";
+"speak" = "Озвучити";
+"paste" = "Вставити";
+"switch_languages" = "Поміняти мови";
+"auto_detect" = "Автовизначення";
+
+// MARK: - Flashcards Integration
+"choose_deck_to_add" = "Оберіть колоду для додавання картки";
+"no_compatible_decks" = "Немає сумісних колод";
+"create_deck_for_languages" = "Створити нову колоду для перекладів %@ → %@";
+"create_new_deck" = "Створити нову колоду";
+"add_to_flashcards_title" = "Додати до карток";
+"cards_count_simple" = "%d карток";
+
+// MARK: - Voice Recognition
+"microphone_access_needed" = "Потрібен доступ до мікрофону";
+"open_settings" = "Відкрити Налаштування";
+"please_enable_microphone" = "Будь ласка, увімкніть доступ до мікрофону в Налаштуваннях для використання голосового вводу.";
+
+// MARK: - Language Names (shorter versions)
+"language_auto" = "Авто";
+"language_en_short" = "EN";
+"language_uk_short" = "UK";
+"language_ru_short" = "RU";
+"language_es_short" = "ES";
+"language_fr_short" = "FR";
+"language_de_short" = "DE";
+
+// MARK: - Voice Chat
+"voice_chat_title" = "Голосовий чат";
+"tap_to_speak" = "Натисніть, щоб говорити";
+"listening" = "Слухаю...";
+"processing" = "Обробка...";
+"microphone_permission_required" = "Для голосового перекладу потрібен доступ до мікрофону";
+"grant_permission" = "Надати дозвіл";
+"no_chats_yet" = "Поки немає чатів..";
+"start_conversation" = "Почати розмову";
+"speak_up" = "Говоріть...";
+
+// MARK: - Camera Translator
+"camera_translator_title" = "Переклад з камери";
+"point_camera_at_text" = "Наведіть камеру на текст";
+"take_photo" = "Зробити фото";
+"retake" = "Перезняти";
+"camera_permission_required" = "Для перекладу з камери потрібен доступ до камери";
+"photo_library_permission_required" = "Для вибору фото потрібен доступ до галереї";
+"choose_from_library" = "Вибрати з галереї";
+"detected_text" = "Виявлено: %@";
+"camera_permission_required_message" = "Будь ласка, увімкніть доступ до камери в Налаштуваннях для використання перекладу через камеру.";
+
+// MARK: - File Translator
+"file_translator_title" = "Переклад файлів";
+"select_file" = "Вибрати файл";
+"supported_formats" = "Підтримувані формати: PDF, DOC, DOCX, TXT";
+"file_selected" = "Вибраний файл:";
+"translate_file" = "Перекласти файл";
+"translating_file" = "Перекладаємо файл...";
+"file_translation_complete" = "Переклад завершено";
+"download_translation" = "Завантажити переклад";
+"select_file_to_translate" = "Виберіть файл для перекладу";
+"supported_files_note" = "Підтримуються: Зображення, PDF документи";
+"gallery" = "Галерея";
+"camera" = "Камера";
+"processing_file" = "Обробка файлу...";
+"pdf_document" = "PDF Документ";
+"image_file" = "Файл зображення";
+"detected_text_title" = "Виявлений текст";
+"translation_title" = "Переклад";
+"no_text_detected_image" = "Текст у зображенні не виявлено";
+"no_text_found_pdf" = "Текст у PDF не знайдено";
+"translation_error_prefix" = "Помилка перекладу: %@";
+
+// MARK: - Offline Translator
+"offline_translator_title" = "Офлайн перекладач";
+"download_language_packs" = "Завантажте мовні пакети для офлайн перекладу";
+"available_languages" = "Доступні мови";
+"downloaded" = "Завантажено";
+"download" = "Завантажити";
+"delete" = "Видалити";
+"offline_mode_limited" = "Офлайн режим має обмежену точність перекладу";
+
+// MARK: - History
+"history_title" = "Історія";
+"search_history" = "Пошук в історії...";
+"no_history" = "Історія перекладів порожня";
+"clear_history" = "Очистити історію";
+"clear_history_confirm" = "Ви впевнені, що хочете очистити всю історію?";
+"favorite" = "В обране";
+"unfavorite" = "Видалити з обраного";
+"favorites_only" = "Тільки обране";
+"all_translations" = "Всі переклади";
+"no_results_found" = "Результатів не знайдено";
+"history_description" = "Ваша історія перекладів з'явиться тут";
+"original_text" = "Оригінальний текст";
+"translation_details" = "Деталі перекладу";
+"corrections" = "Граматичні виправлення";
+"flashcard_added_description" = "Переклад було додано до ваших карток для вивчення.";
+"overview" = "Огляд";
+"total_translations" = "Всього перекладів";
+"favorite_count" = "Кількість обраних";
+"average_text_length" = "Середня довжина тексту";
+"characters_count" = "%.0f символів";
+"language_pairs" = "Мовні пари";
+"translations_count" = "%d перекладів";
+"most_frequent_phrases" = "Найчастіші фрази";
+"times_count" = "%d разів";
+"learning_suggestions" = "Рекомендації для навчання";
+"no_suggestions_available" = "Поки немає доступних рекомендацій";
+"statistics" = "Статистика";
+"compatible_decks_with_languages" = "Сумісні колоди (%@ → %@)";
+"no_decks_found_for_languages" = "Не знайдено колод для %@ → %@. Створіть нову колоду для початку.";
+
+// MARK: - Flashcards
+"flashcards_title" = "Картки";
+"language_learning" = "Вивчення мов";
+"study_flashcards_description" = "Вивчайте картки для покращення словника";
+"create_new_deck" = "Створити нову колоду";
+"cards" = "Картки";
+"studied" = "Вивчено";
+"success" = "Успіх";
+"last_studied" = "Останнє навчання %@";
+"add_card" = "Додати картку";
+"delete_deck" = "Видалити колоду";
+"delete_deck_confirm" = "Ви впевнені, що хочете видалити \"%@\" та всі її картки? Цю дію не можна скасувати.";
+"cards_due" = "%d до повторення";
+"my_decks" = "Мої колоди";
+"create_deck" = "Створити колоду";
+"deck_name" = "Назва колоди";
+"enter_deck_name" = "Введіть назву колоди...";
+"cards_count" = "%d карток";
+"study_now" = "Вивчати зараз";
+"edit_deck" = "Редагувати колоду";
+"no_decks" = "Поки немає колод з картками";
+"create_first_deck" = "Створіть першу колоду, щоб почати навчання";
+
+// MARK: - Create Deck
+"new_deck" = "Нова колода";
+"deck_information" = "Інформація про колоду";
+"description_optional" = "Опис (необов'язково)";
+"languages" = "Мови";
+"create" = "Створити";
+
+// MARK: - Flashcard Study
+"study_title" = "Навчання";
+"no_cards_to_study" = "Немає карток для вивчення";
+"add_flashcards_to_study" = "Додайте картки в цю колоду, щоб почати навчання";
+"all_caught_up" = "Все вивчено!";
+"no_cards_due_now" = "На даний момент немає карток для повторення.";
+"end_session" = "Завершити сесію";
+"how_well_did_you_know" = "Наскільки добре ви це знали?";
+"tap_to_reveal_answer" = "Натисніть, щоб показати відповідь";
+"session_complete" = "Сесія завершена!";
+"cards_studied" = "Карток вивчено: %d";
+"accuracy" = "Точність: %d%%";
+"time_spent" = "Час: %dхв %dс";
+"success_rate" = "Відсоток успіху: %d%%";
+"studied_times" = "Вивчалося %d разів";
+"show_answer" = "Показати відповідь";
+"next_card" = "Наступна картка";
+"previous_card" = "Попередня";
+"mark_as_learned" = "Позначити як вивчене";
+"study_complete" = "Навчання завершено!";
+"cards_learned" = "Ви вивчили %d карток";
+"review_again" = "Повторити знову";
+"back_to_decks" = "Назад до колод";
+
+// MARK: - Study Results
+"again" = "Знову";
+"hard" = "Складно";
+"good" = "Добре";
+"easy" = "Легко";
+
+// MARK: - Difficulty levels
+"difficulty_easy" = "Легко";
+"difficulty_medium" = "Середнє";
+"difficulty_hard" = "Складно";
+
+// MARK: - Add Card
+"add_card_title" = "Додати картку";
+"front_side" = "Лицьова";
+"back_side" = "Зворотна";
+"enter_translation_or_use_auto" = "Введіть переклад або використайте автопереклад";
+"enter_text_to_translate" = "Введіть текст для перекладу";
+"cards_must_use_languages" = "Картки в цій колоді мають використовувати мови %@ → %@";
+"translation_options" = "Варіанти перекладу";
+"use" = "Використати";
+"tip_translate_button" = "Порада: використовуйте кнопку перекладу, щоб отримати кілька варіантів";
+"add" = "Додати";
+"add_flashcard" = "Додати картку";
+"enter_front_text" = "Введіть текст для лицьової сторони...";
+"enter_back_text" = "Введіть текст для зворотної сторони...";
+"auto_translate" = "Автопереклад";
+"save_card" = "Зберегти картку";
+"card_added" = "Картку додано";
+"flashcard_created" = "Картку успішно створено";
+
+// MARK: - Settings
+"settings_title" = "Налаштування";
+"general" = "Загальні";
+"app_language" = "Мова додатку";
+"default_source_language" = "Мова за замовчуванням (оригінал)";
+"default_target_language" = "Мова за замовчуванням (переклад)";
+"auto_detect_language" = "Автовизначення мови";
+"auto_play_pronunciation" = "Автовідтворення вимови";
+"translation_service" = "Служба перекладу";
+"apple_translation_ios_requirement" = "Apple Translation потребує iOS 17.4+";
+"cache_settings" = "Налаштування кешу";
+"enable_smart_cache" = "Увімкнути розумний кеш";
+"cache_usage" = "Використання кешу";
+"cached_items" = "Елементи в кеші";
+"cache_size_limit" = "Ліміт розміру кешу";
+"save_translation_history" = "Зберігати історію перекладів";
+"cache" = "Кеш";
+"cache_size" = "Розмір кешу: %@";
+"clear_cache" = "Очистити кеш";
+"clear_cache_confirm" = "Ви впевнені, що хочете очистити кеш?";
+"about" = "Про додаток";
+"version" = "Версія";
+"app_version" = "Версія %@";
+"terms_of_service" = "Умови використання";
+"privacy_policy" = "Політика конфіденційності";
+"reset_to_defaults" = "Скинути до стандартних";
+"service_not_available" = "Сервіс недоступний";
+"apple_translation_update_message" = "Apple Translation потребує iOS 17.4 або новішу версію. Будь ласка, оновіть ваш пристрій для використання цієї функції.";
+
+// MARK: - Common Actions
+"cancel" = "Скасувати";
+"done" = "Готово";
+"save" = "Зберегти";
+"delete" = "Видалити";
+"edit" = "Редагувати";
+"close" = "Закрити";
+"ok" = "OK";
+"yes" = "Так";
+"no" = "Ні";
+"retry" = "Повторити";
+"loading" = "Завантаження...";
+"error" = "Помилка";
+"success" = "Успіх";
+"warning" = "Увага";
+"unknown" = "Невідомо";
+
+// MARK: - Error Messages
+"error_translation_failed" = "Переклад не вдався. Спробуйте ще раз.";
+"error_network_unavailable" = "Немає підключення до мережі";
+"error_invalid_input" = "Будь ласка, введіть коректний текст";
+"error_language_not_supported" = "Ця мовна пара не підтримується";
+"error_file_too_large" = "Файл занадто великий. Максимальний розмір 10МБ";
+"error_invalid_file_format" = "Невірний формат файлу";
+"error_microphone_access_denied" = "Доступ до мікрофону заборонено";
+"error_camera_access_denied" = "Доступ до камери заборонено";
+"error_photo_library_access_denied" = "Доступ до галереї заборонено";
+
+// MARK: - Success Messages
+"success_copied_to_clipboard" = "Скопійовано в буфер обміну";
+"success_cache_cleared" = "Кеш успішно очищено";
+"success_history_cleared" = "Історію успішно очищено";
+"success_deck_created" = "Колоду успішно створено";
+"success_deck_deleted" = "Колоду успішно видалено";
+"success_card_saved" = "Картку успішно збережено";
+"success_purchase_restored" = "Покупку успішно відновлено";
+
+// MARK: - Language Names
+"language_english" = "Англійська";
+"language_spanish" = "Іспанська";
+"language_french" = "Французька";
+"language_german" = "Німецька";
+"language_italian" = "Італійська";
+"language_portuguese" = "Португальська";
+"language_russian" = "Російська";
+"language_chinese_simplified" = "Китайська (спрощена)";
+"language_chinese_traditional" = "Китайська (традиційна)";
+"language_japanese" = "Японська";
+"language_korean" = "Корейська";
+"language_arabic" = "Арабська";
+"language_hindi" = "Гінді";
+"language_turkish" = "Турецька";
+"language_polish" = "Польська";
+"language_dutch" = "Нідерландська";
+"language_swedish" = "Шведська";
+"language_norwegian" = "Норвезька";
+"language_danish" = "Данська";
+"language_finnish" = "Фінська";
+"language_greek" = "Грецька";
+"language_czech" = "Чеська";
+"language_romanian" = "Румунська";
+"language_hungarian" = "Угорська";
+"language_ukrainian" = "Українська";
+"language_thai" = "Тайська";
+"language_vietnamese" = "В'єтнамська";
+"language_indonesian" = "Індонезійська";
+"language_malay" = "Малайська";
+"language_hebrew" = "Іврит";
+
+// MARK: - ShareView, ContactView, PrivacyPolicyView
+"share_app_title" = "Поділитися Голосовий Перекладач";
+"share_app_description" = "Допоможіть своїм друзям відкрити цей дивовижний додаток для перекладу!";
+"share_via_messages" = "Поділитися через Повідомлення";
+"share_via_email" = "Поділитися через Електронну пошту";
+"more_options" = "Більше варіантів";
+"contact_description" = "Ми хотіли б почути від вас! Зв'яжіться з нашою службою підтримки.";
+"email_support" = "Електронна підтримка";
+"visit_website" = "Відвідати вебсайт";
+"rate_and_review" = "Оцінити та відгукнутися";
+"rate_help_improve" = "Допоможіть нам покращити додаток";
+"information_we_collect" = "Інформація, яку ми збираємо";
+"information_collect_description" = "Ми збираємо мінімальну інформацію, необхідну для надання послуг перекладу. Це включає текст, який ви перекладаєте, мовні налаштування та базову аналітику використання для покращення нашого сервісу.";
+"how_we_use_information" = "Як ми використовуємо інформацію";
+"how_we_use_description" = "Ваші дані перекладу обробляються локально на вашому пристрої, коли це можливо. Ми використовуємо анонімну аналітику для покращення точності перекладу та продуктивності додатку.";
+"data_storage" = "Зберігання даних";
+"data_storage_description" = "Історія перекладів зберігається локально на вашому пристрої. Ми не зберігаємо ваші особисті переклади на наших серверах, якщо ви явно не увімкнули хмарну синхронізацію.";
+"third_party_services" = "Сторонні сервіси";
+"third_party_description" = "Ми використовуємо Google Translate API для онлайн-перекладів. Будь ласка, ознайомтеся з Політикою конфіденційності Google для отримання інформації про їхні практики обробки даних.";
+"your_rights" = "Ваші права";
+"your_rights_description" = "Ви можете видалити свою історію перекладів у будь-який час через налаштування додатку. Ви також можете вимкнути збір аналітики в налаштуваннях конфіденційності.";
+"privacy_contact_description" = "Якщо у вас є питання щодо цієї політики конфіденційності, будь ласка, зв'яжіться з нами за адресою privacy@voicetranslate.com";
+"view_full_privacy_policy" = "Переглянути повну політику конфіденційності";
+"last_updated_date" = "Останнє оновлення: грудень 2024";

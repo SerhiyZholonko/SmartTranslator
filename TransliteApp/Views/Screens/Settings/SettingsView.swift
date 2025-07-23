@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
+    @ObservedObject private var localizationManager = LocalizationManager.shared
     @State private var defaultSourceLanguage = "auto"
     @State private var defaultTargetLanguage = "uk"
     @State private var enableSmartCache = true
@@ -11,9 +12,10 @@ struct SettingsView: View {
     @State private var showingServiceAlert = false
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             Form {
-                Section(header: Text("Translation Service")) {
+                Section(header: Text("translation_service".localized)) {
                     Picker("Service", selection: $selectedTranslationService) {
                         ForEach(TranslationService.allCases, id: \.self) { service in
                             HStack {
@@ -37,58 +39,68 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "info.circle")
                                 .foregroundColor(.blue)
-                            Text("Apple Translation requires iOS 17.4+")
+                            Text("apple_translation_ios_requirement".localized)
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                     }
                 }
                 
-                Section(header: Text("Default Languages")) {
-                    Picker("Source Language", selection: $defaultSourceLanguage) {
-                        Text("Auto Detect").tag("auto")
-                        Text("English").tag("en")
-                        Text("Ukrainian").tag("uk")
-                        Text("Russian").tag("ru")
-                        Text("Spanish").tag("es")
-                        Text("French").tag("fr")
-                        Text("German").tag("de")
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    
-                    Picker("Target Language", selection: $defaultTargetLanguage) {
-                        Text("Ukrainian").tag("uk")
-                        Text("English").tag("en")
-                        Text("Russian").tag("ru")
-                        Text("Spanish").tag("es")
-                        Text("French").tag("fr")
-                        Text("German").tag("de")
+                Section(header: Text("general".localized)) {
+                    Picker("app_language".localized, selection: $localizationManager.currentLanguage) {
+                        ForEach(SupportedLanguage.supportedLanguages, id: \.id) { language in
+                            Text(language.name)
+                                .tag(language.code)
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
                 }
                 
-                Section(header: Text("Cache Settings")) {
-                    Toggle("Enable Smart Cache", isOn: $enableSmartCache)
+                Section(header: Text("default_source_language".localized)) {
+                    Picker("source_language".localized, selection: $defaultSourceLanguage) {
+                        Text("auto_detect".localized).tag("auto")
+                        Text("language_english".localized).tag("en")
+                        Text("language_ukrainian".localized).tag("uk")
+                        Text("language_russian".localized).tag("ru")
+                        Text("language_spanish".localized).tag("es")
+                        Text("language_french".localized).tag("fr")
+                        Text("language_german".localized).tag("de")
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    
+                    Picker("target_language".localized, selection: $defaultTargetLanguage) {
+                        Text("language_ukrainian".localized).tag("uk")
+                        Text("language_english".localized).tag("en")
+                        Text("language_russian".localized).tag("ru")
+                        Text("language_spanish".localized).tag("es")
+                        Text("language_french".localized).tag("fr")
+                        Text("language_german".localized).tag("de")
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                
+                Section(header: Text("cache_settings".localized)) {
+                    Toggle("enable_smart_cache".localized, isOn: $enableSmartCache)
                     
                     if enableSmartCache {
                         let cacheStats = SmartCacheManager.shared.getCacheStatistics()
                         
                         HStack {
-                            Text("Cache Usage")
+                            Text("cache_usage".localized)
                             Spacer()
                             Text(String(format: "%.1f MB of %d MB", cacheStats.sizeInMB, maxCacheSize))
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
-                            Text("Cached Items")
+                            Text("cached_items".localized)
                             Spacer()
                             Text("\(cacheStats.itemCount)")
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
-                            Text("Cache Size Limit")
+                            Text("cache_size_limit".localized)
                             Spacer()
                             Text("\(maxCacheSize) MB")
                                 .foregroundColor(.secondary)
@@ -99,57 +111,58 @@ struct SettingsView: View {
                             set: { maxCacheSize = Int($0) }
                         ), in: 10...100, step: 10)
                         
-                        Button("Clear Cache") {
+                        Button("clear_cache".localized) {
                             SmartCacheManager.shared.clearCache()
                         }
                         .foregroundColor(.orange)
                     }
                 }
                 
-                Section(header: Text("History")) {
-                    Toggle("Save Translation History", isOn: $enableHistory)
+                Section(header: Text("history_title".localized)) {
+                    Toggle("save_translation_history".localized, isOn: $enableHistory)
                     
                     if enableHistory {
-                        Button("Clear History") {
+                        Button("clear_history".localized) {
                             clearHistory()
                         }
                         .foregroundColor(.red)
                     }
                 }
                 
-                Section(header: Text("About")) {
+                Section(header: Text("about".localized)) {
                     HStack {
-                        Text("Version")
+                        Text("version".localized)
                         Spacer()
                         Text("1.0.0")
                             .foregroundColor(.secondary)
                     }
                     
                     
-                    Button("Reset to Defaults") {
+                    Button("reset_to_defaults".localized) {
                         resetToDefaults()
                     }
                     .foregroundColor(.blue)
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle("settings_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button("done".localized) {
                         saveSettings()
                         dismiss()
                     }
                 }
             }
         }
+        }
         .onAppear {
             loadSettings()
         }
-        .alert("Service Not Available", isPresented: $showingServiceAlert) {
+        .alert("service_not_available".localized, isPresented: $showingServiceAlert) {
             Button("OK") { }
         } message: {
-            Text("Apple Translation requires iOS 17.4 or later. Please update your device to use this feature.")
+            Text("apple_translation_update_message".localized)
         }
     }
     

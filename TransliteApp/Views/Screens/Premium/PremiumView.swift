@@ -7,6 +7,7 @@ struct PremiumView: View {
     @State private var isProcessingPurchase = false
     
     var body: some View {
+        LocalizedView {
         ZStack {
             // Background gradient
             LinearGradient(
@@ -80,17 +81,17 @@ struct PremiumView: View {
                 .frame(height: 250) // Фіксована висота для секції з планетами
                 
                 // Premium badge
-                Text("LIFETIME PREMIUM")
+                Text("lifetime_premium".localized)
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.green)
                     .padding(.top, 30)
                 
                 // Features list
                 VStack(alignment: .leading, spacing: 20) {
-                    FeatureRow(text: "100% No Annoying ADS")
-                    FeatureRow(text: "Faster Translation")
-                    FeatureRow(text: "Unlimited Camera Translator")
-                    FeatureRow(text: "Unlimited Photo Translator")
+                    FeatureRow(text: "premium_no_ads_full".localized)
+                    FeatureRow(text: "premium_faster_translation".localized)
+                    FeatureRow(text: "premium_unlimited_camera".localized)
+                    FeatureRow(text: "premium_unlimited_photo".localized)
                 }
                 .padding(.horizontal, 50)
                 .padding(.vertical, 40)
@@ -111,7 +112,7 @@ struct PremiumView: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     } else {
-                        Text("Get Premium For UAH 169.99")
+                        Text("get_premium_for_price".localized)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                     }
@@ -127,12 +128,13 @@ struct PremiumView: View {
                 Button(action: {
                     // Handle restore purchase
                 }) {
-                    Text("Restore purchase")
+                    Text("restore_purchase".localized)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.7))
                 }
                 .padding(.vertical, 20)
             }
+        }
         }
     }
 }

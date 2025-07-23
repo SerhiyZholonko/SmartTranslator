@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var path = NavigationPath()
     
     var body: some View {
+        LocalizedView {
         NavigationStack(path: $path) {
             ZStack {
                 // Enhanced gradient background
@@ -121,6 +122,7 @@ struct ContentView: View {
                     }
                 }
             }
+        }
         }
     }
 }

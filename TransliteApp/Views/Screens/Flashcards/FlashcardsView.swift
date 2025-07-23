@@ -12,17 +12,18 @@ struct FlashcardsView: View {
     @State private var newDeckTargetLang = "uk"
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             ScrollView {
                 LazyVStack(spacing: 16) {
                     // Header with Close Button
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Language Learning")
+                            Text("language_learning".localized)
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                             
-                            Text("Study flashcards to improve your vocabulary")
+                            Text("study_flashcards_description".localized)
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -45,7 +46,7 @@ struct FlashcardsView: View {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title2)
                             
-                            Text("Create New Deck")
+                            Text("create_new_deck".localized)
                                 .font(.headline)
                             
                             Spacer()
@@ -86,6 +87,7 @@ struct FlashcardsView: View {
                     showingCreateDeck = false
                 }
             }
+        }
         }
     }
 }
@@ -157,7 +159,7 @@ struct DeckCard: View {
                             }
                             
                             if dueCardsCount > 0 {
-                                Text("\(dueCardsCount) due")
+                                Text("cards_due".localized(with: String(dueCardsCount)))
                                     .font(.caption)
                                     .foregroundColor(.orange)
                                     .padding(.horizontal, 6)
@@ -172,20 +174,20 @@ struct DeckCard: View {
                     HStack(spacing: 20) {
                         StatItem(
                             icon: "square.stack.3d.up",
-                            title: "Cards",
+                            title: "cards".localized,
                             value: "\(deckStats.totalCards)"
                         )
                         
                         StatItem(
                             icon: "checkmark.circle",
-                            title: "Studied",
+                            title: "studied".localized,
                             value: "\(deckStats.studiedCards)"
                         )
                         
                         if deckStats.studiedCards > 0 {
                             StatItem(
                                 icon: "chart.line.uptrend.xyaxis",
-                                title: "Success",
+                                title: "success".localized,
                                 value: "\(Int(deckStats.averageSuccessRate * 100))%"
                             )
                         }
@@ -198,7 +200,7 @@ struct DeckCard: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
-                            Text("Last studied \(lastStudied.formatted(.relative(presentation: .numeric)))")
+                            Text("last_studied".localized(with: lastStudied.formatted(.relative(presentation: .numeric))))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -217,7 +219,7 @@ struct DeckCard: View {
                     HStack {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 16))
-                        Text("Add Card")
+                        Text("add_card".localized)
                             .font(.caption)
                     }
                     .padding(.horizontal, 12)
@@ -263,13 +265,13 @@ struct DeckCard: View {
                 showingAddCard = false
             }
         }
-        .alert("Delete Deck", isPresented: $showingDeleteConfirmation) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
+        .alert("delete_deck".localized, isPresented: $showingDeleteConfirmation) {
+            Button("cancel".localized, role: .cancel) { }
+            Button("delete".localized, role: .destructive) {
                 flashcardManager.deleteDeck(deck)
             }
         } message: {
-            Text("Are you sure you want to delete \"\(deck.name)\" and all its cards? This action cannot be undone.")
+            Text("delete_deck_confirm".localized(with: deck.name))
         }
     }
     
@@ -295,12 +297,12 @@ struct DeckCard: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "en": return "EN"
-        case "uk": return "UK"
-        case "ru": return "RU"
-        case "es": return "ES"
-        case "fr": return "FR"
-        case "de": return "DE"
+        case "en": return "language_en_short".localized
+        case "uk": return "language_uk_short".localized
+        case "ru": return "language_ru_short".localized
+        case "es": return "language_es_short".localized
+        case "fr": return "language_fr_short".localized
+        case "de": return "language_de_short".localized
         default: return code.uppercased()
         }
     }
@@ -342,18 +344,20 @@ struct AddCardView: View {
     @State private var showingAlternatives = false
     @StateObject private var translator = GoogleTranslateParser()
     
-    let languages = [
-        ("auto", "Auto-detect"),
-        ("en", "English"),
-        ("uk", "Ukrainian"), 
-        ("ru", "Russian"),
-        ("es", "Spanish"),
-        ("fr", "French"),
-        ("de", "German"),
-        ("it", "Italian"),
-        ("pl", "Polish"),
-        ("cs", "Czech")
-    ]
+    var languages: [(String, String)] {
+        [
+            ("auto", "auto_detect".localized),
+            ("en", "language_english".localized),
+            ("uk", "language_ukrainian".localized), 
+            ("ru", "language_russian".localized),
+            ("es", "language_spanish".localized),
+            ("fr", "language_french".localized),
+            ("de", "language_german".localized),
+            ("it", "language_italian".localized),
+            ("pl", "language_polish".localized),
+            ("cs", "language_czech".localized)
+        ]
+    }
     
     init(deck: FlashcardDeck, frontText: Binding<String>, backText: Binding<String>, onAdd: @escaping () -> Void) {
         self.deck = deck
@@ -365,13 +369,14 @@ struct AddCardView: View {
     }
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             Form {
                 // Language Selection Section (Fixed for this deck)
-                Section(header: Text("Languages")) {
+                Section(header: Text("languages".localized)) {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("From")
+                            Text("from".localized)
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Text(languageName(sourceLanguage))
@@ -386,7 +391,7 @@ struct AddCardView: View {
                         Spacer()
                         
                         VStack(alignment: .trailing) {
-                            Text("To")
+                            Text("to".localized)
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Text(languageName(targetLanguage))
@@ -488,6 +493,7 @@ struct AddCardView: View {
                     .disabled(frontText.isEmpty || backText.isEmpty)
                 }
             }
+        }
         }
     }
     

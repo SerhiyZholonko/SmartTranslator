@@ -24,17 +24,20 @@ struct TextTranslatorView: View {
     @State private var showDeckSelection = false
     @State private var flashcardSaved = false
     
-    let languages = [
-        ("auto", "Auto-detect"),
-        ("en", "English"),
-        ("uk", "Ukrainian"),
-        ("ru", "Russian"),
-        ("es", "Spanish"),
-        ("fr", "French"),
-        ("de", "German")
-    ]
+    var languages: [(String, String)] {
+        [
+            ("auto", "auto_detect".localized),
+            ("en", "language_english".localized),
+            ("uk", "language_ukrainian".localized),
+            ("ru", "language_russian".localized),
+            ("es", "language_spanish".localized),
+            ("fr", "language_french".localized),
+            ("de", "language_german".localized)
+        ]
+    }
     
     var body: some View {
+        LocalizedView {
         NavigationView {
             VStack(spacing: 0) {
                 // Header
@@ -48,7 +51,7 @@ struct TextTranslatorView: View {
                     Spacer()
                     
                     VStack(spacing: 2) {
-                        Text("Text Translator")
+                        Text("text_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
                         HStack(spacing: 4) {
@@ -77,7 +80,7 @@ struct TextTranslatorView: View {
                     LanguageSelector(
                         selectedLanguage: $sourceLanguage,
                         languages: languages,
-                        title: "From"
+                        title: "from".localized
                     )
                     
                     Image(systemName: "arrow.right")
@@ -86,7 +89,7 @@ struct TextTranslatorView: View {
                     LanguageSelector(
                         selectedLanguage: $targetLanguage,
                         languages: languages.filter { $0.0 != "auto" },
-                        title: "To"
+                        title: "to".localized
                     )
                 }
                 .padding()
@@ -96,13 +99,13 @@ struct TextTranslatorView: View {
                         // Input area
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Enter text")
+                                Text("enter_text_label".localized)
                                     .font(.system(size: 14))
                                     .foregroundColor(.gray)
                                 
                                 Spacer()
                                 
-                                Text("\(inputText.count) / 5000")
+                                Text("character_count".localized(with: inputText.count))
                                     .font(.system(size: 12))
                                     .foregroundColor(.gray)
                             }
@@ -151,7 +154,7 @@ struct TextTranslatorView: View {
                                         .scaleEffect(0.8)
                                 } else {
                                     Image(systemName: "globe")
-                                    Text("Translate")
+                                    Text("translate".localized)
                                 }
                             }
                             .font(.system(size: 16, weight: .semibold))
@@ -168,7 +171,7 @@ struct TextTranslatorView: View {
                         if !translatedText.isEmpty {
                             VStack(alignment: .leading, spacing: 12) {
                                 HStack {
-                                    Text("Translation")
+                                    Text("translation_title".localized)
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
                                     
@@ -180,7 +183,7 @@ struct TextTranslatorView: View {
                                             Image(systemName: flashcardSaved ? "checkmark.circle.fill" : "plus.circle")
                                                 .foregroundColor(flashcardSaved ? .green : .orange)
                                             if !flashcardSaved {
-                                                Text("Add to Flashcards")
+                                                Text("add_to_flashcards".localized)
                                                     .font(.caption)
                                                     .foregroundColor(.orange)
                                             }
@@ -203,7 +206,7 @@ struct TextTranslatorView: View {
                                 
                                 // Alternatives
                                 if !alternatives.isEmpty {
-                                    Text("Alternatives")
+                                    Text("alternatives".localized)
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
                                     
@@ -226,16 +229,16 @@ struct TextTranslatorView: View {
             .background(Color(UIColor.systemBackground))
             .navigationBarHidden(true)
         }
-        .alert("Error", isPresented: $showError) {
-            Button("OK", role: .cancel) { }
+        .alert("error".localized, isPresented: $showError) {
+            Button("ok".localized, role: .cancel) { }
         } message: {
             Text(errorMessage)
         }
-        .alert("Потрібен доступ до мікрофона", isPresented: $showPermissionAlert) {
-            Button("Відкрити Налаштування", action: openSettings)
-            Button("Скасувати", role: .cancel) { }
+        .alert("microphone_access_needed".localized, isPresented: $showPermissionAlert) {
+            Button("open_settings".localized, action: openSettings)
+            Button("cancel".localized, role: .cancel) { }
         } message: {
-            Text("Будь ласка, увімкніть доступ до мікрофона в Налаштуваннях для використання голосового вводу.")
+            Text("please_enable_microphone".localized)
         }
         .sheet(isPresented: $showDeckSelection) {
             DeckSelectionView(
@@ -255,6 +258,7 @@ struct TextTranslatorView: View {
         }
         .onAppear {
             loadLanguageSettings()
+        }
         }
     }
     
@@ -614,7 +618,7 @@ struct DeckSelectionView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Choose a deck to add this flashcard")
+                Text("choose_deck_to_add".localized)
                     .font(.headline)
                     .padding(.top)
                 
@@ -624,11 +628,11 @@ struct DeckSelectionView: View {
                             .font(.system(size: 50))
                             .foregroundColor(.gray)
                         
-                        Text("No compatible decks available")
+                        Text("no_compatible_decks".localized)
                             .font(.title2)
                             .fontWeight(.medium)
                         
-                        Text("Create a new deck for \(languageName(sourceLanguage)) → \(languageName(targetLanguage)) translations")
+                        Text("create_deck_for_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -655,7 +659,7 @@ struct DeckSelectionView: View {
                     VStack(spacing: 4) {
                         HStack {
                             Image(systemName: "plus.circle.fill")
-                            Text("Create New Deck")
+                            Text("create_new_deck".localized)
                         }
                         .font(.system(size: 16, weight: .semibold))
                         
@@ -672,11 +676,11 @@ struct DeckSelectionView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            .navigationTitle("Add to Flashcards")
+            .navigationTitle("add_to_flashcards_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
+                    Button("cancel".localized) {
                         dismiss()
                     }
                 }
@@ -686,16 +690,16 @@ struct DeckSelectionView: View {
     
     private func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto"
-        case "en": return "English"
-        case "uk": return "Ukrainian"
-        case "ru": return "Russian"
-        case "es": return "Spanish"
-        case "fr": return "French"
-        case "de": return "German"
-        case "it": return "Italian"
-        case "pl": return "Polish"
-        case "cs": return "Czech"
+        case "auto": return "language_auto".localized
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
+        case "it": return "language_italian".localized
+        case "pl": return "language_polish".localized
+        case "cs": return "language_czech".localized
         default: return code.uppercased()
         }
     }
@@ -728,7 +732,7 @@ struct DeckSelectionCard: View {
                 }
                 
                 HStack {
-                    Text("\(deck.flashcardIds.count) cards")
+                    Text("cards_count_simple".localized(with: deck.flashcardIds.count))
                         .font(.caption)
                         .foregroundColor(.blue)
                     
@@ -747,12 +751,12 @@ struct DeckSelectionCard: View {
     
     private func languageName(_ code: String) -> String {
         switch code {
-        case "en": return "EN"
-        case "uk": return "UK" 
-        case "ru": return "RU"
-        case "es": return "ES"
-        case "fr": return "FR"
-        case "de": return "DE"
+        case "en": return "language_en_short".localized
+        case "uk": return "language_uk_short".localized
+        case "ru": return "language_ru_short".localized
+        case "es": return "language_es_short".localized
+        case "fr": return "language_fr_short".localized
+        case "de": return "language_de_short".localized
         default: return code.uppercased()
         }
     }
