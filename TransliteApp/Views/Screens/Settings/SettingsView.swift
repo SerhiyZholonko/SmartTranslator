@@ -10,7 +10,9 @@ struct SettingsView: View {
     @State private var enableHistory = true
     @State private var selectedTranslationService: TranslationService = UserDefaults.standard.selectedTranslationService
     @State private var showingServiceAlert = false
-    
+    // Combined version and build
+    let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
     var body: some View {
         LocalizedView {
         NavigationView {
@@ -133,7 +135,11 @@ struct SettingsView: View {
                     HStack {
                         Text("version".localized)
                         Spacer()
-                        Text("1.0.0")
+                        let fullVersion = "\(version).\(build)"
+
+                        Text(fullVersion)
+                        
+
                             .foregroundColor(.secondary)
                     }
                     
