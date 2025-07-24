@@ -141,8 +141,8 @@ struct DeckCard: View {
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             
-                            if !deck.description.isEmpty {
-                                Text(deck.description)
+                            if !(deck.description?.isEmpty ?? true) {
+                                Text(deck.description ?? "")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -268,7 +268,7 @@ struct DeckCard: View {
         .alert("delete_deck".localized, isPresented: $showingDeleteConfirmation) {
             Button("cancel".localized, role: .cancel) { }
             Button("delete".localized, role: .destructive) {
-                flashcardManager.deleteDeck(deck)
+                flashcardManager.deleteDeck(deck.id)
             }
         } message: {
             Text("delete_deck_confirm".localized(with: deck.name))

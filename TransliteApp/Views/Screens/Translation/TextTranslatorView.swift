@@ -724,8 +724,8 @@ struct DeckSelectionCard: View {
                         .foregroundColor(.secondary)
                 }
                 
-                if !deck.description.isEmpty {
-                    Text(deck.description)
+                if !(deck.description?.isEmpty ?? true) {
+                    Text(deck.description ?? "")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .lineLimit(2)

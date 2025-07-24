@@ -64,26 +64,72 @@ class FlashcardManager: ObservableObject {
         UserDefaults.standard.set(encoded, forKey: sessionsKey)
     }
     
+    // MARK: - Public Access Methods
+    
+    func getAllDecks() -> [FlashcardDeck] {
+        return decks
+    }
+    
+    func deleteDeck(_ deckId: UUID) {
+        guard let deckIndex = decks.firstIndex(where: { $0.id == deckId }) else { return }
+        let deck = decks[deckIndex]
+        
+        // Remove all flashcards in this deck
+        let flashcardIdsToRemove = Set(deck.flashcardIds)
+        flashcards.removeAll { flashcardIdsToRemove.contains($0.id) }
+        
+        // Remove the deck
+        decks.remove(at: deckIndex)
+        
+        saveFlashcards()
+        saveDecks()
+    }
+    
+    func updateCardAfterReview(_ card: Flashcard, difficulty: FlashcardDifficulty) {
+        guard let cardIndex = flashcards.firstIndex(where: { $0.id == card.id }) else { return }
+        
+        var updatedCard = card
+        var studyData = updatedCard.studyData
+        
+        // Update study data based on spaced repetition algorithm
+        studyData.timesStudied += 1
+        studyData.lastStudied = Date()
+        
+        switch difficulty {
+        case .easy:
+            studyData.correctAnswers += 1
+            studyData.consecutiveCorrect += 1
+            studyData.interval *= 2.5
+            studyData.easeFactor = min(studyData.easeFactor + 0.15, 3.0)
+        case .medium:
+            studyData.correctAnswers += 1
+            studyData.consecutiveCorrect += 1
+            studyData.interval *= 2.0
+        case .hard:
+            studyData.incorrectAnswers += 1
+            studyData.consecutiveCorrect = 0
+            studyData.interval = max(studyData.interval * 0.8, 86400) // minimum 1 day
+            studyData.easeFactor = max(studyData.easeFactor - 0.2, 1.3)
+        }
+        
+        // Calculate next review date
+        studyData.nextReviewDate = Date().addingTimeInterval(studyData.interval)
+        
+        updatedCard.studyData = studyData
+        flashcards[cardIndex] = updatedCard
+        
+        saveFlashcards()
+    }
+    
     // MARK: - Deck Management
     
-    func createDeck(name: String, description: String = "", sourceLanguage: String, targetLanguage: String) -> FlashcardDeck {
+    func createDeck(name: String, description: String? = nil, sourceLanguage: String, targetLanguage: String) -> FlashcardDeck {
         let deck = FlashcardDeck(name: name, description: description, sourceLanguage: sourceLanguage, targetLanguage: targetLanguage)
         decks.append(deck)
         saveDecks()
         return deck
     }
     
-    func deleteDeck(_ deck: FlashcardDeck) {
-        // Remove all flashcards in this deck
-        let flashcardIdsToRemove = Set(deck.flashcardIds)
-        flashcards.removeAll { flashcardIdsToRemove.contains($0.id) }
-        
-        // Remove the deck
-        decks.removeAll { $0.id == deck.id }
-        
-        saveFlashcards()
-        saveDecks()
-    }
     
     func addFlashcardToDeck(_ flashcard: Flashcard, deck: FlashcardDeck) -> Bool {
         guard let deckIndex = decks.firstIndex(where: { $0.id == deck.id }) else { return false }

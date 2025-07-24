@@ -2,9 +2,8 @@ import SwiftUI
 import StoreKit
 
 struct PremiumView: View {
-    @Binding var isPremium: Bool
+    @StateObject private var viewModel = PremiumViewModel()
     @Environment(\.dismiss) var dismiss
-    @State private var isProcessingPurchase = false
     
     var body: some View {
         LocalizedView {
@@ -100,15 +99,11 @@ struct PremiumView: View {
                 
                 // Purchase button
                 Button(action: {
-                    isProcessingPurchase = true
-                    // Simulate purchase
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        isPremium = true
-                        isProcessingPurchase = false
-                        dismiss()
+                    if let selectedProduct = viewModel.selectedProduct {
+                        viewModel.purchase(selectedProduct)
                     }
                 }) {
-                    if isProcessingPurchase {
+                    if viewModel.isPurchasing {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     } else {
@@ -122,11 +117,11 @@ struct PremiumView: View {
                 .background(Color.green)
                 .cornerRadius(28)
                 .padding(.horizontal, 35)
-                .disabled(isProcessingPurchase)
+                .disabled(viewModel.isPurchasing)
                 
                 // Restore purchase button
                 Button(action: {
-                    // Handle restore purchase
+                    viewModel.restorePurchases()
                 }) {
                     Text("restore_purchase".localized)
                         .font(.system(size: 14))
@@ -158,5 +153,5 @@ struct FeatureRow: View {
 }
 
 #Preview {
-    PremiumView(isPremium: .constant(false))
+    PremiumView()
 }

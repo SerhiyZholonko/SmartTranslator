@@ -9,6 +9,11 @@ class TranslationManager: ObservableObject {
     private let googleTranslator = GoogleTranslateParser()
     private let appleTranslator = AppleTranslationServiceWrapper.shared
     
+    // Public access to Google parser for advanced features
+    var googleParser: GoogleTranslateParser? {
+        return googleTranslator
+    }
+    
     private init() {
         selectedService = UserDefaults.standard.selectedTranslationService
         

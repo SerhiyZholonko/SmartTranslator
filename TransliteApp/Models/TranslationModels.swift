@@ -13,6 +13,10 @@ struct TranslationHistoryItem: Codable, Identifiable {
     let alternatives: [String]
     let corrections: [String]
     
+    var idString: String {
+        return id.uuidString
+    }
+    
     init(sourceText: String,
          translatedText: String,
          sourceLanguage: String,
@@ -150,6 +154,14 @@ struct Flashcard: Codable, Identifiable {
     let createdDate: Date
     var studyData: StudyData
     
+    var isDueForReview: Bool {
+        return studyData.nextReviewDate <= Date()
+    }
+    
+    var idString: String {
+        return id.uuidString
+    }
+    
     init(frontText: String,
          backText: String,
          sourceLanguage: String,
@@ -245,15 +257,16 @@ enum StudyResult: String, CaseIterable {
 struct FlashcardDeck: Codable, Identifiable {
     let id: UUID
     var name: String
-    var description: String
+    var description: String?
     let sourceLanguage: String
     let targetLanguage: String
     var flashcardIds: [UUID]
-    let createdDate: Date
+    var cards: [Flashcard]
+    let createdAt: Date
     var lastStudied: Date?
     
     init(name: String,
-         description: String = "",
+         description: String? = nil,
          sourceLanguage: String,
          targetLanguage: String) {
         self.id = UUID()
@@ -262,7 +275,8 @@ struct FlashcardDeck: Codable, Identifiable {
         self.sourceLanguage = sourceLanguage
         self.targetLanguage = targetLanguage
         self.flashcardIds = []
-        self.createdDate = Date()
+        self.cards = []
+        self.createdAt = Date()
         self.lastStudied = nil
     }
 }

@@ -261,4 +261,12 @@ class BasicOfflineTranslation {
         let key = "\(sourceLanguage)-\(targetLanguage)"
         return translations[key] != nil
     }
+    
+    func getDictionarySize() -> Int {
+        return translations.values.reduce(0) { $0 + $1.count }
+    }
+    
+    func getSupportedLanguagePairs() -> [String] {
+        return Array(translations.keys)
+    }
 }

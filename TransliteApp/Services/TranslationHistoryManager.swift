@@ -73,6 +73,36 @@ class TranslationHistoryManager: ObservableObject {
         saveStatistics()
     }
     
+    // MARK: - Public Access Methods
+    
+    func getHistory() -> [TranslationHistoryItem] {
+        return history
+    }
+    
+    func addTranslation(sourceText: String, translatedText: String, sourceLanguage: String, targetLanguage: String, alternatives: [String] = [], corrections: [String] = []) {
+        let item = TranslationHistoryItem(
+            sourceText: sourceText,
+            translatedText: translatedText,
+            sourceLanguage: sourceLanguage,
+            targetLanguage: targetLanguage,
+            alternatives: alternatives,
+            corrections: corrections
+        )
+        addTranslation(item)
+    }
+    
+    func removeTranslation(id: String) {
+        guard let uuid = UUID(uuidString: id),
+              let index = history.firstIndex(where: { $0.id == uuid }) else { return }
+        history.remove(at: index)
+        saveHistory()
+    }
+    
+    func toggleFavorite(id: String) {
+        guard let uuid = UUID(uuidString: id) else { return }
+        toggleFavorite(for: uuid)
+    }
+    
     // MARK: - Search and Filter
     
     func searchHistory(query: String) -> [TranslationHistoryItem] {

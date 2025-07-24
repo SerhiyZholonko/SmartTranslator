@@ -1,15 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingSideMenu = false
-    @State private var selectedFeature: FeatureType?
-    @State private var isPremium = false
-    @State private var showPremiumScreen = false
-    @State private var path = NavigationPath()
+    @StateObject private var viewModel = ContentViewModel()
+    @StateObject private var coordinator = AppCoordinator.shared
     
     var body: some View {
         LocalizedView {
-        NavigationStack(path: $path) {
+        NavigationStack {
             ZStack {
                 // Enhanced gradient background
                 LinearGradient(
@@ -26,7 +23,7 @@ struct ContentView: View {
                 // Main content
                 VStack(spacing: 0) {
                     // Header
-                    HeaderView(showMenu: $showingSideMenu, isPremium: $isPremium)
+                    HeaderView(showMenu: $viewModel.showingSideMenu, isPremium: $viewModel.isPremium)
                         .padding(.horizontal)
                         .padding(.top, 10)
                     
@@ -41,28 +38,28 @@ struct ContentView: View {
                         HStack(spacing: 20) {
                             FeatureCard(
                                 feature: .textTranslator,
-                                isPremium: isPremium,
-                                action: { selectedFeature = .textTranslator }
+                                isPremium: viewModel.isPremium,
+                                action: { viewModel.selectFeature(.textTranslator) }
                             )
                             
                             FeatureCard(
                                 feature: .voiceChat,
-                                isPremium: isPremium,
-                                action: { selectedFeature = .voiceChat }
+                                isPremium: viewModel.isPremium,
+                                action: { viewModel.selectFeature(.voiceChat) }
                             )
                         }
                         
                         HStack(spacing: 20) {
                             FeatureCard(
                                 feature: .cameraTranslator,
-                                isPremium: isPremium,
-                                action: { selectedFeature = .cameraTranslator }
+                                isPremium: viewModel.isPremium,
+                                action: { viewModel.selectFeature(.cameraTranslator) }
                             )
                             
                             FeatureCard(
                                 feature: .fileTranslator,
-                                isPremium: isPremium,
-                                action: { selectedFeature = .fileTranslator }
+                                isPremium: viewModel.isPremium,
+                                action: { viewModel.selectFeature(.fileTranslator) }
                             )
                         }
                     }
@@ -72,13 +69,11 @@ struct ContentView: View {
                 }
                 
                 // Side menu overlay
-                if showingSideMenu {
+                if viewModel.showingSideMenu {
                     Color.black.opacity(0.3)
                         .ignoresSafeArea()
                         .onTapGesture {
-                            withAnimation {
-                                showingSideMenu = false
-                            }
+                            viewModel.closeSideMenu()
                         }
                 }
                 
@@ -86,41 +81,33 @@ struct ContentView: View {
                 GeometryReader { geometry in
                     HStack(spacing: 0) {
                         SideMenuView(
-                            isShowing: $showingSideMenu,
-                            isPremium: $isPremium,
-                            showPremiumScreen: $showPremiumScreen
+                            isShowing: $viewModel.showingSideMenu,
+                            isPremium: $viewModel.isPremium,
+                            showPremiumScreen: $viewModel.showPremiumScreen
                         )
                         .frame(width: geometry.size.width * 0.75)
-                        .offset(x: showingSideMenu ? 0 : -geometry.size.width)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: showingSideMenu)
+                        .offset(x: viewModel.showingSideMenu ? 0 : -geometry.size.width)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.showingSideMenu)
                         
                         Spacer()
                     }
                 }
             }
             .navigationBarHidden(true)
-            .sheet(isPresented: $showPremiumScreen) {
-                PremiumView(isPremium: $isPremium)
+            .sheet(isPresented: $viewModel.showPremiumScreen) {
+                PremiumView()
             }
-            .fullScreenCover(item: $selectedFeature) { feature in
-                switch feature {
-                case .textTranslator:
-                    TextTranslatorView()
-                case .voiceChat:
-                    VoiceChatView()
-                case .cameraTranslator:
-                    if isPremium {
-                        CameraTranslatorView()
-                    } else {
-                        PremiumView(isPremium: $isPremium)
-                    }
-                case .fileTranslator:
-                    if isPremium {
-                        FileTranslatorView()
-                    } else {
-                        PremiumView(isPremium: $isPremium)
-                    }
-                }
+            .sheet(isPresented: $viewModel.showTextTranslator) {
+                TextTranslatorView()
+            }
+            .sheet(isPresented: $viewModel.showVoiceChat) {
+                VoiceChatView()
+            }
+            .sheet(isPresented: $viewModel.showCameraTranslator) {
+                CameraTranslatorView()
+            }
+            .sheet(isPresented: $viewModel.showFileTranslator) {
+                FileTranslatorView()
             }
         }
         }

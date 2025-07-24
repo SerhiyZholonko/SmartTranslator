@@ -28,6 +28,26 @@ class SmartCacheManager {
     
     // MARK: - Cache Operations
     
+    func getCachedTranslation(for key: String) -> String? {
+        guard let cached = cache[key] else { return nil }
+        
+        // Update access time and frequency
+        var updatedCached = CachedTranslation(
+            key: cached.key,
+            translation: cached.translation,
+            alternatives: cached.alternatives,
+            corrections: cached.corrections,
+            frequency: cached.frequency + 1,
+            lastAccessed: Date(),
+            compressed: cached.compressed
+        )
+        
+        cache[key] = updatedCached
+        saveCache()
+        
+        return cached.translation
+    }
+    
     func getCachedTranslation(text: String,
                              sourceLanguage: String,
                              targetLanguage: String) -> (translation: String, alternatives: [String], corrections: [String])? {
