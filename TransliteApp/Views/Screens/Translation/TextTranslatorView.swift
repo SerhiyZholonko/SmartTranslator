@@ -45,7 +45,7 @@ struct TextTranslatorView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     
                     Spacer()
@@ -60,7 +60,7 @@ struct TextTranslatorView: View {
                             Text(translationManager.currentServiceName)
                                 .font(.caption)
                         }
-                        .foregroundColor(.secondary)
+                        .foregroundColor(AppColors.secondaryText)
                     }
                     
                     Spacer()
@@ -68,12 +68,12 @@ struct TextTranslatorView: View {
                     Button(action: { swapLanguages() }) {
                         Image(systemName: "arrow.left.arrow.right")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     .disabled(sourceLanguage == "auto")
                 }
                 .padding()
-                .background(Color.white)
+                .background(AppColors.cardBackground)
                 
                 // Language selectors
                 HStack(spacing: 16) {
@@ -84,7 +84,7 @@ struct TextTranslatorView: View {
                     )
                     
                     Image(systemName: "arrow.right")
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.secondaryText)
                     
                     LanguageSelector(
                         selectedLanguage: $targetLanguage,
@@ -101,19 +101,19 @@ struct TextTranslatorView: View {
                             HStack {
                                 Text("enter_text_label".localized)
                                     .font(.system(size: 14))
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(AppColors.secondaryText)
                                 
                                 Spacer()
                                 
                                 Text("character_count".localized(with: inputText.count))
                                     .font(.system(size: 12))
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(AppColors.secondaryText)
                             }
                             
                             TextEditor(text: $inputText)
                                 .frame(minHeight: 120)
                                 .padding(8)
-                                .background(Color.gray.opacity(0.1))
+                                .background(AppColors.inputBackground)
                                 .cornerRadius(12)
                                 .onChange(of: inputText) { _ in
                                     if inputText.count > 5000 {
@@ -124,7 +124,7 @@ struct TextTranslatorView: View {
                             HStack {
                                 Button(action: { inputText = "" }) {
                                     Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(AppColors.secondaryText)
                                 }
                                 .opacity(inputText.isEmpty ? 0 : 1)
                                 
@@ -133,13 +133,13 @@ struct TextTranslatorView: View {
                                 // Voice input button
                                 Button(action: toggleVoiceInput) {
                                     Image(systemName: isRecording ? "mic.fill" : "mic")
-                                        .foregroundColor(isRecording ? .red : .blue)
+                                        .foregroundColor(isRecording ? AppColors.errorColor : AppColors.appAccent)
                                         .font(.system(size: 20))
                                 }
                                 
                                 Button(action: pasteFromClipboard) {
                                     Image(systemName: "doc.on.clipboard")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(AppColors.appAccent)
                                 }
                             }
                         }
@@ -150,7 +150,7 @@ struct TextTranslatorView: View {
                             HStack {
                                 if translationManager.isTranslating {
                                     ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .progressViewStyle(CircularProgressViewStyle(tint: AppColors.buttonText))
                                         .scaleEffect(0.8)
                                 } else {
                                     Image(systemName: "globe")
@@ -158,10 +158,10 @@ struct TextTranslatorView: View {
                                 }
                             }
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background(Color.blue)
+                            .background(AppColors.appAccent)
                             .cornerRadius(25)
                         }
                         .padding(.horizontal)
@@ -173,7 +173,7 @@ struct TextTranslatorView: View {
                                 HStack {
                                     Text("translation_title".localized)
                                         .font(.system(size: 14))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(AppColors.secondaryText)
                                     
                                     Spacer()
                                     
@@ -181,11 +181,11 @@ struct TextTranslatorView: View {
                                     Button(action: { showDeckSelection = true }) {
                                         HStack(spacing: 4) {
                                             Image(systemName: flashcardSaved ? "checkmark.circle.fill" : "plus.circle")
-                                                .foregroundColor(flashcardSaved ? .green : .orange)
+                                                .foregroundColor(flashcardSaved ? AppColors.successColor : AppColors.warningColor)
                                             if !flashcardSaved {
                                                 Text("add_to_flashcards".localized)
                                                     .font(.caption)
-                                                    .foregroundColor(.orange)
+                                                    .foregroundColor(AppColors.warningColor)
                                             }
                                         }
                                     }
@@ -193,7 +193,7 @@ struct TextTranslatorView: View {
                                     
                                     Button(action: copyTranslation) {
                                         Image(systemName: "doc.on.doc")
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(AppColors.appAccent)
                                     }
                                 }
                                 
@@ -201,21 +201,21 @@ struct TextTranslatorView: View {
                                     .font(.system(size: 16))
                                     .padding()
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color.green.opacity(0.1))
+                                    .background(AppColors.translationBackground)
                                     .cornerRadius(12)
                                 
                                 // Alternatives
                                 if !alternatives.isEmpty {
                                     Text("alternatives".localized)
                                         .font(.system(size: 14))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(AppColors.secondaryText)
                                     
                                     ForEach(alternatives, id: \.self) { alternative in
                                         Text(alternative)
                                             .font(.system(size: 14))
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(Color.gray.opacity(0.1))
+                                            .background(AppColors.inputBackground)
                                             .cornerRadius(8)
                                     }
                                 }
@@ -226,7 +226,7 @@ struct TextTranslatorView: View {
                     .padding(.vertical)
                 }
             }
-            .background(Color(UIColor.systemBackground))
+            .background(AppColors.appBackground)
             .navigationBarHidden(true)
         }
         .alert("error".localized, isPresented: $showError) {
@@ -626,7 +626,7 @@ struct DeckSelectionView: View {
                     VStack(spacing: 16) {
                         Image(systemName: "rectangle.stack.badge.plus")
                             .font(.system(size: 50))
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Text("no_compatible_decks".localized)
                             .font(.title2)
@@ -634,7 +634,7 @@ struct DeckSelectionView: View {
                         
                         Text("create_deck_for_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                     }
@@ -667,10 +667,10 @@ struct DeckSelectionView: View {
                             .font(.caption)
                             .opacity(0.9)
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColors.buttonText)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(Color.blue)
+                    .background(AppColors.appAccent)
                     .cornerRadius(12)
                 }
                 .padding(.horizontal)
@@ -734,16 +734,16 @@ struct DeckSelectionCard: View {
                 HStack {
                     Text("cards_count_simple".localized(with: deck.flashcardIds.count))
                         .font(.caption)
-                        .foregroundColor(.blue)
+                        .foregroundColor(AppColors.appAccent)
                     
                     Spacer()
                     
                     Image(systemName: "arrow.right.circle")
-                        .foregroundColor(.blue)
+                        .foregroundColor(AppColors.appAccent)
                 }
             }
             .padding()
-            .background(Color(.systemGray6))
+            .background(AppColors.tertiaryBackground)
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())
@@ -771,7 +771,7 @@ struct LanguageSelector: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.system(size: 12))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.secondaryText)
             
             Menu {
                 ForEach(languages, id: \.0) { language in
@@ -792,10 +792,10 @@ struct LanguageSelector: View {
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12))
                 }
-                .foregroundColor(.black)
+                .foregroundColor(AppColors.primaryText)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(Color.gray.opacity(0.1))
+                .background(AppColors.inputBackground)
                 .cornerRadius(8)
             }
         }

@@ -26,8 +26,8 @@ struct VoiceChatView: View {
             // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color(red: 0.95, green: 0.97, blue: 1.0),
-                    Color(red: 0.9, green: 0.93, blue: 0.98)
+                    AppColors.appBackground,
+                    AppColors.cardBackground
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -40,25 +40,26 @@ struct VoiceChatView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     
                     Spacer()
                     
                     Text("voice_chat_title".localized)
                         .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(AppColors.primaryText)
                     
                     Spacer()
                     
                     Button(action: { clearConversations() }) {
                         Image(systemName: "trash")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     .opacity(conversations.isEmpty ? 0 : 1)
                 }
                 .padding()
-                .background(Color.white)
+                .background(AppColors.cardBackground)
             
             // Content
             if conversations.isEmpty {
@@ -67,10 +68,11 @@ struct VoiceChatView: View {
                     
                     Text("no_chats_yet".localized)
                         .font(.system(size: 24, weight: .medium))
+                        .foregroundColor(AppColors.primaryText)
                     
                     Text("start_conversation".localized)
                         .font(.system(size: 18))
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.secondaryText)
                     
                     Spacer()
                 }
@@ -93,11 +95,12 @@ struct VoiceChatView: View {
                     
                     Text("speak_up".localized)
                         .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(AppColors.primaryText)
                 }
                 .padding(30)
-                .background(Color.white)
+                .background(AppColors.cardBackground)
                 .cornerRadius(20)
-                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                .shadow(color: AppColors.primaryText.opacity(0.1), radius: 10, x: 0, y: 5)
                 .padding()
                 .transition(.scale.combined(with: .opacity))
             }
@@ -118,9 +121,9 @@ struct VoiceChatView: View {
                 Button(action: swapLanguages) {
                     Image(systemName: "arrow.left.arrow.right")
                         .font(.system(size: 24))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColors.buttonText)
                         .frame(width: 50, height: 50)
-                        .background(Color.blue)
+                        .background(AppColors.appAccent)
                         .clipShape(Circle())
                 }
                 
@@ -135,7 +138,7 @@ struct VoiceChatView: View {
                 )
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(AppColors.inputBackground)
         }
         }
         .alert("microphone_access_needed".localized, isPresented: $showPermissionAlert) {
@@ -354,12 +357,12 @@ struct VoiceButton: View {
             Button(action: action) {
                 ZStack {
                     Circle()
-                        .fill(isRecording ? Color.red : (side == .left ? Color.blue : Color.green))
+                        .fill(isRecording ? AppColors.errorColor : (side == .left ? AppColors.appAccent : AppColors.successColor))
                         .frame(width: 80, height: 80)
                     
                     Image(systemName: isRecording ? "stop.fill" : "mic.fill")
                         .font(.system(size: 30))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColors.buttonText)
                 }
             }
             
@@ -378,10 +381,10 @@ struct VoiceButton: View {
                         .font(.system(size: 10))
                 }
                 .font(.system(size: 14))
-                .foregroundColor(.black)
+                .foregroundColor(AppColors.primaryText)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color.white)
+                .background(AppColors.cardBackground)
                 .cornerRadius(15)
             }
         }
@@ -424,16 +427,16 @@ struct ConversationBubble: View {
             VStack(alignment: conversation.side == .left ? .leading : .trailing, spacing: 4) {
                 Text(conversation.text)
                     .font(.system(size: 16))
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColors.buttonText)
                     .padding()
                     .background(
-                        conversation.side == .left ? Color.blue : Color.green
+                        conversation.side == .left ? AppColors.appAccent : AppColors.successColor
                     )
                     .cornerRadius(20)
                 
                 Text(conversation.timestamp, style: .time)
                     .font(.system(size: 12))
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
             }
             
             if conversation.side == .left {
@@ -752,7 +755,7 @@ struct SpeakingAnimationView: View {
                 SpeakingBar(
                     height: 10 + (audioLevels[index] * 30),
                     isAnimating: animatingBars.contains(index),
-                    color: recordingSide == .left ? Color.blue : Color.green
+                    color: recordingSide == .left ? AppColors.appAccent : AppColors.successColor
                 )
             }
         }

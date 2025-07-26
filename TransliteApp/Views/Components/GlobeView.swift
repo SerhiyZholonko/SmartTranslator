@@ -10,7 +10,7 @@ struct GlobeView: View {
             // Animated background stars
             ForEach(0..<15, id: \.self) { index in
                 Circle()
-                    .fill(Color.white)
+                    .fill(AppColors.buttonText)
                     .frame(width: CGFloat.random(in: 2...4), height: CGFloat.random(in: 2...4))
                     .position(
                         x: CGFloat.random(in: 50...350),
@@ -26,8 +26,8 @@ struct GlobeView: View {
                 .fill(
                     RadialGradient(
                         gradient: Gradient(colors: [
-                            Color.blue.opacity(0.3),
-                            Color.blue.opacity(0.1),
+                            AppColors.appAccent.opacity(0.3),
+                            AppColors.appAccent.opacity(0.1),
                             Color.clear
                         ]),
                         center: .center,
@@ -50,13 +50,13 @@ struct GlobeView: View {
                         .frame(width: 400, height: 200)
                         .offset(y: -60)
                 )
-                .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 10)
+                .shadow(color: AppColors.shadow.opacity(0.2), radius: 20, x: 0, y: 10)
                 .scaleEffect(globeScale)
             
             // Floating particles
             ForEach(0..<8, id: \.self) { index in
                 Circle()
-                    .fill(Color.blue.opacity(0.6))
+                    .fill(AppColors.appAccent.opacity(0.6))
                     .frame(width: 3, height: 3)
                     .position(
                         x: 200 + cos(Double(index) * 0.785 + rotationAngle * 0.01) * 120,

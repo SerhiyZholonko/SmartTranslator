@@ -261,6 +261,10 @@
 "settings_title" = "Paramètres";
 "general" = "Général";
 "app_language" = "Langue de l'application";
+"app_theme" = "Thème de l'application";
+"theme_system" = "Système";
+"theme_light" = "Clair";
+"theme_dark" = "Sombre";
 "default_source_language" = "Langue source par défaut";
 "default_target_language" = "Langue cible par défaut";
 "auto_detect_language" = "Détecter la langue automatiquement";

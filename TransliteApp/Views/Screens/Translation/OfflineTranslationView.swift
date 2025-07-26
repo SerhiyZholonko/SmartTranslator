@@ -31,14 +31,14 @@ struct OfflineTranslationView: View {
                 Section(header: Text("Offline Translation Status")) {
                     HStack {
                         Image(systemName: appleTranslationService.isTranslationAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(appleTranslationService.isTranslationAvailable ? .green : .red)
+                            .foregroundColor(appleTranslationService.isTranslationAvailable ? AppColors.successColor : AppColors.errorColor)
                         
                         VStack(alignment: .leading) {
                             Text("Apple Translation")
                                 .font(.headline)
                             Text(appleTranslationService.isTranslationAvailable ? "Available" : "Not Available")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }
@@ -91,7 +91,7 @@ struct OfflineTranslationView: View {
                             Text(name)
                             Spacer()
                             Image(systemName: "globe")
-                                .foregroundColor(.blue)
+                                .foregroundColor(AppColors.appAccent)
                         }
                     }
                 }
@@ -105,7 +105,7 @@ struct OfflineTranslationView: View {
                         Text("• Available on iOS 17.4 and later")
                     }
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.secondaryText)
                 }
             }
             .navigationTitle("Offline Translation")
@@ -155,7 +155,7 @@ struct LanguageStatusView: View {
                 
                 Text(statusDescription)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.secondaryText)
             }
             
             Spacer()
@@ -179,11 +179,11 @@ struct LanguageStatusView: View {
     private var statusColor: Color {
         switch status {
         case "Available":
-            return .green
+            return AppColors.successColor
         case "Not Available":
-            return .red
+            return AppColors.errorColor
         default:
-            return .gray
+            return AppColors.secondaryText
         }
     }
     
@@ -212,7 +212,7 @@ struct OfflineTranslationFallbackView: View {
             VStack(spacing: 20) {
                 Image(systemName: "wifi.slash")
                     .font(.system(size: 60))
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
                 
                 Text("Offline Translation Not Available")
                     .font(.title2)
@@ -220,7 +220,7 @@ struct OfflineTranslationFallbackView: View {
                 
                 Text("Offline translation requires iOS 17.4 or later. Your device is running an older version of iOS.")
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.secondaryText)
                     .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 8) {
@@ -231,7 +231,7 @@ struct OfflineTranslationFallbackView: View {
                     Text("• Groq AI translation (online)")
                     Text("• Smart caching for offline access to previous translations")
                 }
-                .foregroundColor(.secondary)
+                .foregroundColor(AppColors.secondaryText)
             }
             .padding()
             .navigationTitle("Offline Translation")

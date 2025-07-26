@@ -23,31 +23,31 @@ struct HeaderView: View {
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white)
+                        .fill(AppColors.cardBackground)
                         .frame(width: 44, height: 44)
-                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 2)
-                        .shadow(color: Color.black.opacity(0.05), radius: 1, x: 0, y: 1)
+                        .shadow(color: AppColors.shadow, radius: 8, x: 0, y: 2)
+                        .shadow(color: AppColors.shadow.opacity(0.5), radius: 1, x: 0, y: 1)
                     
                     Image(systemName: "line.3.horizontal")
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(Color(red: 0.4, green: 0.5, blue: 1.0))
+                        .foregroundColor(AppColors.appAccent)
                 }
                 .scaleEffect(menuButtonScale)
             }
             
             Spacer()
             
-            Text("Voice Translate")
+            Text("app_name".localized)
                 .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.black)
-                .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+                .foregroundColor(AppColors.primaryText)
+                .shadow(color: AppColors.shadow, radius: 1, x: 0, y: 1)
             
             Spacer()
             
             // Premium toggle
             Toggle("", isOn: $isPremium)
                 .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: Color.green))
+                .toggleStyle(SwitchToggleStyle(tint: AppColors.successColor))
                 .scaleEffect(0.8)
         }
         .opacity(headerOpacity)

@@ -3,22 +3,15 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
     @StateObject private var coordinator = AppCoordinator.shared
+    @StateObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         LocalizedView {
         NavigationStack {
             ZStack {
-                // Enhanced gradient background
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.98, green: 0.98, blue: 1.0),
-                        Color(red: 0.95, green: 0.96, blue: 0.99),
-                        Color(red: 0.93, green: 0.94, blue: 0.98)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+                // Theme-aware background
+                AppColors.appBackground
+                    .ignoresSafeArea()
                 
                 // Main content
                 VStack(spacing: 0) {
@@ -110,6 +103,7 @@ struct ContentView: View {
                 FileTranslatorView()
             }
         }
+        .themeAware()
         }
     }
 }

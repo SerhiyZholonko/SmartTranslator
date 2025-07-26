@@ -27,9 +27,9 @@ struct CameraTranslatorView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .frame(width: 40, height: 40)
-                            .background(Color.black.opacity(0.5))
+                            .background(AppColors.shadow)
                             .clipShape(Circle())
                     }
                     
@@ -37,16 +37,16 @@ struct CameraTranslatorView: View {
                     
                     Text("camera_translator_title".localized)
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColors.buttonText)
                     
                     Spacer()
                     
                     Button(action: { camera.toggleFlash() }) {
                         Image(systemName: camera.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
                             .font(.system(size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .frame(width: 40, height: 40)
-                            .background(Color.black.opacity(0.5))
+                            .background(AppColors.shadow)
                             .clipShape(Circle())
                     }
                 }
@@ -56,14 +56,14 @@ struct CameraTranslatorView: View {
                 
                 // Scanning area indicator
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.green, lineWidth: 3)
+                    .stroke(AppColors.successColor, lineWidth: 3)
                     .frame(width: 300, height: 200)
                     .overlay(
                         Text("point_camera_at_text".localized)
                             .font(.system(size: 16))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .padding(8)
-                            .background(Color.black.opacity(0.5))
+                            .background(AppColors.shadow)
                             .cornerRadius(8)
                             .offset(y: -120)
                     )
@@ -75,19 +75,19 @@ struct CameraTranslatorView: View {
                     VStack(spacing: 12) {
                         Text("detected_text".localized(with: detectedText))
                             .font(.system(size: 14))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .padding(.horizontal)
                             .lineLimit(2)
                         
                         Text(translatedText)
                             .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .padding()
-                            .background(Color.green)
+                            .background(AppColors.successColor)
                             .cornerRadius(12)
                     }
                     .padding()
-                    .background(Color.black.opacity(0.8))
+                    .background(AppColors.shadow)
                     .cornerRadius(15)
                     .padding()
                 }
@@ -103,7 +103,7 @@ struct CameraTranslatorView: View {
                         )
                         
                         Image(systemName: "arrow.right")
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                         
                         LanguagePicker(
                             selectedLanguage: $targetLanguage,
@@ -117,20 +117,20 @@ struct CameraTranslatorView: View {
                     Button(action: captureAndTranslate) {
                         ZStack {
                             Circle()
-                                .fill(Color.white)
+                                .fill(AppColors.cardBackground)
                                 .frame(width: 70, height: 70)
                             
                             Circle()
-                                .stroke(Color.white, lineWidth: 5)
+                                .stroke(AppColors.cardBackground, lineWidth: 5)
                                 .frame(width: 80, height: 80)
                             
                             if isProcessing {
                                 ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                                    .progressViewStyle(CircularProgressViewStyle(tint: AppColors.successColor))
                             } else {
                                 Image(systemName: "camera.fill")
                                     .font(.system(size: 30))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(AppColors.primaryText)
                             }
                         }
                     }
@@ -293,7 +293,7 @@ struct LanguagePicker: View {
         VStack(spacing: 4) {
             Text(title)
                 .font(.system(size: 12))
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(AppColors.secondaryText)
             
             Menu {
                 ForEach(languages, id: \.0) { language in
@@ -310,10 +310,10 @@ struct LanguagePicker: View {
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10))
                 }
-                .foregroundColor(.white)
+                .foregroundColor(AppColors.buttonText)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color.black.opacity(0.5))
+                .background(AppColors.shadow)
                 .cornerRadius(15)
             }
         }

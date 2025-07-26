@@ -259,6 +259,12 @@
 "settings_title" = "Settings";
 "general" = "General";
 "app_language" = "App Language";
+"app_theme" = "App Theme";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
+"theme_description" = "System theme automatically adjusts based on your device settings. Light and Dark themes provide consistent appearance regardless of system settings.";
+"current_theme_info" = "Current theme";
 "default_source_language" = "Default Source Language";
 "default_target_language" = "Default Target Language";
 "auto_detect_language" = "Auto-detect language";

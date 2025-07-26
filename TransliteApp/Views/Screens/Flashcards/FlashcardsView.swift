@@ -25,7 +25,7 @@ struct FlashcardsView: View {
                             
                             Text("study_flashcards_description".localized)
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                         
                         Spacer()
@@ -33,8 +33,8 @@ struct FlashcardsView: View {
                         Button(action: { dismiss() }) {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.title2)
-                                .foregroundColor(.gray)
-                                .background(Color.white)
+                                .foregroundColor(AppColors.secondaryText)
+                                .background(AppColors.cardBackground)
                                 .clipShape(Circle())
                         }
                     }
@@ -52,7 +52,7 @@ struct FlashcardsView: View {
                             Spacer()
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.1))
+                        .background(AppColors.appAccent.opacity(0.1))
                         .cornerRadius(12)
                     }
                     .padding(.horizontal)
@@ -139,12 +139,12 @@ struct DeckCard: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(deck.name)
                                 .font(.headline)
-                                .foregroundColor(.primary)
+                                .foregroundColor(AppColors.primaryText)
                             
                             if !(deck.description?.isEmpty ?? true) {
                                 Text(deck.description ?? "")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(AppColors.secondaryText)
                             }
                         }
                         
@@ -154,17 +154,17 @@ struct DeckCard: View {
                             HStack(spacing: 4) {
                                 Text("\(languageName(deck.sourceLanguage)) → \(languageName(deck.targetLanguage))")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(AppColors.secondaryText)
   
                             }
                             
                             if dueCardsCount > 0 {
                                 Text("cards_due".localized(with: String(dueCardsCount)))
                                     .font(.caption)
-                                    .foregroundColor(.orange)
+                                    .foregroundColor(AppColors.warningColor)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
-                                    .background(Color.orange.opacity(0.2))
+                                    .background(AppColors.warningColor.opacity(0.2))
                                     .cornerRadius(4)
                             }
                         }
@@ -198,16 +198,16 @@ struct DeckCard: View {
                         HStack {
                             Image(systemName: "clock")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                             
                             Text("last_studied".localized(with: lastStudied.formatted(.relative(presentation: .numeric))))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(AppColors.tertiaryBackground)
                 .cornerRadius(12)
             }
             .buttonStyle(PlainButtonStyle())
@@ -224,8 +224,8 @@ struct DeckCard: View {
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(Color.blue.opacity(0.1))
-                    .foregroundColor(.blue)
+                    .background(AppColors.appAccent.opacity(0.1))
+                    .foregroundColor(AppColors.appAccent)
                     .cornerRadius(8)
                 }
                 
@@ -237,15 +237,15 @@ struct DeckCard: View {
                     Image(systemName: "trash")
                         .font(.system(size: 16))
                         .padding(8)
-                        .background(Color.red.opacity(0.1))
-                        .foregroundColor(.red)
+                        .background(AppColors.errorColor.opacity(0.1))
+                        .foregroundColor(AppColors.errorColor)
                         .cornerRadius(8)
                 }
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
         }
-        .background(Color(.systemGray6))
+        .background(AppColors.tertiaryBackground)
         .cornerRadius(12)
         .sheet(isPresented: $showingAddCard) {
             AddCardView(
@@ -317,7 +317,7 @@ struct StatItem: View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .font(.caption)
-                .foregroundColor(.blue)
+                .foregroundColor(AppColors.appAccent)
             
             Text(value)
                 .font(.caption)
@@ -325,7 +325,7 @@ struct StatItem: View {
             
             Text(title)
                 .font(.caption2)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppColors.secondaryText)
         }
     }
 }
@@ -402,10 +402,10 @@ struct AddCardView: View {
                     
                     HStack {
                         Image(systemName: "info.circle")
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                         Text("Cards in this deck must use \(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                 }
                 
@@ -425,7 +425,7 @@ struct AddCardView: View {
                                 Text("Translate")
                             }
                             .font(.caption)
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                         }
                         .disabled(isTranslating)
                     }
@@ -449,7 +449,7 @@ struct AddCardView: View {
                                     translationAlternatives.removeAll()
                                 }
                                 .font(.caption)
-                                .foregroundColor(.blue)
+                                .foregroundColor(AppColors.appAccent)
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
@@ -470,10 +470,10 @@ struct AddCardView: View {
                 Section {
                     HStack {
                         Image(systemName: "lightbulb")
-                            .foregroundColor(.orange)
+                            .foregroundColor(AppColors.warningColor)
                         Text("Tip: Use the translate button to get multiple translation options")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                 }
             }
@@ -677,7 +677,7 @@ struct StudyView: View {
                         
                         Image(systemName: "rectangle.stack.badge.plus")
                             .font(.system(size: 60))
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Text("No Cards to Study")
                             .font(.title2)
@@ -685,7 +685,7 @@ struct StudyView: View {
                         
                         Text("Add some flashcards to this deck to start studying")
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
@@ -694,8 +694,8 @@ struct StudyView: View {
                         }
                         .padding(.horizontal, 40)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(AppColors.appAccent)
+                        .foregroundColor(AppColors.cardBackground)
                         .cornerRadius(10)
                         
                         Spacer()
@@ -705,7 +705,7 @@ struct StudyView: View {
                     HStack {
                         Text("\(currentCardIndex + 1) of \(cardsToStudy.count)")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Spacer()
                         
@@ -713,7 +713,7 @@ struct StudyView: View {
                         Button(action: { playCurrentCard() }) {
                             Image(systemName: isPlayingAudio ? "speaker.wave.2.fill" : "speaker.wave.2")
                                 .font(.system(size: 20))
-                                .foregroundColor(.blue)
+                                .foregroundColor(AppColors.appAccent)
                         }
                         .disabled(isPlayingAudio)
                         
@@ -721,7 +721,7 @@ struct StudyView: View {
                             endSession()
                         }
                         .font(.caption)
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.errorColor)
                     }
                     .padding(.horizontal)
                     
@@ -735,7 +735,7 @@ struct StudyView: View {
                         Button(action: navigateToPrevious) {
                             Image(systemName: "chevron.left.circle.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(currentCardIndex > 0 ? .blue : .gray.opacity(0.3))
+                                .foregroundColor(currentCardIndex > 0 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
                         }
                         .disabled(currentCardIndex == 0)
                         
@@ -744,7 +744,7 @@ struct StudyView: View {
                         Button(action: navigateToNext) {
                             Image(systemName: "chevron.right.circle.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? .blue : .gray.opacity(0.3))
+                                .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
                         }
                         .disabled(currentCardIndex >= cardsToStudy.count - 1)
                     }
@@ -821,7 +821,7 @@ struct StudyView: View {
                         VStack {
                             Text("Tap to reveal answer")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                             
                             Spacer().frame(height: 100)
                         }
@@ -833,21 +833,21 @@ struct StudyView: View {
                     VStack(spacing: 20) {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 60))
-                            .foregroundColor(.green)
+                            .foregroundColor(AppColors.successColor)
                         
                         Text("All caught up!")
                             .font(.title2)
                             .fontWeight(.bold)
                         
                         Text("No cards are due for review right now.")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Button("Close") {
                             dismiss()
                         }
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(AppColors.appAccent)
+                        .foregroundColor(AppColors.cardBackground)
                         .cornerRadius(8)
                     }
                 }
@@ -912,10 +912,10 @@ struct StudyView: View {
     
     private func colorForResult(_ result: StudyResult) -> Color {
         switch result {
-        case .again: return .red
-        case .hard: return .orange
-        case .good: return .green
-        case .easy: return .blue
+        case .again: return AppColors.errorColor
+        case .hard: return AppColors.warningColor
+        case .good: return AppColors.successColor
+        case .easy: return AppColors.appAccent
         }
     }
     
@@ -1003,7 +1003,7 @@ struct FlashcardView: View {
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.blue.opacity(0.2))
+                        .background(AppColors.appAccent.opacity(0.2))
                         .cornerRadius(4)
                     
                     Spacer()
@@ -1033,11 +1033,11 @@ struct FlashcardView: View {
                     VStack(spacing: 4) {
                         Text("Success Rate: \(Int(card.studyData.successRate * 100))%")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Text("Studied \(card.studyData.timesStudied) times")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                 }
             }
@@ -1054,14 +1054,14 @@ struct FlashcardView: View {
                 if !showingBack && dragOffset.width > 50 {
                     Image(systemName: "arrow.left.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(.blue.opacity(0.8))
+                        .foregroundColor(AppColors.appAccent.opacity(0.8))
                         .padding(.leading, 20)
                 }
                 Spacer()
                 if !showingBack && dragOffset.width < -50 {
                     Image(systemName: "arrow.right.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(.blue.opacity(0.8))
+                        .foregroundColor(AppColors.appAccent.opacity(0.8))
                         .padding(.trailing, 20)
                 }
             }
@@ -1083,9 +1083,9 @@ struct FlashcardView: View {
     
     func difficultyColor(_ difficulty: FlashcardDifficulty) -> Color {
         switch difficulty {
-        case .easy: return .green
-        case .medium: return .orange
-        case .hard: return .red
+        case .easy: return AppColors.successColor
+        case .medium: return AppColors.warningColor
+        case .hard: return AppColors.errorColor
         }
     }
 }
@@ -1113,15 +1113,15 @@ struct StudyCompleteView: View {
                 }
             }
             .font(.subheadline)
-            .foregroundColor(.secondary)
+            .foregroundColor(AppColors.secondaryText)
             
             Button("Close") {
                 onClose()
             }
             .font(.headline)
-            .foregroundColor(.white)
+            .foregroundColor(AppColors.cardBackground)
             .padding()
-            .background(Color.blue)
+            .background(AppColors.appAccent)
             .cornerRadius(10)
         }
         .padding()

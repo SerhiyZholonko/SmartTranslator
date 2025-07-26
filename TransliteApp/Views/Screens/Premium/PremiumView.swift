@@ -9,15 +9,8 @@ struct PremiumView: View {
         LocalizedView {
         ZStack {
             // Background gradient
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    .blue,
-                    .blue.opacity(0.2)
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            LinearGradient.premiumGradient
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header with close button
@@ -26,9 +19,9 @@ struct PremiumView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                             .frame(width: 36, height: 36)
-                            .background(Color.white.opacity(0.2))
+                            .background(AppColors.cardBackground.opacity(0.2))
                             .clipShape(Circle())
                     }
                     .padding()
@@ -40,7 +33,7 @@ struct PremiumView: View {
                         // Stars background
                         ForEach(0..<15) { _ in
                             Circle()
-                                .fill(Color.white.opacity(Double.random(in: 0.3...0.7)))
+                                .fill(AppColors.buttonText.opacity(Double.random(in: 0.3...0.7)))
                                 .frame(width: CGFloat.random(in: 2...4))
                                 .position(
                                     x: CGFloat.random(in: 50...geometry.size.width - 50),
@@ -82,7 +75,7 @@ struct PremiumView: View {
                 // Premium badge
                 Text("lifetime_premium".localized)
                     .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.green)
+                    .foregroundColor(AppColors.successColor)
                     .padding(.top, 30)
                 
                 // Features list
@@ -105,16 +98,16 @@ struct PremiumView: View {
                 }) {
                     if viewModel.isPurchasing {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .progressViewStyle(CircularProgressViewStyle(tint: AppColors.buttonText))
                     } else {
                         Text("get_premium_for_price".localized)
                             .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.buttonText)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 56)
-                .background(Color.green)
+                .background(AppColors.successColor)
                 .cornerRadius(28)
                 .padding(.horizontal, 35)
                 .disabled(viewModel.isPurchasing)
@@ -125,7 +118,7 @@ struct PremiumView: View {
                 }) {
                     Text("restore_purchase".localized)
                         .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppColors.buttonText.opacity(0.7))
                 }
                 .padding(.vertical, 20)
             }
@@ -141,11 +134,11 @@ struct FeatureRow: View {
         HStack(spacing: 15) {
             Image(systemName: "checkmark")
                 .font(.system(size: 18, weight: .bold))
-                .foregroundColor(.white)
+                .foregroundColor(AppColors.buttonText)
             
             Text(text)
                 .font(.system(size: 17))
-                .foregroundColor(.white)
+                .foregroundColor(AppColors.buttonText)
             
             Spacer()
         }

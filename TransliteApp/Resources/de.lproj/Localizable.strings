@@ -261,6 +261,10 @@
 "settings_title" = "Einstellungen";
 "general" = "Allgemein";
 "app_language" = "App-Sprache";
+"app_theme" = "App-Design";
+"theme_system" = "System";
+"theme_light" = "Hell";
+"theme_dark" = "Dunkel";
 "default_source_language" = "Standard-Ausgangssprache";
 "default_target_language" = "Standard-Zielsprache";
 "auto_detect_language" = "Sprache automatisch erkennen";

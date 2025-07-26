@@ -36,7 +36,7 @@ struct FileTranslatorView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     
                     Spacer()
@@ -47,7 +47,7 @@ struct FileTranslatorView: View {
                         
                         Text(translationManager.currentServiceName)
                             .font(.system(size: 12))
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     
                     Spacer()
@@ -55,12 +55,12 @@ struct FileTranslatorView: View {
                     Button(action: resetTranslation) {
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     .opacity(selectedImage == nil ? 0 : 1)
                 }
                 .padding()
-                .background(Color.white)
+                .background(AppColors.cardBackground)
                 
                 ScrollView {
                     VStack(spacing: 20) {
@@ -81,7 +81,7 @@ struct FileTranslatorView: View {
                             )
                             
                             Image(systemName: "arrow.right")
-                                .foregroundColor(.gray)
+                                .foregroundColor(AppColors.secondaryText)
                             
                             FileLanguageSelector(
                                 selectedLanguage: $targetLanguage,
@@ -110,26 +110,26 @@ struct FileTranslatorView: View {
                                         .cornerRadius(12)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                                .stroke(AppColors.inputBorder, lineWidth: 1)
                                         )
                                 } else if let fileURL = selectedFile {
                                     VStack(spacing: 12) {
                                         Image(systemName: fileType == .pdf ? "doc.fill" : "photo.fill")
                                             .font(.system(size: 60))
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(AppColors.appAccent)
                                         
                                         Text(fileURL.lastPathComponent)
                                             .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(.primary)
+                                            .foregroundColor(AppColors.primaryText)
                                         
                                         Text(fileType == .pdf ? "pdf_document".localized : "image_file".localized)
                                             .font(.system(size: 14))
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(AppColors.secondaryText)
                                     }
                                     .padding()
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 200)
-                                    .background(Color.blue.opacity(0.1))
+                                    .background(AppColors.translationBackground)
                                     .cornerRadius(12)
                                 }
                                 
@@ -138,7 +138,7 @@ struct FileTranslatorView: View {
                                         ProgressView()
                                         Text("processing_file".localized)
                                             .font(.system(size: 14))
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(AppColors.secondaryText)
                                     }
                                     .padding()
                                 }
@@ -151,15 +151,15 @@ struct FileTranslatorView: View {
                                 VStack(spacing: 20) {
                                     Image(systemName: "doc.text.magnifyingglass")
                                         .font(.system(size: 60))
-                                        .foregroundColor(.blue.opacity(0.6))
+                                        .foregroundColor(AppColors.appAccent.opacity(0.6))
                                     
                                     Text("select_file_to_translate".localized)
                                         .font(.system(size: 16))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(AppColors.secondaryText)
                                     
                                     Text("supported_files_note".localized)
                                         .font(.system(size: 14))
-                                        .foregroundColor(.gray.opacity(0.7))
+                                        .foregroundColor(AppColors.tertiaryText)
                                     
                                     HStack(spacing: 20) {
                                         // Photo library button
@@ -167,14 +167,14 @@ struct FileTranslatorView: View {
                                             VStack(spacing: 8) {
                                                 Image(systemName: "photo.fill")
                                                     .font(.system(size: 30))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                                 
                                                 Text("gallery".localized)
                                                     .font(.system(size: 14))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                             }
                                             .frame(width: 100, height: 80)
-                                            .background(Color.blue)
+                                            .background(AppColors.appAccent)
                                             .cornerRadius(12)
                                         }
                                         .onChange(of: selectedItem) { newItem in
@@ -195,14 +195,14 @@ struct FileTranslatorView: View {
                                             VStack(spacing: 8) {
                                                 Image(systemName: "doc.fill")
                                                     .font(.system(size: 30))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                                 
                                                 Text("PDF")
                                                     .font(.system(size: 14))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                             }
                                             .frame(width: 100, height: 80)
-                                            .background(Color.orange)
+                                            .background(AppColors.warningColor)
                                             .cornerRadius(12)
                                         }
                                         
@@ -218,14 +218,14 @@ struct FileTranslatorView: View {
                                             VStack(spacing: 8) {
                                                 Image(systemName: "camera.fill")
                                                     .font(.system(size: 30))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                                 
                                                 Text("camera".localized)
                                                     .font(.system(size: 14))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(AppColors.buttonText)
                                             }
                                             .frame(width: 100, height: 80)
-                                            .background(Color.green)
+                                            .background(AppColors.successColor)
                                             .cornerRadius(12)
                                         }
                                     }
@@ -234,11 +234,11 @@ struct FileTranslatorView: View {
                                 .frame(maxWidth: .infinity)
                                 .background(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color.gray.opacity(0.05))
+                                        .fill(AppColors.inputBackground)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(style: StrokeStyle(lineWidth: 2, dash: [10]))
-                                                .foregroundColor(.gray.opacity(0.3))
+                                                .foregroundColor(AppColors.inputBorder)
                                         )
                                 )
                             }
@@ -253,13 +253,13 @@ struct FileTranslatorView: View {
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("detected_text_title".localized)
                                             .font(.system(size: 14))
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(AppColors.secondaryText)
                                         
                                         Text(detectedText)
                                             .font(.system(size: 16))
                                             .padding()
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                            .background(Color.blue.opacity(0.1))
+                                            .background(AppColors.translationBackground)
                                             .cornerRadius(12)
                                     }
                                 }
@@ -270,13 +270,13 @@ struct FileTranslatorView: View {
                                         HStack {
                                             Text("translation_title".localized)
                                                 .font(.system(size: 14))
-                                                .foregroundColor(.gray)
+                                                .foregroundColor(AppColors.secondaryText)
                                             
                                             Spacer()
                                             
                                             Button(action: copyTranslation) {
                                                 Image(systemName: "doc.on.doc")
-                                                    .foregroundColor(.blue)
+                                                    .foregroundColor(AppColors.appAccent)
                                             }
                                         }
                                         
@@ -284,7 +284,7 @@ struct FileTranslatorView: View {
                                             .font(.system(size: 16))
                                             .padding()
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                            .background(Color.green.opacity(0.1))
+                                            .background(AppColors.translationBackground)
                                             .cornerRadius(12)
                                     }
                                 }
@@ -295,7 +295,7 @@ struct FileTranslatorView: View {
                     .padding(.vertical)
                 }
             }
-            .background(Color(UIColor.systemBackground))
+            .background(AppColors.appBackground)
             .navigationBarHidden(true)
         }
         .sheet(isPresented: $showCamera) {
@@ -595,7 +595,7 @@ private struct FileLanguageSelector: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.system(size: 12))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.secondaryText)
             
             Menu {
                 ForEach(languages, id: \.0) { language in
@@ -616,10 +616,10 @@ private struct FileLanguageSelector: View {
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12))
                 }
-                .foregroundColor(.black)
+                .foregroundColor(AppColors.primaryText)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(Color.gray.opacity(0.1))
+                .background(AppColors.inputBackground)
                 .cornerRadius(8)
             }
         }

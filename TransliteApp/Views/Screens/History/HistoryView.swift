@@ -28,18 +28,18 @@ struct HistoryView: View {
                 HStack {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         TextField("search_history".localized, text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                     }
                     .padding(8)
-                    .background(Color(.systemGray6))
+                    .background(AppColors.tertiaryBackground)
                     .cornerRadius(8)
                     
                     Button(action: { showFavoritesOnly.toggle() }) {
                         Image(systemName: showFavoritesOnly ? "star.fill" : "star")
-                            .foregroundColor(showFavoritesOnly ? .yellow : .gray)
+                            .foregroundColor(showFavoritesOnly ? AppColors.warningColor : AppColors.secondaryText)
                     }
                 }
                 .padding(.horizontal)
@@ -50,15 +50,15 @@ struct HistoryView: View {
                     VStack(spacing: 12) {
                         Image(systemName: "doc.text.magnifyingglass")
                             .font(.system(size: 60))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Text(searchText.isEmpty ? "no_history".localized : "no_results_found".localized)
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                         
                         Text("history_description".localized)
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     
                     Spacer()
@@ -115,18 +115,18 @@ struct HistoryItemRow: View {
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(Color.blue.opacity(0.2))
+                    .background(AppColors.appAccent.opacity(0.2))
                     .cornerRadius(4)
                 
                 Image(systemName: "arrow.right")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.secondaryText)
                 
                 Text(languageName(item.targetLanguage))
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(Color.green.opacity(0.2))
+                    .background(AppColors.successColor.opacity(0.2))
                     .cornerRadius(4)
                 
                 Spacer()
@@ -134,12 +134,12 @@ struct HistoryItemRow: View {
                 if item.isFavorite {
                     Image(systemName: "star.fill")
                         .font(.caption)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppColors.warningColor)
                 }
                 
                 Text(item.timestamp.formatted(.relative(presentation: .numeric)))
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.secondaryText)
             }
             
             Text(item.sourceText)
@@ -148,7 +148,7 @@ struct HistoryItemRow: View {
             
             Text(item.translatedText)
                 .font(.system(size: 14))
-                .foregroundColor(.secondary)
+                .foregroundColor(AppColors.secondaryText)
                 .lineLimit(2)
             
             if !item.alternatives.isEmpty || !item.corrections.isEmpty {
@@ -156,13 +156,13 @@ struct HistoryItemRow: View {
                     if !item.alternatives.isEmpty {
                         Label("\(item.alternatives.count)", systemImage: "text.badge.plus")
                             .font(.caption2)
-                            .foregroundColor(.purple)
+                            .foregroundColor(AppColors.appAccent)
                     }
                     
                     if !item.corrections.isEmpty {
                         Label("\(item.corrections.count)", systemImage: "exclamationmark.triangle")
                             .font(.caption2)
-                            .foregroundColor(.orange)
+                            .foregroundColor(AppColors.warningColor)
                     }
                 }
             }
@@ -202,30 +202,30 @@ struct HistoryDetailView: View {
                             Text(languageName(item.sourceLanguage))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 4)
-                                .background(Color.blue.opacity(0.2))
+                                .background(AppColors.appAccent.opacity(0.2))
                                 .cornerRadius(8)
                             
                             Image(systemName: "arrow.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                             
                             Text(languageName(item.targetLanguage))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 4)
-                                .background(Color.green.opacity(0.2))
+                                .background(AppColors.successColor.opacity(0.2))
                                 .cornerRadius(8)
                             
                             Spacer()
                             
                             Button(action: toggleFavorite) {
                                 Image(systemName: item.isFavorite ? "star.fill" : "star")
-                                    .foregroundColor(item.isFavorite ? .yellow : .gray)
+                                    .foregroundColor(item.isFavorite ? AppColors.warningColor : AppColors.secondaryText)
                             }
                         }
                         
                         
                         Text(item.timestamp.formatted(date: .abbreviated, time: .shortened))
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     .padding(.horizontal)
                     
@@ -239,7 +239,7 @@ struct HistoryDetailView: View {
                         Text(item.sourceText)
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
+                            .background(AppColors.tertiaryBackground)
                             .cornerRadius(8)
                     }
                     .padding(.horizontal)
@@ -254,19 +254,19 @@ struct HistoryDetailView: View {
                             
                             Button(action: createFlashcard) {
                                 Image(systemName: "plus.square.fill")
-                                    .foregroundColor(.green)
+                                    .foregroundColor(AppColors.successColor)
                             }
                             
                             Button(action: copyTranslation) {
                                 Image(systemName: "doc.on.doc.fill")
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(AppColors.appAccent)
                             }
                         }
                         
                         Text(item.translatedText)
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
+                            .background(AppColors.tertiaryBackground)
                             .cornerRadius(8)
                     }
                     .padding(.horizontal)
@@ -287,11 +287,11 @@ struct HistoryDetailView: View {
                                     Button(action: { copyText(alternative) }) {
                                         Image(systemName: "doc.on.doc")
                                             .font(.caption)
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(AppColors.appAccent)
                                     }
                                 }
                                 .padding()
-                                .background(Color.purple.opacity(0.1))
+                                .background(AppColors.appAccent.opacity(0.1))
                                 .cornerRadius(8)
                             }
                         }
@@ -309,7 +309,7 @@ struct HistoryDetailView: View {
                                     .font(.system(size: 14))
                                     .padding()
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color.orange.opacity(0.1))
+                                    .background(AppColors.warningColor.opacity(0.1))
                                     .cornerRadius(8)
                             }
                         }
@@ -402,21 +402,21 @@ struct StatisticsView: View {
                         Text("total_translations".localized)
                         Spacer()
                         Text("\(historyManager.statistics.totalTranslations)")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     
                     HStack {
                         Text("favorite_count".localized)
                         Spacer()
                         Text("\(historyManager.statistics.favoriteCount)")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     
                     HStack {
                         Text("average_text_length".localized)
                         Spacer()
                         Text(String(format: "characters_count".localized, historyManager.statistics.averageTextLength))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                 }
                 
@@ -426,7 +426,7 @@ struct StatisticsView: View {
                             Text(pair.key)
                             Spacer()
                             Text(String(format: "translations_count".localized, pair.value))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }
@@ -439,7 +439,7 @@ struct StatisticsView: View {
                                 .lineLimit(1)
                             Spacer()
                             Text(String(format: "times_count".localized, item.count))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }
@@ -448,13 +448,13 @@ struct StatisticsView: View {
                     let suggestions = historyManager.getLearningSuggestions()
                     if suggestions.isEmpty {
                         Text("no_suggestions_available".localized)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     } else {
                         ForEach(suggestions) { suggestion in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(suggestion.category.rawValue)
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(AppColors.secondaryText)
                                 
                                 Text(suggestion.explanation)
                                     .font(.system(size: 14))
@@ -498,12 +498,12 @@ struct DeckSelectorView: View {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(deck.name)
                                         .font(.headline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(AppColors.primaryText)
                                     
                                     HStack {
                                         Text(String(format: "cards_count".localized, deck.flashcardIds.count))
                                             .font(.caption)
-                                            .foregroundColor(.secondary)
+                                            .foregroundColor(AppColors.secondaryText)
                                     }
                                 }
                             }
@@ -516,14 +516,14 @@ struct DeckSelectorView: View {
                     Button(action: onCreateNewDeck) {
                         HStack {
                             Image(systemName: "plus.circle.fill")
-                                .foregroundColor(.green)
+                                .foregroundColor(AppColors.successColor)
                             
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("create_new_deck".localized)
-                                    .foregroundColor(.green)
+                                    .foregroundColor(AppColors.successColor)
                                 Text("\(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(AppColors.secondaryText)
                             }
                             
                             Spacer()
@@ -535,10 +535,10 @@ struct DeckSelectorView: View {
                     Section {
                         HStack {
                             Image(systemName: "info.circle")
-                                .foregroundColor(.blue)
+                                .foregroundColor(AppColors.appAccent)
                             Text("no_decks_found_for_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }

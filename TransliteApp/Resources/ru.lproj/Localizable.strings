@@ -259,6 +259,10 @@
 "settings_title" = "Настройки";
 "general" = "Общие";
 "app_language" = "Язык приложения";
+"app_theme" = "Тема приложения";
+"theme_system" = "Системная";
+"theme_light" = "Светлая";
+"theme_dark" = "Темная";
 "default_source_language" = "Язык по умолчанию (оригинал)";
 "default_target_language" = "Язык по умолчанию (перевод)";
 "auto_detect_language" = "Автоопределение языка";

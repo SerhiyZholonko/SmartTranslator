@@ -40,10 +40,10 @@ struct SettingsView: View {
                     if selectedTranslationService == .apple {
                         HStack {
                             Image(systemName: "info.circle")
-                                .foregroundColor(.blue)
+                                .foregroundColor(AppColors.appAccent)
                             Text("apple_translation_ios_requirement".localized)
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                     }
                 }
@@ -91,21 +91,21 @@ struct SettingsView: View {
                             Text("cache_usage".localized)
                             Spacer()
                             Text(String(format: "%.1f MB of %d MB", cacheStats.sizeInMB, maxCacheSize))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                         
                         HStack {
                             Text("cached_items".localized)
                             Spacer()
                             Text("\(cacheStats.itemCount)")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                         
                         HStack {
                             Text("cache_size_limit".localized)
                             Spacer()
                             Text("\(maxCacheSize) MB")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppColors.secondaryText)
                         }
                         
                         Slider(value: Binding(
@@ -116,7 +116,7 @@ struct SettingsView: View {
                         Button("clear_cache".localized) {
                             SmartCacheManager.shared.clearCache()
                         }
-                        .foregroundColor(.orange)
+                        .foregroundColor(AppColors.warningColor)
                     }
                 }
                 
@@ -127,7 +127,7 @@ struct SettingsView: View {
                         Button("clear_history".localized) {
                             clearHistory()
                         }
-                        .foregroundColor(.red)
+                        .foregroundColor(AppColors.errorColor)
                     }
                 }
                 
@@ -138,16 +138,14 @@ struct SettingsView: View {
                         let fullVersion = "\(version).\(build)"
 
                         Text(fullVersion)
-                        
-
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     
                     
                     Button("reset_to_defaults".localized) {
                         resetToDefaults()
                     }
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppColors.appAccent)
                 }
             }
             .navigationTitle("settings_title".localized)

@@ -21,8 +21,9 @@ struct SideMenuView: View {
                     ZStack(alignment: .bottom) {
                         LinearGradient(
                             gradient: Gradient(colors: [
-                                .blue,
-                                .blue.opacity(0.5)                            ]),
+                                AppColors.appAccent,
+                                AppColors.appAccent.opacity(0.5)
+                            ]),
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -43,7 +44,7 @@ struct SideMenuView: View {
                                 path.addLine(to: CGPoint(x: 0, y: height))
                             }
                             .fill(LinearGradient(
-                                gradient: Gradient(colors: [Color.white.opacity(0.1), Color.clear]),
+                                gradient: Gradient(colors: [AppColors.buttonText.opacity(0.1), Color.clear]),
                                 startPoint: .top,
                                 endPoint: .bottom
                             ))
@@ -56,7 +57,7 @@ struct SideMenuView: View {
                                 // Animated stars
                                 ForEach(0..<12) { index in
                                     Circle()
-                                        .fill(Color.white.opacity(Double.random(in: 0.3...0.9)))
+                                        .fill(AppColors.buttonText.opacity(Double.random(in: 0.3...0.9)))
                                         .frame(width: CGFloat.random(in: 2...4))
                                         .position(
                                             x: CGFloat.random(in: 30...200),
@@ -76,7 +77,7 @@ struct SideMenuView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 80, height: 80)
-                                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                                    .shadow(color: AppColors.shadow.opacity(0.3), radius: 10, x: 0, y: 5)
                                     .opacity(menuItemsOpacity)
                                     .scaleEffect(menuItemsOpacity)
                             }
@@ -84,8 +85,8 @@ struct SideMenuView: View {
                     
                             Text("app_name".localized)
                                 .font(.system(size: 26, weight: .bold, design: .rounded))
-                                .foregroundColor(.white)
-                                .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 2)
+                                .foregroundColor(AppColors.buttonText)
+                                .shadow(color: AppColors.shadow.opacity(0.3), radius: 2, x: 0, y: 2)
                                 .opacity(menuItemsOpacity)
                         }
                         .padding(.bottom, 25)
@@ -99,26 +100,26 @@ struct SideMenuView: View {
                     }) {
                         HStack(spacing: 10) {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColors.buttonText)
                                 .font(.system(size: 18))
                             Text("get_premium".localized)
                                 .font(.system(size: 17, weight: .semibold, design: .rounded))
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColors.buttonText)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    Color(red: 0.2, green: 0.8, blue: 0.4),
-                                    Color(red: 0.1, green: 0.7, blue: 0.3)
+                                    AppColors.successColor,
+                                    AppColors.successColor.opacity(0.8)
                                 ]),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
                         .cornerRadius(28)
-                        .shadow(color: Color.green.opacity(0.4), radius: 8, x: 0, y: 4)
+                        .shadow(color: AppColors.successColor.opacity(0.4), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 20)
@@ -132,7 +133,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "clock.arrow.circlepath",
                             title: "menu_history".localized,
-                            iconColor: Color(red: 0.4, green: 0.6, blue: 1.0),
+                            iconColor: AppColors.appAccent,
                             action: {
                                 showHistory = true
                             }
@@ -144,7 +145,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "rectangle.stack.fill",
                             title: "menu_flashcards".localized,
-                            iconColor: Color(red: 0.2, green: 0.7, blue: 0.9),
+                            iconColor: AppColors.secondaryAccent,
                             action: {
                                 showFlashcards = true
                             }
@@ -156,7 +157,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "gear",
                             title: "menu_settings".localized,
-                            iconColor: Color(red: 0.5, green: 0.5, blue: 0.5),
+                            iconColor: AppColors.secondaryText,
                             action: {
                                 showSettings = true
                                 closeMenu()
@@ -169,7 +170,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "star.fill",
                             title: "menu_rate_us".localized,
-                            iconColor: Color(red: 1.0, green: 0.8, blue: 0.2),
+                            iconColor: AppColors.warningColor,
                             action: {
                                 rateApp()
                             }
@@ -181,7 +182,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "square.and.arrow.up",
                             title: "menu_share_app".localized,
-                            iconColor: Color(red: 0.3, green: 0.7, blue: 0.5),
+                            iconColor: AppColors.successColor,
                             action: {
                                 showShareSheet = true
                             }
@@ -193,7 +194,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "message.fill",
                             title: "menu_contact_us".localized,
-                            iconColor: Color(red: 0.6, green: 0.4, blue: 1.0),
+                            iconColor: AppColors.appAccent,
                             action: {
                                 showContactSheet = true
                             }
@@ -205,7 +206,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "lock.shield.fill",
                             title: "menu_privacy_policy".localized,
-                            iconColor: Color(red: 0.9, green: 0.3, blue: 0.3),
+                            iconColor: AppColors.errorColor,
                             action: {
                                 showPrivacySheet = true
                             }
@@ -224,20 +225,20 @@ struct SideMenuView: View {
                     if isPremium {
                         HStack {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(.green)
+                                .foregroundColor(AppColors.successColor)
                             Text("premium_active".localized)
                                 .font(.system(size: 14, weight: .medium, design: .rounded))
-                                .foregroundColor(.green)
+                                .foregroundColor(AppColors.successColor)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.green.opacity(0.1))
+                                .fill(AppColors.successColor.opacity(0.1))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.green.opacity(0.3), lineWidth: 1)
+                                .stroke(AppColors.successColor.opacity(0.3), lineWidth: 1)
                         )
                         .padding()
                         .opacity(menuItemsOpacity)
@@ -249,8 +250,8 @@ struct SideMenuView: View {
                 .frame(maxHeight: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 0)
-                        .fill(Color.white)
-                        .shadow(color: .black.opacity(0.3), radius: 20, x: 10, y: 0)
+                        .fill(AppColors.cardBackground)
+                        .shadow(color: AppColors.shadow.opacity(0.3), radius: 20, x: 10, y: 0)
                 )
                 .clipped()
                 
@@ -366,20 +367,20 @@ struct MenuItemView: View {
                 
                 Text(title)
                     .font(.system(size: 17, weight: .medium, design: .rounded))
-                    .foregroundColor(.black.opacity(0.85))
+                    .foregroundColor(AppColors.primaryText)
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.gray.opacity(0.5))
+                    .foregroundColor(AppColors.secondaryText)
                     .offset(x: isHovered ? 2 : 0)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
-                Color.gray.opacity(isHovered ? 0.08 : 0.0)
+                AppColors.tertiaryBackground.opacity(isHovered ? 0.5 : 0.0)
             )
             .padding(.horizontal, 4)
             .contentShape(Rectangle())
@@ -413,7 +414,7 @@ struct ShareView: View {
             VStack(spacing: 30) {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 80))
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppColors.appAccent)
                 
                 Text("share_app_title".localized)
                     .font(.title)
@@ -422,7 +423,7 @@ struct ShareView: View {
                 Text("share_app_description".localized)
                     .font(.body)
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
                 
                 VStack(spacing: 15) {
                     ShareButton(
@@ -502,21 +503,21 @@ struct ShareButton: View {
             HStack(spacing: 15) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppColors.appAccent)
                     .frame(width: 30)
                 
                 Text(title)
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.primary)
+                    .foregroundColor(AppColors.primaryText)
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14))
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(AppColors.tertiaryBackground.opacity(0.5))
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())
@@ -532,7 +533,7 @@ struct ContactView: View {
             VStack(spacing: 30) {
                 Image(systemName: "message.fill")
                     .font(.system(size: 80))
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppColors.appAccent)
                 
                 Text("menu_contact_us".localized)
                     .font(.title)
@@ -541,7 +542,7 @@ struct ContactView: View {
                 Text("contact_description".localized)
                     .font(.body)
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
                 
                 VStack(spacing: 15) {
                     ContactButton(
@@ -613,27 +614,27 @@ struct ContactButton: View {
             HStack(spacing: 15) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppColors.appAccent)
                     .frame(width: 30)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.primary)
+                        .foregroundColor(AppColors.primaryText)
                     
                     Text(subtitle)
                         .font(.system(size: 14))
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.secondaryText)
                 }
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14))
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.secondaryText)
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(AppColors.tertiaryBackground.opacity(0.5))
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())
@@ -683,11 +684,11 @@ struct PrivacyPolicyView: View {
                         Button("view_full_privacy_policy".localized) {
                             openFullPrivacyPolicy()
                         }
-                        .foregroundColor(.blue)
+                        .foregroundColor(AppColors.appAccent)
                         
                         Text("last_updated_date".localized)
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.secondaryText)
                     }
                     .padding(.top)
                 }
@@ -715,11 +716,11 @@ struct PolicySection: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.headline)
-                .foregroundColor(.primary)
+                .foregroundColor(AppColors.primaryText)
             
             Text(content)
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppColors.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

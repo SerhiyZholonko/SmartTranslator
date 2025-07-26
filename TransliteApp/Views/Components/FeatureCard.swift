@@ -59,7 +59,7 @@ struct FeatureCard: View {
                     
                     Text(feature.localizedTitle)
                         .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(.black)
+                        .foregroundColor(AppColors.primaryText)
                         .multilineTextAlignment(.center)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
@@ -100,9 +100,9 @@ struct FeatureCard: View {
             .frame(height: 140)
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white)
-                    .shadow(color: Color.black.opacity(isPressed ? 0.15 : 0.12), radius: isPressed ? 6 : 12, x: 0, y: isPressed ? 2 : 6)
-                    .shadow(color: Color.black.opacity(0.05), radius: 1, x: 0, y: 1)
+                    .fill(AppColors.cardBackground)
+                    .shadow(color: AppColors.shadow.opacity(isPressed ? 0.2 : 0.15), radius: isPressed ? 6 : 12, x: 0, y: isPressed ? 2 : 6)
+                    .shadow(color: AppColors.shadow.opacity(0.05), radius: 1, x: 0, y: 1)
             )
             .scaleEffect(isPressed ? 0.98 : (hasAppeared ? 1.0 : 0.8))
             .opacity(hasAppeared ? 1.0 : 0.0)
