@@ -10,18 +10,33 @@ import SwiftUI
 @main
 struct TransliteAppApp: App {
     @State private var warmupText = ""
+    @State private var showLaunchScreen = true
     
     init() {
         // Preload critical services in background
         Task {
             _ = BasicOfflineTranslation.shared
+            _ = FlashcardManager.shared
+            _ = TranslationHistoryManager.shared
+            _ = SmartCacheManager.shared
         }
     }
     
     var body: some Scene {
         WindowGroup {
             ZStack {
-                ContentView()
+                if showLaunchScreen {
+                    EnhancedLaunchScreenView {
+                        // Animation completed, show main app
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            showLaunchScreen = false
+                        }
+                    }
+                    .transition(.opacity)
+                } else {
+                    ContentView()
+                        .transition(.opacity)
+                }
                 
                 // Hidden TextEditor to warm up the component
                 TextEditor(text: $warmupText)

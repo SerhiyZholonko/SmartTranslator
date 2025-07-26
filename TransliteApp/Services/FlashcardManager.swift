@@ -15,6 +15,8 @@ class FlashcardManager: ObservableObject {
     private init() {
         loadData()
         createDefaultDeckIfNeeded()
+        fixNewCardsReviewDates() // Fix existing cards with incorrect due dates
+        performDataSanityCheck() // Additional safety check
     }
     
     // MARK: - Data Management
@@ -217,25 +219,17 @@ class FlashcardManager: ObservableObject {
         let deckFlashcards = flashcards.filter { deck.flashcardIds.contains($0.id) }
         let now = Date()
         
-        // Get cards that are due for review
+        // Get cards that are actually due for review (not new cards)
         let dueCards = deckFlashcards.filter { card in
-            card.studyData.nextReviewDate <= now
+            card.studyData.timesStudied > 0 && card.studyData.nextReviewDate <= now
         }
         
-        // If no due cards, return new cards or least recently studied
-        if dueCards.isEmpty {
-            let newCards = deckFlashcards.filter { $0.studyData.timesStudied == 0 }
-            if !newCards.isEmpty {
-                return Array(newCards.prefix(10)) // Limit new cards
-            }
-            
-            // Return least recently studied cards
-            return Array(deckFlashcards.sorted { 
-                ($0.studyData.lastStudied ?? Date.distantPast) < ($1.studyData.lastStudied ?? Date.distantPast)
-            }.prefix(10))
-        }
+        // Add some new cards if we have fewer than 5 due cards
+        let newCards = deckFlashcards.filter { $0.studyData.timesStudied == 0 }
+        let newCardsToAdd = min(max(0, 5 - dueCards.count), newCards.count)
+        let selectedNewCards = Array(newCards.prefix(newCardsToAdd))
         
-        return dueCards
+        return dueCards + selectedNewCards
     }
     
     func recordStudyResult(_ flashcard: Flashcard, result: StudyResult) {
@@ -258,7 +252,11 @@ class FlashcardManager: ObservableObject {
             studyData.correctAnswers += 1
             studyData.consecutiveCorrect += 1
             studyData.easeFactor = max(1.3, studyData.easeFactor - 0.15)
-            studyData.interval = studyData.interval * 1.2
+            if studyData.timesStudied == 1 {
+                studyData.interval = 600 // 10 minutes for first study
+            } else {
+                studyData.interval = studyData.interval * 1.2
+            }
             
         case .good:
             studyData.correctAnswers += 1
@@ -273,7 +271,11 @@ class FlashcardManager: ObservableObject {
             studyData.correctAnswers += 1
             studyData.consecutiveCorrect += 1
             studyData.easeFactor = min(2.5, studyData.easeFactor + 0.15)
-            studyData.interval = studyData.interval * studyData.easeFactor * 1.3
+            if studyData.timesStudied == 1 {
+                studyData.interval = updatedCard.difficulty.initialInterval * 2
+            } else {
+                studyData.interval = studyData.interval * studyData.easeFactor * 1.3
+            }
         }
         
         studyData.nextReviewDate = Date().addingTimeInterval(studyData.interval)
@@ -333,13 +335,165 @@ class FlashcardManager: ObservableObject {
     }
     
     func getDueCardsCount(for deckId: UUID) -> Int {
-        return getCardsForStudy(deckId: deckId).count
+        // Safe calculation with bounds checking
+        guard let deck = decks.first(where: { $0.id == deckId }) else { 
+            print("⚠️ Deck not found: \(deckId)")
+            return 0 
+        }
+        
+        let deckFlashcards = flashcards.filter { deck.flashcardIds.contains($0.id) }
+        
+        // If no cards, return 0
+        guard !deckFlashcards.isEmpty else {
+            return 0
+        }
+        
+        let now = Date()
+        
+        // Count only actually due cards (studied before and due now)
+        let dueCards = deckFlashcards.filter { card in
+            card.studyData.timesStudied > 0 && 
+            card.studyData.nextReviewDate <= now &&
+            card.studyData.nextReviewDate > Date.distantPast // Sanity check
+        }
+        
+        // Add a few new cards if available and due cards are low
+        let newCards = deckFlashcards.filter { $0.studyData.timesStudied == 0 }
+        let newCardsToAdd = min(max(0, 3 - dueCards.count), newCards.count)
+        
+        let totalCount = dueCards.count + newCardsToAdd
+        
+        // Bounds checking - never return unreasonable numbers
+        let safeCount = max(0, min(totalCount, deckFlashcards.count))
+        
+        // Additional safety check
+        if safeCount > 100 {
+            print("🚨 Suspicious count \(safeCount) for deck \(deck.name), capping at 10")
+            return min(10, deckFlashcards.count)
+        }
+        
+        if safeCount < 0 {
+            print("🚨 Negative count detected, returning 0")
+            return 0
+        }
+        
+        return safeCount
     }
     
     // MARK: - Helper Functions
     
     func getFlashcardsForDeck(_ deck: FlashcardDeck) -> [Flashcard] {
         return flashcards.filter { deck.flashcardIds.contains($0.id) }
+    }
+    
+    // Fix cards that were marked as due incorrectly
+    func fixNewCardsReviewDates() {
+        var updated = false
+        var fixedCount = 0
+        
+        print("🔧 Running fixNewCardsReviewDates...")
+        print("  - Total flashcards: \(flashcards.count)")
+        
+        for i in 0..<flashcards.count {
+            if flashcards[i].studyData.timesStudied == 0 && 
+               flashcards[i].studyData.nextReviewDate != Date.distantFuture {
+                print("  - Fixing card: \(flashcards[i].frontText) (nextReviewDate was \(flashcards[i].studyData.nextReviewDate))")
+                flashcards[i].studyData.nextReviewDate = Date.distantFuture
+                updated = true
+                fixedCount += 1
+            }
+        }
+        
+        print("  - Fixed \(fixedCount) cards")
+        
+        if updated {
+            saveFlashcards()
+            print("  - Saved changes")
+        } else {
+            print("  - No changes needed")
+        }
+        
+        // Emergency fix: if we still have a huge number of due cards, reset all data
+        for deck in decks {
+            let count = getDueCardsCountDirect(for: deck.id)
+            if count > 10000 { // Unreasonably high number
+                print("🚨 Emergency fix: Resetting deck \(deck.name) due to corrupted data (count: \(count))")
+                resetDeckStudyData(deckId: deck.id)
+            }
+        }
+    }
+    
+    private func getDueCardsCountDirect(for deckId: UUID) -> Int {
+        guard let deck = decks.first(where: { $0.id == deckId }) else { return 0 }
+        let deckFlashcards = flashcards.filter { deck.flashcardIds.contains($0.id) }
+        let now = Date()
+        return deckFlashcards.filter { 
+            $0.studyData.timesStudied > 0 && $0.studyData.nextReviewDate <= now 
+        }.count
+    }
+    
+    private func resetDeckStudyData(deckId: UUID) {
+        guard let deck = decks.first(where: { $0.id == deckId }) else { return }
+        
+        for i in 0..<flashcards.count {
+            if deck.flashcardIds.contains(flashcards[i].id) {
+                flashcards[i].studyData = StudyData() // Reset to default
+            }
+        }
+        saveFlashcards()
+        print("  - Reset study data for deck")
+    }
+    
+    // Sanity check for data corruption
+    private func performDataSanityCheck() {
+        print("🔍 Performing data sanity check...")
+        
+        var corruptedCards = 0
+        var fixedCards = 0
+        
+        for i in 0..<flashcards.count {
+            let card = flashcards[i]
+            let studyData = card.studyData
+            
+            // Check for impossible values
+            if studyData.timesStudied < 0 || 
+               studyData.correctAnswers < 0 || 
+               studyData.incorrectAnswers < 0 ||
+               studyData.interval < 0 ||
+               studyData.easeFactor < 1.0 || studyData.easeFactor > 4.0 ||
+               studyData.consecutiveCorrect < 0 {
+                
+                print("  - Found corrupted card: \(card.frontText)")
+                flashcards[i].studyData = StudyData()
+                corruptedCards += 1
+                fixedCards += 1
+            }
+            
+            // Check for invalid dates
+            if studyData.nextReviewDate < Date.distantPast ||
+               studyData.nextReviewDate.timeIntervalSince1970 < 0 {
+                print("  - Found invalid date in card: \(card.frontText)")
+                flashcards[i].studyData.nextReviewDate = Date.distantFuture
+                fixedCards += 1
+            }
+        }
+        
+        if corruptedCards > 0 {
+            print("  - Found \(corruptedCards) corrupted cards, fixed \(fixedCards)")
+            saveFlashcards()
+        } else {
+            print("  - All data looks good")
+        }
+    }
+    
+    // Public method to reset corrupted study data
+    func resetAllStudyData() {
+        print("🔄 Resetting all study data...")
+        for i in 0..<flashcards.count {
+            flashcards[i].studyData = StudyData()
+        }
+        saveFlashcards()
+        print("  - All study data reset")
     }
     
     func searchFlashcards(query: String) -> [Flashcard] {

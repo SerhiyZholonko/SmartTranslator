@@ -5,6 +5,10 @@
   Russian localization
 */
 
+// MARK: - Launch Screen
+"launch_tagline" = "Умный перевод для всего мира";
+"loading_text" = "Загрузка";
+
 // MARK: - Main Screen
 "app_name" = "Умный Переводчик";
 "text_translator" = "Текстовый переводчик";

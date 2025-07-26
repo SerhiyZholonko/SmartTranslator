@@ -5,6 +5,10 @@
   English localization
 */
 
+// MARK: - Launch Screen
+"launch_tagline" = "Smart translation for the whole world";
+"loading_text" = "Loading";
+
 // MARK: - Main Screen
 "app_name" = "Smart Translator";
 "text_translator" = "Text Translator";

@@ -5,6 +5,10 @@
   Ukrainian localization
 */
 
+// MARK: - Launch Screen
+"launch_tagline" = "Розумний переклад для всього світу";
+"loading_text" = "Завантаження";
+
 // MARK: - Main Screen
 "app_name" = "Розумний Перекладач";
 "text_translator" = "Текстовий перекладач";

@@ -217,7 +217,7 @@ struct StudyData: Codable {
         self.correctAnswers = 0
         self.incorrectAnswers = 0
         self.lastStudied = nil
-        self.nextReviewDate = Date()
+        self.nextReviewDate = Date.distantFuture // Don't mark new cards as due
         self.interval = 86400 // 1 day
         self.easeFactor = 2.5
         self.consecutiveCorrect = 0

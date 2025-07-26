@@ -40,6 +40,33 @@ struct FlashcardsView: View {
                     }
                     .padding(.horizontal)
                     
+                    // Debug: Reset button if problematic numbers detected
+                    if flashcardManager.decks.contains(where: { 
+                        let count = flashcardManager.getDueCardsCount(for: $0.id)
+                        return count > 50 || count < 0 
+                    }) {
+                        Button(action: {
+                            flashcardManager.resetAllStudyData()
+                        }) {
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.orange)
+                                Text("Виправити помилку з числами")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                Spacer()
+                                Text("Натисніть для скидання")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color.orange.opacity(0.1))
+                            .cornerRadius(8)
+                        }
+                        .padding(.horizontal)
+                    }
+                    
                     // Create New Deck Button
                     Button(action: { showingCreateDeck = true }) {
                         HStack {
@@ -158,6 +185,8 @@ struct DeckCard: View {
   
                             }
                             
+                            // Temporarily hidden due to calculation issues
+                            /*
                             if dueCardsCount > 0 {
                                 Text("cards_due".localized(with: String(dueCardsCount)))
                                     .font(.caption)
@@ -167,6 +196,7 @@ struct DeckCard: View {
                                     .background(AppColors.warningColor.opacity(0.2))
                                     .cornerRadius(4)
                             }
+                            */
                         }
                     }
                     
