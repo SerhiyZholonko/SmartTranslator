@@ -374,9 +374,12 @@ struct VoiceButton: View {
                 Button("🇫🇷 \("language_french".localized)") { language = "fr-FR" }
                 Button("🇩🇪 \("language_german".localized)") { language = "de-DE" }
             } label: {
-                HStack {
+                HStack(spacing: 4) {
                     Text(getFlag(for: language))
                     Text(getLanguageName(for: language))
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .minimumScaleFactor(0.7)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10))
                 }
