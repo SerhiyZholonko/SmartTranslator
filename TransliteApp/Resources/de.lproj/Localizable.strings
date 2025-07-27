@@ -176,6 +176,8 @@
 // MARK: - Flashcards
 "flashcards_title" = "Karteikarten";
 "language_learning" = "Sprachenlernen";
+"my_first_deck" = "Mein erster Stapel";
+"start_learning_description" = "Beginnen Sie das Lernen mit Ihren ersten Karteikarten";
 "study_flashcards_description" = "Lernen Sie mit Karteikarten, um Ihr Vokabular zu verbessern";
 "create_new_deck" = "Neuen Stapel erstellen";
 "cards" = "Karten";
@@ -212,6 +214,18 @@
 "end_session" = "Sitzung beenden";
 "how_well_did_you_know" = "Wie gut kannten Sie das?";
 "tap_to_reveal_answer" = "Tippen Sie, um die Antwort zu zeigen";
+"no_cards_due_for_review" = "Derzeit sind keine Karten zur Wiederholung fällig.";
+
+// Study Result Buttons
+"study_again" = "Nochmal";
+"study_hard" = "Schwer";
+"study_good" = "Gut";
+"study_easy" = "Einfach";
+
+// Flashcard Study Data
+"success_rate_percent" = "Erfolgsrate: %d%%";
+"studied_times" = "%d mal gelernt";
+"card_of_total" = "%d von %d";
 "session_complete" = "Sitzung abgeschlossen!";
 "cards_studied" = "Gelernte Karten: %d";
 "accuracy" = "Genauigkeit: %d%%";
@@ -242,6 +256,9 @@
 "add_card_title" = "Karte hinzufügen";
 "front_side" = "Vorderseite";
 "back_side" = "Rückseite";
+"front_side_with_language" = "Vorderseite (%@)";
+"back_side_with_language" = "Rückseite (%@)";
+"translate_button" = "Übersetzen";
 "enter_translation_or_use_auto" = "Geben Sie die Übersetzung ein oder verwenden Sie die automatische Übersetzung";
 "enter_text_to_translate" = "Geben Sie den zu übersetzenden Text ein";
 "cards_must_use_languages" = "Karten in diesem Stapel müssen die Sprachen %@ → %@ verwenden";

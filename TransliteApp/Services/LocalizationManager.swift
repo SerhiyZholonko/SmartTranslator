@@ -7,8 +7,13 @@ class LocalizationManager: ObservableObject {
     @Published var currentLanguage: String {
         didSet {
             UserDefaults.standard.set(currentLanguage, forKey: "AppLanguage")
+            UserDefaults.standard.synchronize()
             // Trigger UI updates by posting notification
             NotificationCenter.default.post(name: .languageChanged, object: nil)
+            // Force immediate UI update
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     

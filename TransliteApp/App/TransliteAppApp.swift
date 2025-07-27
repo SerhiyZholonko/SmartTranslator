@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct TransliteAppApp: App {
+    @StateObject private var localizationManager = LocalizationManager.shared
     @State private var warmupText = ""
     @State private var showLaunchScreen = true
     
@@ -24,26 +25,29 @@ struct TransliteAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if showLaunchScreen {
-                    EnhancedLaunchScreenView {
-                        // Animation completed, show main app
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            showLaunchScreen = false
+            LocalizedView {
+                ZStack {
+                    if showLaunchScreen {
+                        EnhancedLaunchScreenView {
+                            // Animation completed, show main app
+                            withAnimation(.easeInOut(duration: 0.5)) {
+                                showLaunchScreen = false
+                            }
                         }
-                    }
-                    .transition(.opacity)
-                } else {
-                    ContentView()
                         .transition(.opacity)
+                    } else {
+                        ContentView()
+                            .transition(.opacity)
+                    }
+                    
+                    // Hidden TextEditor to warm up the component
+                    TextEditor(text: $warmupText)
+                        .frame(width: 1, height: 1)
+                        .opacity(0)
+                        .allowsHitTesting(false)
                 }
-                
-                // Hidden TextEditor to warm up the component
-                TextEditor(text: $warmupText)
-                    .frame(width: 1, height: 1)
-                    .opacity(0)
-                    .allowsHitTesting(false)
             }
+            .id(localizationManager.currentLanguage) // Force view recreation on language change
         }
     }
 }

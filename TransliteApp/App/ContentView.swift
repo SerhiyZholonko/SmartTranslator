@@ -4,6 +4,7 @@ struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
     @StateObject private var coordinator = AppCoordinator.shared
     @StateObject private var themeManager = ThemeManager.shared
+    @ObservedObject private var localizationManager = LocalizationManager.shared
     
     var body: some View {
         LocalizedView {

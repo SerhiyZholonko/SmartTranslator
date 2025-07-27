@@ -187,9 +187,9 @@ enum FlashcardDifficulty: String, CaseIterable, Codable {
     
     var displayName: String {
         switch self {
-        case .easy: return "Easy"
-        case .medium: return "Medium"
-        case .hard: return "Hard"
+        case .easy: return "difficulty_easy".localized
+        case .medium: return "difficulty_medium".localized
+        case .hard: return "difficulty_hard".localized
         }
     }
     
@@ -237,10 +237,10 @@ enum StudyResult: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .again: return "Again"
-        case .hard: return "Hard"
-        case .good: return "Good"
-        case .easy: return "Easy"
+        case .again: return "study_again".localized
+        case .hard: return "study_hard".localized
+        case .good: return "study_good".localized
+        case .easy: return "study_easy".localized
         }
     }
     

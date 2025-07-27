@@ -178,6 +178,8 @@
 // MARK: - Flashcards
 "flashcards_title" = "Карточки";
 "language_learning" = "Изучение языков";
+"my_first_deck" = "Моя первая колода";
+"start_learning_description" = "Начните обучение с ваших первых карточек";
 "study_flashcards_description" = "Изучайте карточки для улучшения словарного запаса";
 "create_new_deck" = "Создать новую колоду";
 "cards" = "Карточки";
@@ -214,6 +216,18 @@
 "end_session" = "Завершить сессию";
 "how_well_did_you_know" = "Насколько хорошо вы это знали?";
 "tap_to_reveal_answer" = "Нажмите, чтобы показать ответ";
+"no_cards_due_for_review" = "Сейчас нет карточек для повторения.";
+
+// Study Result Buttons
+"study_again" = "Снова";
+"study_hard" = "Сложно";
+"study_good" = "Хорошо";
+"study_easy" = "Легко";
+
+// Flashcard Study Data
+"success_rate_percent" = "Успешность: %d%%";
+"studied_times" = "Изучено %d раз";
+"card_of_total" = "%d из %d";
 "session_complete" = "Сессия завершена!";
 "cards_studied" = "Карточек изучено: %d";
 "accuracy" = "Точность: %d%%";
@@ -244,6 +258,9 @@
 "add_card_title" = "Добавить карточку";
 "front_side" = "Лицевая";
 "back_side" = "Обратная";
+"front_side_with_language" = "Лицевая (%@)";
+"back_side_with_language" = "Обратная (%@)";
+"translate_button" = "Перевести";
 "enter_translation_or_use_auto" = "Введите перевод или используйте автоперевод";
 "enter_text_to_translate" = "Введите текст для перевода";
 "cards_must_use_languages" = "Карточки в этой колоде должны использовать языки %@ → %@";

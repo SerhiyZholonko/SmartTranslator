@@ -178,6 +178,8 @@
 // MARK: - Flashcards
 "flashcards_title" = "Flashcards";
 "language_learning" = "Language Learning";
+"my_first_deck" = "My First Deck";
+"start_learning_description" = "Start learning with your first flashcards";
 "study_flashcards_description" = "Study flashcards to improve your vocabulary";
 "create_new_deck" = "Create New Deck";
 "cards" = "Cards";
@@ -214,6 +216,18 @@
 "end_session" = "End Session";
 "how_well_did_you_know" = "How well did you know this?";
 "tap_to_reveal_answer" = "Tap to reveal answer";
+"no_cards_due_for_review" = "No cards are due for review right now.";
+
+// Study Result Buttons
+"study_again" = "Again";
+"study_hard" = "Hard";
+"study_good" = "Good";
+"study_easy" = "Easy";
+
+// Flashcard Study Data
+"success_rate_percent" = "Success Rate: %d%%";
+"studied_times" = "Studied %d times";
+"card_of_total" = "%d of %d";
 "session_complete" = "Session Complete!";
 "cards_studied" = "Cards studied: %d";
 "accuracy" = "Accuracy: %d%%";
@@ -244,6 +258,9 @@
 "add_card_title" = "Add Card";
 "front_side" = "Front";
 "back_side" = "Back";
+"front_side_with_language" = "Front (%@)";
+"back_side_with_language" = "Back (%@)";
+"translate_button" = "Translate";
 "enter_translation_or_use_auto" = "Enter translation or use auto-translate";
 "enter_text_to_translate" = "Enter text to translate";
 "cards_must_use_languages" = "Cards in this deck must use %@ → %@ languages";
