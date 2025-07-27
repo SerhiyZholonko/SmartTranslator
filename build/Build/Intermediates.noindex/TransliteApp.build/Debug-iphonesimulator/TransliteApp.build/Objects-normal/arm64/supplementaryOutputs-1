@@ -1,0 +1,42 @@
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/VoiceChatViewModel.swift":
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.o"
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.swiftconstvalues"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.dia"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.d"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.swiftdeps"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Theme/AppColors.swift":
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.dia"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.swiftdeps"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.d"
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.swiftconstvalues"
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.o"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Coordinators/AppCoordinator.swift":
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.o"
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.swiftconstvalues"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.dia"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.swiftdeps"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.d"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/CameraTranslatorView.swift":
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.swiftconstvalues"
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.o"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.swiftdeps"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.dia"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.d"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/TranslationHistoryManager.swift":
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.d"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.dia"
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.swiftconstvalues"
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.o"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.swiftdeps"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Flashcards/FlashcardsView.swift":
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.swiftconstvalues"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.d"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.dia"
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.swiftdeps"
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.o"
+"/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Main/SideMenuViewModel.swift":
+  swift-dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.swiftdeps"
+  diagnostics: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.dia"
+  object: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.o"
+  const-values: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.swiftconstvalues"
+  dependencies: "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.d"

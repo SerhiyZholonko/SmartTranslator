@@ -1,0 +1,16 @@
+{
+  "source": "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/EnhancedLaunchScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 233
+        }
+      }
+    ]
+  },
+  "version": 1
+}

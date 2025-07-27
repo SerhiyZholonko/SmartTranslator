@@ -1,0 +1,248 @@
+{
+  "source": "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Flashcards/FlashcardsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Виправити помилку з числами",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Натисніть для скидання",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ → %@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 188
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add Card",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 516
+        }
+      },
+      {
+        "comment": "",
+        "key": "Translation Options",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 475
+        }
+      },
+      {
+        "comment": "",
+        "key": "Back (%@)",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 500
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cards in this deck must use %@ → %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 442
+        }
+      },
+      {
+        "comment": "",
+        "key": "Front (%@)",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 450
+        }
+      },
+      {
+        "comment": "",
+        "key": "Translate",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 461
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter text to translate",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 469
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 483
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter translation or use auto-translate",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 501
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tip: Use the translate button to get multiple translation options",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 510
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 520
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 526
+        }
+      },
+      {
+        "comment": "",
+        "key": "New Deck",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 664
+        }
+      },
+      {
+        "comment": "",
+        "key": "Deck Information",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 645
+        }
+      },
+      {
+        "comment": "",
+        "key": "Languages",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 650
+        }
+      },
+      {
+        "comment": "",
+        "key": "Deck Name",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 646
+        }
+      },
+      {
+        "comment": "",
+        "key": "Description (optional)",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 647
+        }
+      },
+      {
+        "comment": "",
+        "key": "From",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 651
+        }
+      },
+      {
+        "comment": "",
+        "key": "To",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 657
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 668
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 674
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld of %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 743
+        }
+      },
+      {
+        "comment": "",
+        "key": "Session Complete!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1141
+        }
+      },
+      {
+        "comment": "",
+        "key": "Close",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1156
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cards studied: %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1146
+        }
+      },
+      {
+        "comment": "",
+        "key": "Accuracy: %lld%%",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1147
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time: %lldm %llds",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1150
+        }
+      }
+    ]
+  },
+  "version": 1
+}

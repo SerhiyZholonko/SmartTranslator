@@ -1,0 +1,71 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "a0067d89ab78ce8711b643f65d9cf436083b305ef94f0dbf3230ad4dbd9d5dcd"
+    }
+  ],
+  "containerPath" : "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator18.5",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Products",
+      "derivedDataPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build",
+      "indexDataStoreFolderPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone17,3",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "18.5",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "iPhone17,3",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES",
+          "TARGET_DEVICE_IDENTIFIER" : "DB6A3B12-0081-4703-A7BA-8A7E0F8E4717",
+          "TARGET_DEVICE_MODEL" : "iPhone17,3",
+          "TARGET_DEVICE_OS_VERSION" : "18.5",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphonesimulator"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

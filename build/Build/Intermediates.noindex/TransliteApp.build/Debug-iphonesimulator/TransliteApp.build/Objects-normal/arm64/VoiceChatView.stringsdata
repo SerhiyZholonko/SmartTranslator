@@ -1,0 +1,56 @@
+{
+  "source": "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/VoiceChatView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "🇬🇧 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 370
+        }
+      },
+      {
+        "comment": "",
+        "key": "🇺🇦 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 371
+        }
+      },
+      {
+        "comment": "",
+        "key": "🇷🇺 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 372
+        }
+      },
+      {
+        "comment": "",
+        "key": "🇪🇸 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 373
+        }
+      },
+      {
+        "comment": "",
+        "key": "🇫🇷 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 374
+        }
+      },
+      {
+        "comment": "",
+        "key": "🇩🇪 %@",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 375
+        }
+      }
+    ]
+  },
+  "version": 1
+}

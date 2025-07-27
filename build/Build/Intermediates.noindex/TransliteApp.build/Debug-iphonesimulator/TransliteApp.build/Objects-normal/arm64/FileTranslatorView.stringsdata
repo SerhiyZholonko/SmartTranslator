@@ -1,0 +1,16 @@
+{
+  "source": "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/FileTranslatorView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "PDF",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 200
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,498 @@
+{
+  "" : {
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteApp-master.dia",
+    "emit-module-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteApp-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteApp-master-emit-module.dia",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteApp-master.swiftdeps"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/App/ContentView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/App/TransliteAppApp.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TransliteAppApp~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Coordinators/AppCoordinator.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppCoordinator~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Helpers/GoogleTranslateParser.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GoogleTranslateParser~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Models/FeatureType.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureType~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Models/TranslationModels.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationModels~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Models/TranslationService.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationService~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/AppleTranslationService.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppleTranslationService~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/BasicOfflineTranslation.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BasicOfflineTranslation~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/FlashcardManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/LocalizationManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LocalizationManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/PermissionsManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PermissionsManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/SmartCacheManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SmartCacheManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/ThemeManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/TranslationHistoryManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationHistoryManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Services/TranslationManager.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TranslationManager~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Theme/AppColors.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/AppColors~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Base/BaseViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/BaseViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Base/CoordinatorProtocol.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CoordinatorProtocol~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Base/ViewModelProtocol.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ViewModelProtocol~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Flashcards/FlashcardsViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Flashcards/StudyViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/StudyViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Main/ContentViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ContentViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Main/SideMenuViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Premium/PremiumViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Settings/HistoryViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Settings/SettingsViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/CameraTranslatorViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/FileTranslatorViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/OfflineTranslationViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/TextTranslatorViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/ViewModels/Translation/VoiceChatViewModel.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatViewModel~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/EnhancedLaunchScreenView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/EnhancedLaunchScreenView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/FeatureCard.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FeatureCard~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/GlobeView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GlobeView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/HeaderView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HeaderView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/LaunchScreenView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/LaunchScreenView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Flashcards/FlashcardsView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FlashcardsView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/History/HistoryView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/HistoryView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Main/SideMenuView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SideMenuView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Premium/PremiumView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/PremiumView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Settings/SettingsView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Settings/ThemeSettingsView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/ThemeSettingsView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/CameraTranslatorView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/CameraTranslatorView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/FileTranslatorView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/FileTranslatorView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/OfflineTranslationView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/OfflineTranslationView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/TextTranslatorView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/TextTranslatorView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Screens/Translation/VoiceChatView.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/VoiceChatView~partial.swiftmodule"
+  },
+  "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/apple/Documents/gitHub/SmartTranslator/build/Build/Intermediates.noindex/TransliteApp.build/Debug-iphonesimulator/TransliteApp.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}
