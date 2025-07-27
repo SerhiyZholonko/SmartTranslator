@@ -14,6 +14,11 @@ struct FlashcardsView: View {
     var body: some View {
         LocalizedView {
         NavigationView {
+            ZStack {
+                // Theme-aware background matching main screen
+                AppColors.appBackground
+                    .ignoresSafeArea()
+                
             ScrollView {
                 LazyVStack(spacing: 16) {
                     // Header with Close Button
@@ -96,6 +101,7 @@ struct FlashcardsView: View {
                 .padding(.vertical)
             }
             .navigationBarHidden(true)
+            }
             .sheet(isPresented: $showingCreateDeck) {
                 CreateDeckView(
                     deckName: $newDeckName,
@@ -327,12 +333,12 @@ struct DeckCard: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "en": return "language_en_short".localized
-        case "uk": return "language_uk_short".localized
-        case "ru": return "language_ru_short".localized
-        case "es": return "language_es_short".localized
-        case "fr": return "language_fr_short".localized
-        case "de": return "language_de_short".localized
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
         default: return code.uppercased()
         }
     }
@@ -433,7 +439,7 @@ struct AddCardView: View {
                     HStack {
                         Image(systemName: "info.circle")
                             .foregroundColor(AppColors.appAccent)
-                        Text("Cards in this deck must use \(languageName(sourceLanguage)) → \(languageName(targetLanguage))")
+                        Text("cards_must_use_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                     }
@@ -441,7 +447,7 @@ struct AddCardView: View {
                 
                 // Front Text Section
                 Section(header: HStack {
-                    Text("Front (\(languageName(sourceLanguage)))")
+                    Text("front_side_with_language".localized(with: languageName(sourceLanguage)))
                     Spacer()
                     if !frontText.isEmpty && sourceLanguage != targetLanguage {
                         Button(action: translateText) {
@@ -452,7 +458,7 @@ struct AddCardView: View {
                                 } else {
                                     Image(systemName: "arrow.right.circle.fill")
                                 }
-                                Text("Translate")
+                                Text("translate_button".localized)
                             }
                             .font(.caption)
                             .foregroundColor(AppColors.appAccent)
@@ -460,13 +466,13 @@ struct AddCardView: View {
                         .disabled(isTranslating)
                     }
                 }) {
-                    TextField("Enter text to translate", text: $frontText)
+                    TextField("enter_text_to_translate".localized, text: $frontText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
                 // Translation Results Section
                 if !translationAlternatives.isEmpty {
-                    Section(header: Text("Translation Options")) {
+                    Section(header: Text("translation_options".localized)) {
                         ForEach(Array(translationAlternatives.enumerated()), id: \.offset) { index, translation in
                             HStack {
                                 Text(translation)
@@ -474,7 +480,7 @@ struct AddCardView: View {
                                 
                                 Spacer()
                                 
-                                Button("Use") {
+                                Button("use".localized) {
                                     backText = translation
                                     translationAlternatives.removeAll()
                                 }
@@ -491,8 +497,8 @@ struct AddCardView: View {
                 }
                 
                 // Back Text Section
-                Section(header: Text("Back (\(languageName(targetLanguage)))")) {
-                    TextField("Enter translation or use auto-translate", text: $backText)
+                Section(header: Text("back_side_with_language".localized(with: languageName(targetLanguage)))) {
+                    TextField("enter_translation_or_use_auto".localized, text: $backText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
@@ -501,23 +507,23 @@ struct AddCardView: View {
                     HStack {
                         Image(systemName: "lightbulb")
                             .foregroundColor(AppColors.warningColor)
-                        Text("Tip: Use the translate button to get multiple translation options")
+                        Text("tip_translate_button".localized)
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                     }
                 }
             }
-            .navigationTitle("Add Card")
+            .navigationTitle("add_card_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("cancel".localized) {
                         dismiss()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add") {
+                    Button("add".localized) {
                         onAdd()
                     }
                     .disabled(frontText.isEmpty || backText.isEmpty)
@@ -601,16 +607,16 @@ struct AddCardView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto"
-        case "en": return "English"
-        case "uk": return "Ukrainian"
-        case "ru": return "Russian"
-        case "es": return "Spanish"
-        case "fr": return "French"
-        case "de": return "German"
-        case "it": return "Italian"
-        case "pl": return "Polish"
-        case "cs": return "Czech"
+        case "auto": return "auto_detect".localized
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
+        case "it": return "language_italian".localized
+        case "pl": return "language_polish".localized
+        case "cs": return "language_czech".localized
         default: return code.uppercased()
         }
     }
@@ -695,6 +701,7 @@ struct StudyView: View {
     }
     
     var body: some View {
+        LocalizedView {
         VStack(spacing: 20) {
                 if sessionComplete, let session = studySession {
                     StudyCompleteView(session: session) {
@@ -709,17 +716,17 @@ struct StudyView: View {
                             .font(.system(size: 60))
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Text("No Cards to Study")
+                        Text("no_cards_to_study".localized)
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        Text("Add some flashcards to this deck to start studying")
+                        Text("add_flashcards_to_study".localized)
                             .font(.body)
                             .foregroundColor(AppColors.secondaryText)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
-                        Button("Close") {
+                        Button("close".localized) {
                             dismiss()
                         }
                         .padding(.horizontal, 40)
@@ -733,7 +740,7 @@ struct StudyView: View {
                 } else if let card = currentCard {
                     // Progress indicator
                     HStack {
-                        Text("\(currentCardIndex + 1) of \(cardsToStudy.count)")
+                        Text("card_of_total".localized(with: currentCardIndex + 1, cardsToStudy.count))
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                         
@@ -747,7 +754,7 @@ struct StudyView: View {
                         }
                         .disabled(isPlayingAudio)
                         
-                        Button("End Session") {
+                        Button("end_session".localized) {
                             endSession()
                         }
                         .font(.caption)
@@ -828,7 +835,7 @@ struct StudyView: View {
                     // Answer buttons (only show when back is visible)
                     if showingBack {
                         VStack(spacing: 12) {
-                            Text("How well did you know this?")
+                            Text("how_well_did_you_know".localized)
                                 .font(.headline)
                                 .padding(.horizontal)
                             
@@ -849,7 +856,7 @@ struct StudyView: View {
                         }
                     } else {
                         VStack {
-                            Text("Tap to reveal answer")
+                            Text("tap_to_reveal_answer".localized)
                                 .font(.caption)
                                 .foregroundColor(AppColors.secondaryText)
                             
@@ -865,14 +872,14 @@ struct StudyView: View {
                             .font(.system(size: 60))
                             .foregroundColor(AppColors.successColor)
                         
-                        Text("All caught up!")
+                        Text("all_caught_up".localized)
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("No cards are due for review right now.")
+                        Text("no_cards_due_for_review".localized)
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Button("Close") {
+                        Button("close".localized) {
                             dismiss()
                         }
                         .padding()
@@ -888,6 +895,7 @@ struct StudyView: View {
                 print("StudyView appeared for deck: \(deck.name)")
                 startStudySession()
             }
+        }
     }
     
     private func startStudySession() {
@@ -1061,11 +1069,11 @@ struct FlashcardView: View {
                 // Study data (only show on back)
                 if showingBack && card.studyData.timesStudied > 0 {
                     VStack(spacing: 4) {
-                        Text("Success Rate: \(Int(card.studyData.successRate * 100))%")
+                        Text("success_rate_percent".localized(with: Int(card.studyData.successRate * 100)))
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Text("Studied \(card.studyData.timesStudied) times")
+                        Text("studied_times".localized(with: card.studyData.timesStudied))
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                     }
@@ -1101,12 +1109,12 @@ struct FlashcardView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "en": return "English"
-        case "uk": return "Ukrainian"
-        case "ru": return "Russian"
-        case "es": return "Spanish"
-        case "fr": return "French"
-        case "de": return "German"
+        case "en": return "language_english".localized
+        case "uk": return "language_ukrainian".localized
+        case "ru": return "language_russian".localized
+        case "es": return "language_spanish".localized
+        case "fr": return "language_french".localized
+        case "de": return "language_german".localized
         default: return code.uppercased()
         }
     }

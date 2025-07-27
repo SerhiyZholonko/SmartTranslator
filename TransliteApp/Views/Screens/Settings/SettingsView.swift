@@ -16,6 +16,11 @@ struct SettingsView: View {
     var body: some View {
         LocalizedView {
         NavigationView {
+            ZStack {
+                // Theme-aware background matching main screen
+                AppColors.appBackground
+                    .ignoresSafeArea()
+                
             Form {
                 Section(header: Text("translation_service".localized)) {
                     Picker("Service", selection: $selectedTranslationService) {
@@ -148,6 +153,8 @@ struct SettingsView: View {
                     .foregroundColor(AppColors.appAccent)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(AppColors.appBackground)
             .navigationTitle("settings_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -157,6 +164,7 @@ struct SettingsView: View {
                         dismiss()
                     }
                 }
+            }
             }
         }
         }

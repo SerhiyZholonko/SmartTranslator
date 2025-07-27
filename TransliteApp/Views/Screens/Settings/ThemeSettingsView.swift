@@ -5,6 +5,11 @@ struct ThemeSettingsView: View {
     
     var body: some View {
         NavigationView {
+            ZStack {
+                // Theme-aware background matching main screen
+                AppColors.appBackground
+                    .ignoresSafeArea()
+                
             Form {
                 Section(header: Text("app_theme".localized)) {
                     ForEach(ThemePreference.allCases, id: \.self) { theme in
@@ -61,6 +66,7 @@ struct ThemeSettingsView: View {
             .scrollContentBackground(.hidden)
             .navigationTitle("app_theme".localized)
             .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .tint(AppColors.appAccent)
     }

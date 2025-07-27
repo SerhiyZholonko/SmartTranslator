@@ -176,6 +176,8 @@
 // MARK: - Flashcards
 "flashcards_title" = "Cartes";
 "language_learning" = "Apprentissage des langues";
+"my_first_deck" = "Mon premier paquet";
+"start_learning_description" = "Commencez à apprendre avec vos premières cartes";
 "study_flashcards_description" = "Étudiez les cartes pour améliorer votre vocabulaire";
 "create_new_deck" = "Créer un nouveau paquet";
 "cards" = "Cartes";
@@ -212,6 +214,18 @@
 "end_session" = "Terminer la session";
 "how_well_did_you_know" = "Dans quelle mesure connaissiez-vous ceci ?";
 "tap_to_reveal_answer" = "Appuyez pour révéler la réponse";
+"no_cards_due_for_review" = "Aucune carte à réviser pour le moment.";
+
+// Study Result Buttons
+"study_again" = "Encore";
+"study_hard" = "Difficile";
+"study_good" = "Bien";
+"study_easy" = "Facile";
+
+// Flashcard Study Data
+"success_rate_percent" = "Taux de réussite : %d%%";
+"studied_times" = "Étudié %d fois";
+"card_of_total" = "%d de %d";
 "session_complete" = "Session terminée !";
 "cards_studied" = "Cartes étudiées : %d";
 "accuracy" = "Précision : %d%%";
@@ -242,6 +256,9 @@
 "add_card_title" = "Ajouter une carte";
 "front_side" = "Recto";
 "back_side" = "Verso";
+"front_side_with_language" = "Recto (%@)";
+"back_side_with_language" = "Verso (%@)";
+"translate_button" = "Traduire";
 "enter_translation_or_use_auto" = "Entrez la traduction ou utilisez la traduction automatique";
 "enter_text_to_translate" = "Entrez le texte à traduire";
 "cards_must_use_languages" = "Les cartes de ce paquet doivent utiliser les langues %@ → %@";

@@ -1,0 +1,24 @@
+{
+  "source": "/Users/apple/Documents/gitHub/SmartTranslator/TransliteApp/Views/Components/FeatureCard.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "T",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "PRO",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 78
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -14,7 +14,7 @@ class FlashcardManager: ObservableObject {
     
     private init() {
         loadData()
-        createDefaultDeckIfNeeded()
+//        createDefaultDeckIfNeeded()
         fixNewCardsReviewDates() // Fix existing cards with incorrect due dates
         performDataSanityCheck() // Additional safety check
     }
@@ -156,7 +156,7 @@ class FlashcardManager: ObservableObject {
     
     private func createDefaultDeckIfNeeded() {
         if decks.isEmpty {
-            let defaultDeck = createDeck(name: "My First Deck", description: "Start learning with your first flashcards", sourceLanguage: "en", targetLanguage: "uk")
+            let defaultDeck = createDeck(name: "my_first_deck".localized, description: "start_learning_description".localized, sourceLanguage: "en", targetLanguage: "uk")
             
             // Add some sample cards
             let sampleCards = [

@@ -23,6 +23,11 @@ struct HistoryView: View {
     var body: some View {
         LocalizedView {
         NavigationView {
+            ZStack {
+                // Theme-aware background matching main screen
+                AppColors.appBackground
+                    .ignoresSafeArea()
+                
             VStack {
                 // Search and filter bar
                 HStack {
@@ -66,12 +71,15 @@ struct HistoryView: View {
                     List {
                         ForEach(filteredHistory) { item in
                             HistoryItemRow(item: item)
+                                .listRowBackground(AppColors.cardBackground)
                                 .onTapGesture {
                                     selectedItem = item
                                 }
                         }
                         .onDelete(perform: deleteItems)
                     }
+                    .scrollContentBackground(.hidden)
+                    .background(AppColors.appBackground)
                     .listStyle(PlainListStyle())
                 }
             }
@@ -95,6 +103,7 @@ struct HistoryView: View {
             }
             .sheet(isPresented: $showStatistics) {
                 StatisticsView()
+            }
             }
         }
         }
@@ -167,6 +176,10 @@ struct HistoryItemRow: View {
                 }
             }
         }
+        .padding()
+        .background(AppColors.cardBackground)
+        .cornerRadius(12)
+        .padding(.horizontal, 4)
         .padding(.vertical, 4)
     }
     
