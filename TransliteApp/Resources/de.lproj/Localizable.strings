@@ -168,6 +168,9 @@
 "favorites_only" = "Nur Favoriten";
 "all_translations" = "Alle Übersetzungen";
 "no_results_found" = "Keine Ergebnisse gefunden";
+"no_favorites" = "Keine Lieblingsübersetzungen";
+"try_different_search" = "Versuchen Sie eine andere Suchanfrage";
+"add_favorites_description" = "Fügen Sie Übersetzungen zu Favoriten hinzu, indem Sie auf den Stern tippen";
 "history_description" = "Ihr Übersetzungsverlauf wird hier angezeigt";
 "original_text" = "Originaltext";
 "translation_details" = "Übersetzungsdetails";

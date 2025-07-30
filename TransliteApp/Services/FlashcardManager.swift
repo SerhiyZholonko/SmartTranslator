@@ -232,6 +232,11 @@ class FlashcardManager: ObservableObject {
         return dueCards + selectedNewCards
     }
     
+    func getAllCards(for deckId: UUID) -> [Flashcard] {
+        guard let deck = decks.first(where: { $0.id == deckId }) else { return [] }
+        return flashcards.filter { deck.flashcardIds.contains($0.id) }
+    }
+    
     func recordStudyResult(_ flashcard: Flashcard, result: StudyResult) {
         guard let index = flashcards.firstIndex(where: { $0.id == flashcard.id }) else { return }
         

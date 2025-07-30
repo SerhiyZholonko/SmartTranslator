@@ -172,6 +172,9 @@
 "favorites_only" = "仅收藏";
 "all_translations" = "所有翻译";
 "no_results_found" = "未找到结果";
+"no_favorites" = "没有收藏的翻译";
+"try_different_search" = "尝试不同的搜索查询";
+"add_favorites_description" = "点击星号将翻译添加到收藏";
 "history_description" = "您的翻译历史将出现在这里";
 "original_text" = "原文";
 "translation_details" = "翻译详情";

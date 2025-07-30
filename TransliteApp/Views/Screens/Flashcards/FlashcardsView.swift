@@ -129,7 +129,7 @@ struct DeckCardWrapper: View {
             print("Selected deck: \(deck.name), ID: \(deck.id)")
             showingStudyView = true
         }
-        .sheet(isPresented: $showingStudyView) {
+        .fullScreenCover(isPresented: $showingStudyView) {
             NavigationView {
                 StudyView(deck: deck)
             }
@@ -696,7 +696,12 @@ struct StudyView: View {
     
     var body: some View {
         LocalizedView {
-        VStack(spacing: 20) {
+        ZStack {
+            // Background
+            AppColors.appBackground
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
                 if sessionComplete, let session = studySession {
                     StudyCompleteView(session: session) {
                         dismiss()
@@ -720,30 +725,70 @@ struct StudyView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
-                        Button("close".localized) {
-                            dismiss()
+                        VStack(spacing: 12) {
+                            // Check if deck has any cards at all
+                            if !flashcardManager.getAllCards(for: deck.id).isEmpty {
+                                Button(action: {
+                                    // Reset study session to review all cards again
+                                    cardsToStudy = flashcardManager.getAllCards(for: deck.id)
+                                    currentCardIndex = 0
+                                    showingBack = false
+                                    studySession = flashcardManager.startStudySession(deckId: deck.id)
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        Text("review_again".localized)
+                                            .font(.body)
+                                            .fontWeight(.medium)
+                                        Spacer()
+                                    }
+                                    .padding()
+                                    .contentShape(Rectangle())
+                                    .background(AppColors.successColor)
+                                    .foregroundColor(AppColors.cardBackground)
+                                    .cornerRadius(8)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                            
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("close".localized)
+                                        .font(.body)
+                                        .fontWeight(.medium)
+                                    Spacer()
+                                }
+                                .padding()
+                                .contentShape(Rectangle())
+                                .background(AppColors.appAccent.opacity(0.2))
+                                .foregroundColor(AppColors.appAccent)
+                                .cornerRadius(8)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.horizontal, 40)
-                        .padding(.vertical, 12)
-                        .background(AppColors.appAccent)
-                        .foregroundColor(AppColors.cardBackground)
-                        .cornerRadius(10)
+                        .padding(.horizontal)
                         
                         Spacer()
                     }
                 } else if let card = currentCard {
-                    // Progress indicator
+                    // Compact header with progress
                     HStack {
                         Text("card_of_total".localized(with: currentCardIndex + 1, cardsToStudy.count))
-                            .font(.caption)
+                            .font(.caption2)
                             .foregroundColor(AppColors.secondaryText)
+                        
+                        ProgressView(value: Double(currentCardIndex), total: Double(cardsToStudy.count))
+                            .frame(maxWidth: 100)
                         
                         Spacer()
                         
                         // Audio button
                         Button(action: { playCurrentCard() }) {
                             Image(systemName: isPlayingAudio ? "speaker.wave.2.fill" : "speaker.wave.2")
-                                .font(.system(size: 20))
+                                .font(.system(size: 16))
                                 .foregroundColor(AppColors.appAccent)
                         }
                         .disabled(isPlayingAudio)
@@ -751,114 +796,111 @@ struct StudyView: View {
                         Button("end_session".localized) {
                             endSession()
                         }
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundColor(AppColors.errorColor)
                     }
                     .padding(.horizontal)
+                    .padding(.vertical, 6)
+                    .background(AppColors.cardBackground)
                     
-                    ProgressView(value: Double(currentCardIndex), total: Double(cardsToStudy.count))
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                    
-                    // Navigation buttons
-                    HStack {
-                        Button(action: navigateToPrevious) {
-                            Image(systemName: "chevron.left.circle.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(currentCardIndex > 0 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
-                        }
-                        .disabled(currentCardIndex == 0)
-                        
-                        Spacer()
-                        
-                        Button(action: navigateToNext) {
-                            Image(systemName: "chevron.right.circle.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
-                        }
-                        .disabled(currentCardIndex >= cardsToStudy.count - 1)
-                    }
-                    .padding(.horizontal, 30)
-                    
-                    // Flashcard
-                    FlashcardView(
-                        card: card,
-                        showingBack: $showingBack,
-                        dragOffset: $dragOffset
-                    )
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                            showingBack.toggle()
-                        }
-                    }
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                dragOffset = value.translation
+                    // Main content area
+                    VStack(spacing: 16) {
+                        // Navigation buttons
+                        HStack {
+                            Button(action: navigateToPrevious) {
+                                Image(systemName: "chevron.left.circle.fill")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(currentCardIndex > 0 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
                             }
-                            .onEnded { value in
-                                let swipeThreshold: CGFloat = 100
-                                
-                                if abs(value.translation.width) > swipeThreshold {
-                                    if showingBack {
-                                        // When showing back, swipe to record result
-                                        let result: StudyResult
-                                        if value.translation.width > 0 {
-                                            result = .good // Right swipe = good
+                            .disabled(currentCardIndex == 0)
+                            
+                            Spacer()
+                            
+                            Button(action: navigateToNext) {
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
+                            }
+                            .disabled(currentCardIndex >= cardsToStudy.count - 1)
+                        }
+                        .padding(.horizontal, 30)
+                    
+                    // Carousel of flashcards
+                    TabView(selection: $currentCardIndex) {
+                        ForEach(Array(cardsToStudy.enumerated()), id: \.offset) { index, card in
+                            FlashcardView(
+                                card: card,
+                                showingBack: .constant(index == currentCardIndex ? showingBack : false),
+                                dragOffset: .constant(.zero)
+                            )
+                            .tag(index)
+                            .onTapGesture {
+                                if index == currentCardIndex {
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                        showingBack.toggle()
+                                    }
+                                }
+                            }
+                        }
+                        }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                        .frame(maxHeight: UIScreen.main.bounds.height * 0.4)
+                        .onChange(of: currentCardIndex) { newValue in
+                            showingBack = false
+                        }
+                        .gesture(
+                            DragGesture()
+                                .onEnded { value in
+                                    let swipeThreshold: CGFloat = 50
+                                    
+                                    if value.translation.width > swipeThreshold {
+                                        // Swipe right - go to previous card
+                                        navigateToPrevious()
+                                    } else if value.translation.width < -swipeThreshold {
+                                        // Swipe left - go to next card
+                                        if showingBack {
+                                            // If showing back, swipe left means "again"
+                                            handleStudyResult(.again)
                                         } else {
-                                            result = .again // Left swipe = again
-                                        }
-                                        handleStudyResult(result)
-                                    } else {
-                                        // When showing front, swipe to navigate
-                                        if value.translation.width > 0 {
-                                            navigateToPrevious() // Right swipe = previous
-                                        } else {
-                                            navigateToNext() // Left swipe = next
+                                            navigateToNext()
                                         }
                                     }
                                 }
+                        )
+                        
+                        // Answer buttons (only show when back is visible)
+                        if showingBack {
+                            VStack(spacing: 12) {
+                                Text("how_well_did_you_know".localized)
+                                    .font(.headline)
+                                    .padding(.horizontal)
                                 
-                                withAnimation(.spring()) {
-                                    dragOffset = .zero
+                                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                                    ForEach(StudyResult.allCases, id: \.self) { result in
+                                        Button(action: { handleStudyResult(result) }) {
+                                            Text(result.displayName)
+                                                .font(.system(size: 16, weight: .medium))
+                                                .foregroundColor(.white)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.vertical, 12)
+                                                .background(colorForResult(result))
+                                                .cornerRadius(8)
+                                        }
+                                    }
                                 }
-                            }
-                    )
-                    
-                    // Answer buttons (only show when back is visible)
-                    if showingBack {
-                        VStack(spacing: 12) {
-                            Text("how_well_did_you_know".localized)
-                                .font(.headline)
                                 .padding(.horizontal)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                                ForEach(StudyResult.allCases, id: \.self) { result in
-                                    Button(action: { handleStudyResult(result) }) {
-                                        Text(result.displayName)
-                                            .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(.white)
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 12)
-                                            .background(colorForResult(result))
-                                            .cornerRadius(8)
-                                    }
-                                }
                             }
-                            .padding(.horizontal)
-                        }
-                    } else {
-                        VStack {
-                            Text("tap_to_reveal_answer".localized)
-                                .font(.caption)
-                                .foregroundColor(AppColors.secondaryText)
-                            
-                            Spacer().frame(height: 100)
+                        } else {
+                            VStack {
+                                Text("tap_to_reveal_answer".localized)
+                                    .font(.caption)
+                                    .foregroundColor(AppColors.secondaryText)
+                                
+                                Spacer().frame(height: 80)
+                            }
                         }
                     }
-                    
-                    Spacer()
+                    .padding(.top, 16)
                 } else {
                     // No cards to study
                     VStack(spacing: 20) {
@@ -873,26 +915,62 @@ struct StudyView: View {
                         Text("no_cards_due_for_review".localized)
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Button("close".localized) {
-                            dismiss()
+                        VStack(spacing: 12) {
+                            Button(action: {
+                                // Reset study session to review all cards again
+                                cardsToStudy = flashcardManager.getAllCards(for: deck.id)
+                                currentCardIndex = 0
+                                showingBack = false
+                                studySession = flashcardManager.startStudySession(deckId: deck.id)
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("review_again".localized)
+                                        .font(.body)
+                                        .fontWeight(.medium)
+                                    Spacer()
+                                }
+                                .padding()
+                                .contentShape(Rectangle())
+                                .background(AppColors.successColor)
+                                .foregroundColor(AppColors.cardBackground)
+                                .cornerRadius(8)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("close".localized)
+                                        .font(.body)
+                                        .fontWeight(.medium)
+                                    Spacer()
+                                }
+                                .padding()
+                                .contentShape(Rectangle())
+                                .background(AppColors.appAccent.opacity(0.2))
+                                .foregroundColor(AppColors.appAccent)
+                                .cornerRadius(8)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding()
-                        .background(AppColors.appAccent)
-                        .foregroundColor(AppColors.cardBackground)
-                        .cornerRadius(8)
+                        .padding(.horizontal)
                     }
                 }
             }
-            .navigationTitle(deck.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("close".localized) {
-                        dismiss()
-                    }
+        }
+        .navigationTitle(deck.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("close".localized) {
+                    dismiss()
                 }
             }
-            .onAppear {
+        }
+        .onAppear {
                 print("StudyView appeared for deck: \(deck.name)")
                 startStudySession()
             }
@@ -963,7 +1041,6 @@ struct StudyView: View {
         withAnimation(.spring()) {
             currentCardIndex += 1
             showingBack = false
-            dragOffset = .zero
         }
     }
     
@@ -972,7 +1049,6 @@ struct StudyView: View {
         withAnimation(.spring()) {
             currentCardIndex -= 1
             showingBack = false
-            dragOffset = .zero
         }
     }
     
@@ -1082,10 +1158,9 @@ struct FlashcardView: View {
             }
             .padding(20)
         }
-        .frame(height: 300)
-        .padding(.horizontal, 20)
+        .frame(maxHeight: 350)
+        .frame(width: min(UIScreen.main.bounds.width - 40, 320))
         .scaleEffect(1 - abs(dragOffset.width) / 1000)
-        .rotationEffect(.degrees(Double(dragOffset.width / 20)))
         .offset(dragOffset)
         .overlay(
             // Swipe indicators
@@ -1139,22 +1214,24 @@ struct StudyCompleteView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.yellow)
             
-            Text("Session Complete!")
+            Text("session_complete".localized)
                 .font(.title)
                 .fontWeight(.bold)
             
             VStack(spacing: 8) {
-                Text("Cards studied: \(session.cardsStudied)")
-                Text("Accuracy: \(Int(session.accuracy * 100))%")
+                Text("cards_studied".localized(with: session.cardsStudied))
+                Text("accuracy".localized(with: Int(session.accuracy * 100)))
                 if let endTime = session.endTime {
                     let duration = endTime.timeIntervalSince(session.startTime)
-                    Text("Time: \(Int(duration / 60))m \(Int(duration.truncatingRemainder(dividingBy: 60)))s")
+                    let minutes = Int(duration / 60)
+                    let seconds = Int(duration.truncatingRemainder(dividingBy: 60))
+                    Text("time_spent".localized(with: minutes, seconds))
                 }
             }
             .font(.subheadline)
             .foregroundColor(AppColors.secondaryText)
             
-            Button("Close") {
+            Button("close".localized) {
                 onClose()
             }
             .font(.headline)

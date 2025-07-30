@@ -9,6 +9,7 @@ struct HistoryView: View {
     @State private var showFavoritesOnly = false
     @State private var selectedItem: TranslationHistoryItem?
     @State private var showStatistics = false
+    @State private var filterStarScale: CGFloat = 1.0
     
     var filteredHistory: [TranslationHistoryItem] {
         let items = showFavoritesOnly ? historyManager.getFavorites() : historyManager.history
@@ -42,9 +43,24 @@ struct HistoryView: View {
                     .background(AppColors.tertiaryBackground)
                     .cornerRadius(8)
                     
-                    Button(action: { showFavoritesOnly.toggle() }) {
+                    Button(action: { 
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                            filterStarScale = 1.3
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                filterStarScale = 1.0
+                            }
+                        }
+                        
+                        showFavoritesOnly.toggle() 
+                    }) {
                         Image(systemName: showFavoritesOnly ? "star.fill" : "star")
                             .foregroundColor(showFavoritesOnly ? AppColors.warningColor : AppColors.secondaryText)
+                            .scaleEffect(filterStarScale)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: filterStarScale)
+                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: showFavoritesOnly)
                     }
                 }
                 .padding(.horizontal)
@@ -57,11 +73,11 @@ struct HistoryView: View {
                             .font(.system(size: 60))
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Text(searchText.isEmpty ? "no_history".localized : "no_results_found".localized)
+                        Text(getEmptyStateTitle())
                             .font(.headline)
                             .foregroundColor(AppColors.secondaryText)
                         
-                        Text("history_description".localized)
+                        Text(getEmptyStateDescription())
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                     }
@@ -112,10 +128,36 @@ struct HistoryView: View {
     func deleteItems(at offsets: IndexSet) {
         historyManager.deleteItem(at: offsets)
     }
+    
+    func getEmptyStateTitle() -> String {
+        if !searchText.isEmpty {
+            return "no_results_found".localized
+        } else if showFavoritesOnly {
+            return "no_favorites".localized
+        } else {
+            return "no_history".localized
+        }
+    }
+    
+    func getEmptyStateDescription() -> String {
+        if !searchText.isEmpty {
+            return "try_different_search".localized
+        } else if showFavoritesOnly {
+            return "add_favorites_description".localized
+        } else {
+            return "history_description".localized
+        }
+    }
 }
 
 struct HistoryItemRow: View {
     let item: TranslationHistoryItem
+    @State private var starScale: CGFloat = 1.0
+    @ObservedObject private var historyManager = TranslationHistoryManager.shared
+    
+    var currentItem: TranslationHistoryItem {
+        historyManager.history.first(where: { $0.id == item.id }) ?? item
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -140,11 +182,27 @@ struct HistoryItemRow: View {
                 
                 Spacer()
                 
-                if item.isFavorite {
-                    Image(systemName: "star.fill")
+                Button(action: {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                        starScale = currentItem.isFavorite ? 0.8 : 1.4
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                            starScale = 1.0
+                        }
+                    }
+                    
+                    historyManager.toggleFavorite(for: item.id)
+                }) {
+                    Image(systemName: currentItem.isFavorite ? "star.fill" : "star")
                         .font(.caption)
-                        .foregroundColor(AppColors.warningColor)
+                        .foregroundColor(currentItem.isFavorite ? AppColors.warningColor : AppColors.secondaryText)
+                        .scaleEffect(starScale)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: starScale)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: currentItem.isFavorite)
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 Text(item.timestamp.formatted(.relative(presentation: .numeric)))
                     .font(.caption2)
@@ -200,10 +258,13 @@ struct HistoryItemRow: View {
 struct HistoryDetailView: View {
     let item: TranslationHistoryItem
     @Environment(\.dismiss) var dismiss
-    @StateObject private var historyManager = TranslationHistoryManager.shared
+    @ObservedObject private var historyManager = TranslationHistoryManager.shared
     @StateObject private var flashcardManager = FlashcardManager.shared
     @State private var showingDeckSelector = false
     @State private var flashcardCreated = false
+    @State private var starScale: CGFloat = 1.0
+    @State private var starRotation: Double = 0.0
+    @State private var isFavorite: Bool = false
     
     var body: some View {
         NavigationView {
@@ -230,8 +291,13 @@ struct HistoryDetailView: View {
                             Spacer()
                             
                             Button(action: toggleFavorite) {
-                                Image(systemName: item.isFavorite ? "star.fill" : "star")
-                                    .foregroundColor(item.isFavorite ? AppColors.warningColor : AppColors.secondaryText)
+                                Image(systemName: isFavorite ? "star.fill" : "star")
+                                    .foregroundColor(isFavorite ? AppColors.warningColor : AppColors.secondaryText)
+                                    .scaleEffect(starScale)
+                                    .rotationEffect(.degrees(starRotation))
+                                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFavorite)
+                                    .animation(.spring(response: 0.5, dampingFraction: 0.7), value: starScale)
+                                    .animation(.easeInOut(duration: 0.2), value: starRotation)
                             }
                         }
                         
@@ -370,11 +436,52 @@ struct HistoryDetailView: View {
             } message: {
                 Text("flashcard_added_description".localized)
             }
+            .onAppear {
+                // Ініціалізуємо стан обраного при відкритті
+                isFavorite = historyManager.history.first(where: { $0.id == item.id })?.isFavorite ?? item.isFavorite
+            }
         }
     }
     
     func toggleFavorite() {
+        let wasAlreadyFavorite = isFavorite
+        
+        // Анімація при натисканні
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            starScale = wasAlreadyFavorite ? 0.8 : 1.3
+        }
+        
+        withAnimation(.easeInOut(duration: 0.2)) {
+            starRotation = wasAlreadyFavorite ? 0 : 360
+        }
+        
+        // Змінюємо локальний стан та стан в менеджері
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            isFavorite.toggle()
+        }
         historyManager.toggleFavorite(for: item.id)
+        
+        // Повертаємо масштаб назад через коротку затримку
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                starScale = 1.0
+                starRotation = 0
+            }
+        }
+        
+        // Додатковий ефект для нових обраних
+        if !wasAlreadyFavorite {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    starScale = 1.1
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        starScale = 1.0
+                    }
+                }
+            }
+        }
     }
     
     func copyTranslation() {

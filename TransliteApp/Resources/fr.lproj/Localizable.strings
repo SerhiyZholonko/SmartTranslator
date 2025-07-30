@@ -168,6 +168,9 @@
 "favorites_only" = "Favoris uniquement";
 "all_translations" = "Toutes les traductions";
 "no_results_found" = "Aucun résultat trouvé";
+"no_favorites" = "Aucune traduction favorite";
+"try_different_search" = "Essayez une autre recherche";
+"add_favorites_description" = "Ajoutez des traductions aux favoris en appuyant sur l'étoile";
 "history_description" = "Votre historique de traductions apparaîtra ici";
 "original_text" = "Texte original";
 "translation_details" = "Détails de la traduction";

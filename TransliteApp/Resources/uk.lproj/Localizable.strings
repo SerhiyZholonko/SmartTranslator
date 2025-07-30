@@ -161,6 +161,9 @@
 "favorites_only" = "Тільки обране";
 "all_translations" = "Всі переклади";
 "no_results_found" = "Результатів не знайдено";
+"no_favorites" = "Улюблених перекладів немає";
+"try_different_search" = "Спробуйте інший пошуковий запит";
+"add_favorites_description" = "Додайте переклади в обране, натиснувши на зірочку";
 "history_description" = "Ваша історія перекладів з'явиться тут";
 "original_text" = "Оригінальний текст";
 "translation_details" = "Деталі перекладу";
