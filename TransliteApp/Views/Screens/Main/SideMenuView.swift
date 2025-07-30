@@ -9,7 +9,6 @@ struct SideMenuView: View {
     @State private var showFlashcards = false
     @State private var showSettings = false
     @State private var showShareSheet = false
-    @State private var showContactSheet = false
     @State private var showPrivacySheet = false
     @State private var menuItemsOpacity: Double = 0
     
@@ -191,17 +190,6 @@ struct SideMenuView: View {
                         .offset(x: menuItemsOpacity == 1 ? 0 : -50)
                         .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.27), value: menuItemsOpacity)
                 
-                        MenuItemView(
-                            icon: "message.fill",
-                            title: "menu_contact_us".localized,
-                            iconColor: AppColors.appAccent,
-                            action: {
-                                showContactSheet = true
-                            }
-                        )
-                        .opacity(menuItemsOpacity)
-                        .offset(x: menuItemsOpacity == 1 ? 0 : -50)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.30), value: menuItemsOpacity)
                 
                         MenuItemView(
                             icon: "lock.shield.fill",
@@ -280,10 +268,6 @@ struct SideMenuView: View {
         .sheet(isPresented: $showShareSheet) {
             ShareView()
                 .presentationDetents([.medium])
-        }
-        .sheet(isPresented: $showContactSheet) {
-            ContactView()
-                .presentationDetents([.large])
         }
         .sheet(isPresented: $showPrivacySheet) {
             PrivacyPolicyView()

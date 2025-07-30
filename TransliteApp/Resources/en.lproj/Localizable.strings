@@ -17,6 +17,12 @@
 "file_translator" = "File Translator";
 "offline_translator" = "Offline Translator";
 
+// MARK: - Tab Bar
+"home" = "Home";
+"flashcards" = "Flashcards";
+"history" = "History";
+"settings" = "Settings";
+
 // MARK: - Side Menu
 "menu_title" = "Menu";
 "menu_history" = "History";

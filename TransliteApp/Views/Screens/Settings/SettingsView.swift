@@ -1,4 +1,5 @@
 import SwiftUI
+import StoreKit
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
@@ -146,35 +147,69 @@ struct SettingsView: View {
                             .foregroundColor(AppColors.secondaryText)
                     }
                     
+                    // Menu items from side menu
+                    Button(action: requestReview) {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(AppColors.warningColor)
+                            Text("menu_rate_us".localized)
+                                .foregroundColor(AppColors.primaryText)
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: shareApp) {
+                        HStack {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(AppColors.appAccent)
+                            Text("menu_share_app".localized)
+                                .foregroundColor(AppColors.primaryText)
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    
+                    Button(action: openPrivacyPolicy) {
+                        HStack {
+                            Image(systemName: "shield.fill")
+                                .foregroundColor(AppColors.successColor)
+                            Text("menu_privacy_policy".localized)
+                                .foregroundColor(AppColors.primaryText)
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button("reset_to_defaults".localized) {
                         resetToDefaults()
                     }
                     .foregroundColor(AppColors.appAccent)
                 }
+                
+                // Padding for TabBar
+                Section {
+                    Color.clear
+                        .frame(height: 60)
+                }
+                .listRowBackground(Color.clear)
             }
             .scrollContentBackground(.hidden)
             .background(AppColors.appBackground)
             .navigationTitle("settings_title".localized)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("done".localized) {
-                        saveSettings()
-                        dismiss()
-                    }
-                }
-            }
+
             }
         }
-        }
-        .onAppear {
-            loadSettings()
         }
         .alert("service_not_available".localized, isPresented: $showingServiceAlert) {
             Button("OK") { }
         } message: {
             Text("apple_translation_update_message".localized)
+        }
+        .onAppear {
+            loadSettings()
         }
     }
     
@@ -210,6 +245,34 @@ struct SettingsView: View {
         selectedTranslationService = .google
         UserDefaults.standard.selectedTranslationService = .google
     }
+    
+    // MARK: - Menu Actions
+    
+    private func requestReview() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: windowScene)
+        }
+    }
+    
+    private func shareApp() {
+        let appName = "app_name".localized
+        let shareText = "Check out \(appName) - the smart translation app!"
+        
+        let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let keyWindow = windowScene.windows.first {
+            keyWindow.rootViewController?.present(activityVC, animated: true)
+        }
+    }
+    
+    
+    private func openPrivacyPolicy() {
+        if let url = URL(string: "https://smarttranslator.com/privacy") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
 }
 
 #Preview {

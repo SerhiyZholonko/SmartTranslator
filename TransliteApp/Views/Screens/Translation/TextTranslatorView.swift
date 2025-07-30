@@ -23,6 +23,7 @@ struct TextTranslatorView: View {
     @State private var selectedDeck: FlashcardDeck?
     @State private var showDeckSelection = false
     @State private var flashcardSaved = false
+    @State private var translationTimer: Timer?
     
     var languages: [(String, String)] {
         [
@@ -119,10 +120,22 @@ struct TextTranslatorView: View {
                                     if inputText.count > 5000 {
                                         inputText = String(inputText.prefix(5000))
                                     }
+                                    // Auto-translate after short delay
+                                    if !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        autoTranslateAfterDelay()
+                                    } else {
+                                        // Clear translation if text is empty
+                                        translatedText = ""
+                                        alternatives = []
+                                        flashcardSaved = false
+                                    }
                                 }
                             
                             HStack {
-                                Button(action: { inputText = "" }) {
+                                Button(action: { 
+                                    inputText = ""
+                                    translationTimer?.invalidate()
+                                }) {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundColor(AppColors.secondaryText)
                                 }
@@ -145,27 +158,6 @@ struct TextTranslatorView: View {
                         }
                         .padding(.horizontal)
                         
-                        // Translate button
-                        Button(action: translate) {
-                            HStack {
-                                if translationManager.isTranslating {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: AppColors.buttonText))
-                                        .scaleEffect(0.8)
-                                } else {
-                                    Image(systemName: "globe")
-                                    Text("translate".localized)
-                                }
-                            }
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(AppColors.buttonText)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(AppColors.appAccent)
-                            .cornerRadius(25)
-                        }
-                        .padding(.horizontal)
-                        .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || translationManager.isTranslating)
                         
                         // Translation result
                         if !translatedText.isEmpty {
@@ -259,6 +251,16 @@ struct TextTranslatorView: View {
         .onAppear {
             loadLanguageSettings()
         }
+        }
+    }
+    
+    private func autoTranslateAfterDelay() {
+        // Cancel previous timer
+        translationTimer?.invalidate()
+        
+        // Set new timer for 1 second delay
+        translationTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+            translate()
         }
     }
     

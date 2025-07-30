@@ -4,7 +4,7 @@ import Combine
 @MainActor
 final class ContentViewModel: BaseViewModel {
     // MARK: - Published Properties
-    @Published var showingSideMenu = false
+    @Published var selectedTab: CustomTabBar.TabItem = .home
     @Published var selectedFeature: FeatureType?
     @Published var isPremium = false
     @Published var showPremiumScreen = false
@@ -14,6 +14,8 @@ final class ContentViewModel: BaseViewModel {
     @Published var showVoiceChat = false
     @Published var showCameraTranslator = false
     @Published var showFileTranslator = false
+    @Published var showSettings = false
+    @Published var showFlashcards = false
     
     // MARK: - Services
     private let premiumManager = PremiumManager.shared
@@ -48,21 +50,8 @@ final class ContentViewModel: BaseViewModel {
         }
     }
     
-    func toggleSideMenu() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-            showingSideMenu.toggle()
-        }
-    }
-    
-    func closeSideMenu() {
-        withAnimation {
-            showingSideMenu = false
-        }
-    }
-    
     func openPremiumScreen() {
         showPremiumScreen = true
-        closeSideMenu()
     }
     
     // MARK: - Private Methods

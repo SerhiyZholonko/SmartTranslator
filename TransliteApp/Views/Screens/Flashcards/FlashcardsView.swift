@@ -35,13 +35,7 @@ struct FlashcardsView: View {
                         
                         Spacer()
                         
-                        Button(action: { dismiss() }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.title2)
-                                .foregroundColor(AppColors.secondaryText)
-                                .background(AppColors.cardBackground)
-                                .clipShape(Circle())
-                        }
+
                     }
                     .padding(.horizontal)
                     

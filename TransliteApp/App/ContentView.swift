@@ -9,99 +9,48 @@ struct ContentView: View {
     var body: some View {
         LocalizedView {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .bottom) {
                 // Theme-aware background
                 AppColors.appBackground
                     .ignoresSafeArea()
                 
-                // Main content
-                VStack(spacing: 0) {
-                    // Header
-                    HeaderView(showMenu: $viewModel.showingSideMenu, isPremium: $viewModel.isPremium)
-                        .padding(.horizontal)
-                        .padding(.top, 10)
-                    
-                    // Globe illustration with stars
-                    GlobeView()
-                        .frame(height: 200)
-                        .padding(.top, 60)
-                        .padding(.bottom, -40)
-                    
-                    // Feature cards
-                    VStack(spacing: 20) {
-                        HStack(spacing: 20) {
-                            FeatureCard(
-                                feature: .textTranslator,
-                                isPremium: viewModel.isPremium,
-                                action: { viewModel.selectFeature(.textTranslator) }
-                            )
-                            
-                            FeatureCard(
-                                feature: .voiceChat,
-                                isPremium: viewModel.isPremium,
-                                action: { viewModel.selectFeature(.voiceChat) }
-                            )
-                        }
-                        
-                        HStack(spacing: 20) {
-                            FeatureCard(
-                                feature: .cameraTranslator,
-                                isPremium: viewModel.isPremium,
-                                action: { viewModel.selectFeature(.cameraTranslator) }
-                            )
-                            
-                            FeatureCard(
-                                feature: .fileTranslator,
-                                isPremium: viewModel.isPremium,
-                                action: { viewModel.selectFeature(.fileTranslator) }
-                            )
-                        }
-                    }
-                    .padding(.horizontal, 25)
-                    
-                    Spacer()
+                // Tab content based on selection
+                switch viewModel.selectedTab {
+                case .home:
+                    HomeView(viewModel: viewModel)
+                case .flashcards:
+                    FlashcardsView()
+                case .history:
+                    HistoryView()
+                case .settings:
+                    SettingsView()
                 }
                 
-                // Side menu overlay
-                if viewModel.showingSideMenu {
-                    Color.black.opacity(0.3)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            viewModel.closeSideMenu()
-                        }
-                }
-                
-                // Side menu
-                GeometryReader { geometry in
-                    HStack(spacing: 0) {
-                        SideMenuView(
-                            isShowing: $viewModel.showingSideMenu,
-                            isPremium: $viewModel.isPremium,
-                            showPremiumScreen: $viewModel.showPremiumScreen
-                        )
-                        .frame(width: geometry.size.width * 0.75)
-                        .offset(x: viewModel.showingSideMenu ? 0 : -geometry.size.width)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.showingSideMenu)
-                        
-                        Spacer()
-                    }
-                }
+                // Custom TabBar
+                CustomTabBar(selectedTab: $viewModel.selectedTab)
+                    .ignoresSafeArea(.keyboard)
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $viewModel.showPremiumScreen) {
                 PremiumView()
             }
-            .sheet(isPresented: $viewModel.showTextTranslator) {
+            .fullScreenCover(isPresented: $viewModel.showTextTranslator) {
                 TextTranslatorView()
             }
-            .sheet(isPresented: $viewModel.showVoiceChat) {
+            .fullScreenCover(isPresented: $viewModel.showVoiceChat) {
                 VoiceChatView()
             }
-            .sheet(isPresented: $viewModel.showCameraTranslator) {
+            .fullScreenCover(isPresented: $viewModel.showCameraTranslator) {
                 CameraTranslatorView()
             }
-            .sheet(isPresented: $viewModel.showFileTranslator) {
+            .fullScreenCover(isPresented: $viewModel.showFileTranslator) {
                 FileTranslatorView()
+            }
+            .sheet(isPresented: $viewModel.showSettings) {
+                SettingsView()
+            }
+            .sheet(isPresented: $viewModel.showFlashcards) {
+                FlashcardsView()
             }
         }
         .themeAware()

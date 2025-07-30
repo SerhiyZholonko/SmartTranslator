@@ -13,6 +13,12 @@
 "file_translator" = "Traductor de archivos";
 "offline_translator" = "Traductor sin conexión";
 
+// MARK: - Tab Bar
+"home" = "Inicio";
+"flashcards" = "Tarjetas";
+"history" = "Historial";
+"settings" = "Configuración";
+
 // MARK: - Side Menu
 "menu_title" = "Menú";
 "menu_history" = "Historial";

@@ -17,6 +17,12 @@
 "file_translator" = "Перевод файлов";
 "offline_translator" = "Офлайн переводчик";
 
+// MARK: - Tab Bar
+"home" = "Главная";
+"flashcards" = "Карточки";
+"history" = "История";
+"settings" = "Настройки";
+
 // MARK: - Side Menu
 "menu_title" = "Меню";
 "menu_history" = "История";
