@@ -369,7 +369,7 @@ struct VoiceButton: View {
             Menu {
                 Button("🇬🇧 \("language_english".localized)") { language = "en-US" }
                 Button("🇺🇦 \("language_ukrainian".localized)") { language = "uk-UA" }
-                Button("🇷🇺 \("language_russian".localized)") { language = "ru-RU" }
+                Button("🇨🇳 \("language_chinese_simplified".localized)") { language = "zh-CN" }
                 Button("🇪🇸 \("language_spanish".localized)") { language = "es-ES" }
                 Button("🇫🇷 \("language_french".localized)") { language = "fr-FR" }
                 Button("🇩🇪 \("language_german".localized)") { language = "de-DE" }
@@ -397,7 +397,7 @@ struct VoiceButton: View {
         switch languageCode {
         case "en-US", "en": return "🇬🇧"
         case "uk-UA", "uk": return "🇺🇦"
-        case "ru-RU", "ru": return "🇷🇺"
+        case "zh-CN", "zh": return "🇨🇳"
         case "es-ES", "es": return "🇪🇸"
         case "fr-FR", "fr": return "🇫🇷"
         case "de-DE", "de": return "🇩🇪"
@@ -409,7 +409,7 @@ struct VoiceButton: View {
         switch languageCode {
         case "en-US", "en": return "language_english".localized
         case "uk-UA", "uk": return "language_ukrainian".localized
-        case "ru-RU", "ru": return "language_russian".localized
+        case "zh-CN", "zh": return "language_chinese_simplified".localized
         case "es-ES", "es": return "language_spanish".localized
         case "fr-FR", "fr": return "language_french".localized
         case "de-DE", "de": return "language_german".localized

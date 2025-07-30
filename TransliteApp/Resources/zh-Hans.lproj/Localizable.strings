@@ -1,0 +1,421 @@
+/* 
+  Localizable.strings
+  TransliteApp
+  
+  Chinese Simplified localization
+*/
+
+// MARK: - Launch Screen
+"launch_tagline" = "全世界的智能翻译";
+"loading_text" = "加载中";
+
+// MARK: - Main Screen
+"app_name" = "智能翻译";
+"text_translator" = "文本翻译";
+"voice_chat" = "语音聊天";
+"camera_translator" = "相机翻译";
+"file_translator" = "文件翻译";
+"offline_translator" = "离线翻译";
+
+// MARK: - Tab Bar
+"home" = "首页";
+"flashcards" = "单词卡";
+"history" = "历史";
+"settings" = "设置";
+
+// MARK: - Contact Us
+"contact_us" = "联系我们";
+"contact_us_title" = "联系我们";
+"contact_us_subtitle" = "我们很乐意听到您的声音！向我们发送您的反馈、问题或建议。";
+"share_email" = "分享电子邮件";
+"share_email_description" = "分享我们的电子邮件地址";
+"copy_email" = "复制电子邮件";
+"copy_email_description" = "将电子邮件复制到剪贴板";
+"support_info_title" = "支持信息";
+"support_info_description" = "我们通常在24小时内回复。请包含您的设备详细信息和遇到的问题。";
+
+// MARK: - Side Menu
+"menu_title" = "菜单";
+"menu_history" = "历史";
+"menu_flashcards" = "单词卡";
+"menu_settings" = "设置";
+"menu_rate_us" = "评价我们";
+"menu_share_app" = "分享应用";
+"menu_contact_us" = "联系我们";
+"menu_privacy_policy" = "隐私政策";
+
+// MARK: - Premium
+"premium_title" = "高级版";
+"lifetime_premium" = "终身高级版";
+"get_premium" = "获取高级版";
+"get_premium_for_price" = "以 UAH 169.99 获取高级版";
+"premium_features" = "高级功能";
+"premium_no_ads_full" = "100% 无恼人广告";
+"premium_faster_translation" = "更快的翻译";
+"premium_unlimited_camera" = "无限相机翻译";
+"premium_unlimited_photo" = "无限照片翻译";
+"premium_unlimited_translations" = "无限翻译";
+"premium_camera_translation" = "相机翻译";
+"premium_file_translation" = "文件翻译";
+"premium_no_ads" = "无广告";
+"premium_offline_mode" = "离线模式";
+"premium_price_monthly" = "$4.99/月";
+"premium_price_yearly" = "$39.99/年";
+"restore_purchase" = "恢复购买";
+"premium_active" = "高级版已激活";
+"coming_soon" = "即将推出";
+
+// MARK: - Text Translator
+"text_translator_title" = "文本翻译";
+"from" = "从";
+"to" = "到";
+"enter_text_label" = "输入文本";
+"character_count" = "%d / 5000";
+"source_language" = "源语言";
+"target_language" = "目标语言";
+"enter_text" = "输入要翻译的文本...";
+"translate" = "翻译";
+"translating" = "翻译中...";
+"translation_result" = "翻译结果";
+"alternatives" = "替代选项";
+"add_to_flashcards" = "添加到单词卡";
+"clear" = "清除";
+"copy" = "复制";
+"speak" = "朗读";
+"paste" = "粘贴";
+"switch_languages" = "切换语言";
+"auto_detect" = "自动检测";
+
+// MARK: - Flashcards Integration
+"choose_deck_to_add" = "选择要添加此单词卡的牌组";
+"no_compatible_decks" = "没有兼容的牌组";
+"create_deck_for_languages" = "为 %@ → %@ 翻译创建新牌组";
+"create_new_deck" = "创建新牌组";
+"add_to_flashcards_title" = "添加到单词卡";
+"cards_count_simple" = "%d 张卡片";
+
+// MARK: - Voice Recognition
+"microphone_access_needed" = "需要麦克风访问权限";
+"open_settings" = "打开设置";
+"please_enable_microphone" = "请在设置中启用麦克风访问权限以使用语音输入。";
+
+// MARK: - Language Names (shorter versions)
+"language_auto" = "自动";
+"language_en_short" = "英文";
+"language_uk_short" = "乌克兰语";
+"language_zh_short" = "中文";
+"language_es_short" = "西班牙语";
+"language_fr_short" = "法语";
+"language_de_short" = "德语";
+
+// MARK: - Voice Chat
+"voice_chat_title" = "语音聊天";
+"no_chats_yet" = "还没有聊天记录..";
+"start_conversation" = "开始对话";
+"speak_up" = "请说话...";
+"tap_to_speak" = "点击说话";
+"listening" = "正在听...";
+"processing" = "处理中...";
+"microphone_permission_required" = "语音翻译需要麦克风权限";
+"grant_permission" = "授予权限";
+
+// MARK: - Camera Translator
+"camera_translator_title" = "相机翻译";
+"point_camera_at_text" = "将相机对准文本";
+"take_photo" = "拍照";
+"retake" = "重拍";
+"camera_permission_required" = "相机翻译需要相机权限";
+"photo_library_permission_required" = "选择照片需要照片库权限";
+"choose_from_library" = "从图库选择";
+"detected_text" = "检测到：%@";
+"camera_permission_required_message" = "请在设置中启用相机访问权限以使用相机翻译。";
+
+// MARK: - File Translator
+"file_translator_title" = "文件翻译";
+"select_file" = "选择文件";
+"supported_formats" = "支持的格式：PDF、DOC、DOCX、TXT";
+"file_selected" = "已选择文件：";
+"translate_file" = "翻译文件";
+"translating_file" = "正在翻译文件...";
+"file_translation_complete" = "翻译完成";
+"download_translation" = "下载翻译";
+"select_file_to_translate" = "选择要翻译的文件";
+"supported_files_note" = "支持：图片、PDF文档";
+"gallery" = "相册";
+"camera" = "相机";
+"processing_file" = "处理文件中...";
+"pdf_document" = "PDF文档";
+"image_file" = "图片文件";
+"detected_text_title" = "检测到的文本";
+"translation_title" = "翻译";
+"no_text_detected_image" = "图片中未检测到文本";
+"no_text_found_pdf" = "PDF中未找到文本";
+"translation_error_prefix" = "翻译错误：%@";
+
+// MARK: - Offline Translator
+"offline_translator_title" = "离线翻译";
+"download_language_packs" = "下载语言包进行离线翻译";
+"available_languages" = "可用语言";
+"downloaded" = "已下载";
+"download" = "下载";
+"delete" = "删除";
+"offline_mode_limited" = "离线模式的翻译准确性有限";
+
+// MARK: - History
+"history_title" = "历史";
+"search_history" = "搜索历史...";
+"no_history" = "没有翻译历史";
+"clear_history" = "清除历史";
+"clear_history_confirm" = "您确定要清除所有历史记录吗？";
+"favorite" = "收藏";
+"unfavorite" = "取消收藏";
+"favorites_only" = "仅收藏";
+"all_translations" = "所有翻译";
+"no_results_found" = "未找到结果";
+"history_description" = "您的翻译历史将出现在这里";
+"original_text" = "原文";
+"translation_details" = "翻译详情";
+"corrections" = "语法纠正";
+"flashcard_added_description" = "翻译已添加到您的单词卡中进行学习。";
+"overview" = "概览";
+"total_translations" = "总翻译数";
+"favorite_count" = "收藏数";
+"average_text_length" = "平均文本长度";
+"characters_count" = "%.0f 个字符";
+"language_pairs" = "语言对";
+"translations_count" = "%d 次翻译";
+"most_frequent_phrases" = "最常用短语";
+"times_count" = "%d 次";
+"learning_suggestions" = "学习建议";
+"no_suggestions_available" = "暂无可用建议";
+"statistics" = "统计";
+"compatible_decks_with_languages" = "兼容牌组（%@ → %@）";
+"no_decks_found_for_languages" = "未找到 %@ → %@ 的牌组。创建新牌组开始学习。";
+
+// MARK: - Flashcards
+"flashcards_title" = "单词卡";
+"language_learning" = "语言学习";
+"my_first_deck" = "我的第一副牌组";
+"start_learning_description" = "开始使用您的第一张单词卡学习";
+"study_flashcards_description" = "学习单词卡以提高词汇量";
+"create_new_deck" = "创建新牌组";
+"cards" = "卡片";
+"studied" = "已学习";
+"success" = "成功";
+"last_studied" = "最后学习 %@";
+"add_card" = "添加卡片";
+"delete_deck" = "删除牌组";
+"delete_deck_confirm" = "您确定要删除「%@」及其所有卡片吗？此操作无法撤销。";
+"cards_due" = "%d 张待复习";
+"my_decks" = "我的牌组";
+"create_deck" = "创建牌组";
+"deck_name" = "牌组名称";
+"enter_deck_name" = "输入牌组名称...";
+"cards_count" = "%d 张卡片";
+"study_now" = "立即学习";
+"edit_deck" = "编辑牌组";
+"no_decks" = "还没有单词卡牌组";
+"create_first_deck" = "创建您的第一副牌组开始学习";
+
+// MARK: - Create Deck
+"new_deck" = "新牌组";
+"deck_information" = "牌组信息";
+"description_optional" = "描述（可选）";
+"languages" = "语言";
+"create" = "创建";
+
+// MARK: - Flashcard Study
+"study_title" = "学习";
+"no_cards_to_study" = "没有卡片可学习";
+"add_flashcards_to_study" = "向此牌组添加一些单词卡开始学习";
+"all_caught_up" = "全部完成！";
+"no_cards_due_now" = "现在没有卡片需要复习。";
+"end_session" = "结束学习";
+"how_well_did_you_know" = "您对此掌握得如何？";
+"tap_to_reveal_answer" = "点击显示答案";
+"no_cards_due_for_review" = "现在没有卡片需要复习。";
+
+// Study Result Buttons
+"study_again" = "再次";
+"study_hard" = "困难";
+"study_good" = "良好";
+"study_easy" = "简单";
+
+// Flashcard Study Data
+"success_rate_percent" = "成功率：%d%%";
+"studied_times" = "已学习 %d 次";
+"card_of_total" = "%d / %d";
+"session_complete" = "学习完成！";
+"cards_studied" = "已学习卡片：%d";
+"accuracy" = "准确率：%d%%";
+"time_spent" = "时间：%d分%d秒";
+"success_rate" = "成功率：%d%%";
+"show_answer" = "显示答案";
+"next_card" = "下一张卡片";
+"previous_card" = "上一张";
+"mark_as_learned" = "标记为已学会";
+"study_complete" = "学习完成！";
+"cards_learned" = "您已学会 %d 张卡片";
+"review_again" = "重新复习";
+"back_to_decks" = "返回牌组";
+
+// MARK: - Study Results
+"again" = "再次";
+"hard" = "困难";
+"good" = "良好";
+"easy" = "简单";
+
+// MARK: - Difficulty levels
+"difficulty_easy" = "简单";
+"difficulty_medium" = "中等";
+"difficulty_hard" = "困难";
+
+// MARK: - Add Card
+"add_card_title" = "添加卡片";
+"front_side" = "正面";
+"back_side" = "背面";
+"front_side_with_language" = "正面（%@）";
+"back_side_with_language" = "背面（%@）";
+"translate_button" = "翻译";
+"enter_translation_or_use_auto" = "输入翻译或使用自动翻译";
+"enter_text_to_translate" = "输入要翻译的文本";
+"cards_must_use_languages" = "此牌组中的卡片必须使用 %@ → %@ 语言";
+"translation_options" = "翻译选项";
+"use" = "使用";
+"tip_translate_button" = "提示：使用翻译按钮获得多个翻译选项";
+"add" = "添加";
+"add_flashcard" = "添加单词卡";
+"enter_front_text" = "输入正面文本...";
+"enter_back_text" = "输入背面文本...";
+"auto_translate" = "自动翻译";
+"save_card" = "保存卡片";
+"card_added" = "卡片已添加";
+"flashcard_created" = "单词卡创建成功";
+
+// MARK: - Settings
+"settings_title" = "设置";
+"general" = "通用";
+"app_language" = "应用语言";
+"app_theme" = "应用主题";
+"theme_system" = "系统";
+"theme_light" = "浅色";
+"theme_dark" = "深色";
+"theme_description" = "系统主题会根据您的设备设置自动调整。浅色和深色主题提供一致的外观，不受系统设置影响。";
+"current_theme_info" = "当前主题";
+"default_source_language" = "默认源语言";
+"default_target_language" = "默认目标语言";
+"auto_detect_language" = "自动检测语言";
+"auto_play_pronunciation" = "自动播放发音";
+"translation_service" = "翻译服务";
+"apple_translation_ios_requirement" = "Apple 翻译需要 iOS 17.4+";
+"cache_settings" = "缓存设置";
+"enable_smart_cache" = "启用智能缓存";
+"cache_usage" = "缓存使用量";
+"cached_items" = "缓存项目";
+"cache_size_limit" = "缓存大小限制";
+"save_translation_history" = "保存翻译历史";
+"cache" = "缓存";
+"cache_size" = "缓存大小：%@";
+"clear_cache" = "清除缓存";
+"clear_cache_confirm" = "您确定要清除缓存吗？";
+"about" = "关于";
+"version" = "版本";
+"app_version" = "版本 %@";
+"terms_of_service" = "服务条款";
+"privacy_policy" = "隐私政策";
+"reset_to_defaults" = "重置为默认值";
+"service_not_available" = "服务不可用";
+"apple_translation_update_message" = "Apple 翻译需要 iOS 17.4 或更高版本。请更新您的设备以使用此功能。";
+
+// MARK: - Common Actions
+"cancel" = "取消";
+"done" = "完成";
+"save" = "保存";
+"delete" = "删除";
+"edit" = "编辑";
+"close" = "关闭";
+"ok" = "好的";
+"yes" = "是";
+"no" = "否";
+"retry" = "重试";
+"loading" = "加载中...";
+"error" = "错误";
+"success" = "成功";
+"warning" = "警告";
+"unknown" = "未知";
+
+// MARK: - Error Messages
+"error_translation_failed" = "翻译失败。请重试。";
+"error_network_unavailable" = "网络连接不可用";
+"error_invalid_input" = "请输入有效文本";
+"error_language_not_supported" = "不支持此语言组合";
+"error_file_too_large" = "文件过大。最大大小为10MB";
+"error_invalid_file_format" = "无效的文件格式";
+"error_microphone_access_denied" = "麦克风访问被拒绝";
+"error_camera_access_denied" = "相机访问被拒绝";
+"error_photo_library_access_denied" = "照片库访问被拒绝";
+
+// MARK: - Success Messages
+"success_copied_to_clipboard" = "已复制到剪贴板";
+"success_cache_cleared" = "缓存清除成功";
+"success_history_cleared" = "历史记录清除成功";
+"success_deck_created" = "牌组创建成功";
+"success_deck_deleted" = "牌组删除成功";
+"success_card_saved" = "卡片保存成功";
+"success_purchase_restored" = "购买恢复成功";
+
+// MARK: - Language Names
+"language_english" = "英语";
+"language_spanish" = "西班牙语";
+"language_french" = "法语";
+"language_german" = "德语";
+"language_italian" = "意大利语";
+"language_portuguese" = "葡萄牙语";
+"language_chinese_simplified" = "中文（简体）";
+"language_chinese_traditional" = "中文（繁体）";
+"language_japanese" = "日语";
+"language_korean" = "韩语";
+"language_arabic" = "阿拉伯语";
+"language_hindi" = "印地语";
+"language_turkish" = "土耳其语";
+"language_polish" = "波兰语";
+"language_dutch" = "荷兰语";
+"language_swedish" = "瑞典语";
+"language_norwegian" = "挪威语";
+"language_danish" = "丹麦语";
+"language_finnish" = "芬兰语";
+"language_greek" = "希腊语";
+"language_czech" = "捷克语";
+"language_romanian" = "罗马尼亚语";
+"language_hungarian" = "匈牙利语";
+"language_ukrainian" = "乌克兰语";
+"language_thai" = "泰语";
+"language_vietnamese" = "越南语";
+"language_indonesian" = "印尼语";
+"language_malay" = "马来语";
+"language_hebrew" = "希伯来语";
+
+// MARK: - ShareView, ContactView, PrivacyPolicyView
+"share_app_title" = "分享智能翻译";
+"share_app_description" = "帮助您的朋友发现这个出色的翻译应用！";
+"share_via_messages" = "通过短信分享";
+"share_via_email" = "通过邮件分享";
+"more_options" = "更多选项";
+"contact_description" = "我们很乐意听到您的声音！联系我们的支持团队。";
+"email_support" = "邮件支持";
+"visit_website" = "访问网站";
+"rate_and_review" = "评价和评论";
+"rate_help_improve" = "帮助我们改进应用";
+"information_we_collect" = "我们收集的信息";
+"information_collect_description" = "我们收集提供翻译服务所需的最少信息。这包括您翻译的文本、语言偏好和基本使用分析以改进我们的服务。";
+"how_we_use_information" = "我们如何使用信息";
+"how_we_use_description" = "您的翻译数据在可能的情况下在您的设备上本地处理。我们使用匿名分析来改进翻译准确性和应用性能。";
+"data_storage" = "数据存储";
+"data_storage_description" = "翻译历史记录本地存储在您的设备上。除非您明确启用云同步，否则我们不会在服务器上存储您的个人翻译。";
+"third_party_services" = "第三方服务";
+"third_party_description" = "我们使用Google翻译API进行在线翻译。请参阅Google的隐私政策了解其数据处理做法。";
+"your_rights" = "您的权利";
+"your_rights_description" = "您可以随时通过应用设置删除翻译历史记录。您也可以在隐私设置中禁用分析收集。";
+"privacy_contact_description" = "如果您对此隐私政策有疑问，请通过 privacy@voicetranslate.com 联系我们";
+"view_full_privacy_policy" = "查看完整隐私政策";
+"last_updated_date" = "最后更新：2024年12月";

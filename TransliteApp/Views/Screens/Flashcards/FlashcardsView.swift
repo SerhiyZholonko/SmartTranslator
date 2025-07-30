@@ -885,6 +885,13 @@ struct StudyView: View {
             }
             .navigationTitle(deck.name)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("close".localized) {
+                        dismiss()
+                    }
+                }
+            }
             .onAppear {
                 print("StudyView appeared for deck: \(deck.name)")
                 startStudySession()

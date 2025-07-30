@@ -239,7 +239,7 @@ struct CameraTranslatorView: View {
         }
         
         request.recognitionLevel = .accurate
-        request.recognitionLanguages = ["en", "uk", "ru", "es", "fr", "de"]
+        request.recognitionLanguages = ["en", "uk", "zh", "es", "fr", "de"]
         
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
         
@@ -276,7 +276,7 @@ struct LanguagePicker: View {
         var list = [
             ("en", "language_english".localized),
             ("uk", "language_ukrainian".localized),
-            ("ru", "language_russian".localized),
+            ("zh", "language_chinese_simplified".localized),
             ("es", "language_spanish".localized),
             ("fr", "language_french".localized),
             ("de", "language_german".localized)

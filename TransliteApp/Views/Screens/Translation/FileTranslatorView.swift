@@ -72,7 +72,7 @@ struct FileTranslatorView: View {
                                     ("auto", "auto_detect".localized),
                                     ("en", "language_english".localized),
                                     ("uk", "language_ukrainian".localized),
-                                    ("ru", "language_russian".localized),
+                                    ("zh", "language_chinese_simplified".localized),
                                     ("es", "language_spanish".localized),
                                     ("fr", "language_french".localized),
                                     ("de", "language_german".localized)
@@ -88,7 +88,7 @@ struct FileTranslatorView: View {
                                 languages: [
                                     ("en", "language_english".localized),
                                     ("uk", "language_ukrainian".localized),
-                                    ("ru", "language_russian".localized),
+                                    ("zh", "language_chinese_simplified".localized),
                                     ("es", "language_spanish".localized),
                                     ("fr", "language_french".localized),
                                     ("de", "language_german".localized)
@@ -424,7 +424,7 @@ struct FileTranslatorView: View {
         }
         
         request.recognitionLevel = .accurate
-        request.recognitionLanguages = ["en", "uk", "ru", "es", "fr", "de"]
+        request.recognitionLanguages = ["en", "uk", "zh", "es", "fr", "de"]
         
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
         
@@ -630,7 +630,7 @@ private struct FileLanguageSelector: View {
         switch languageCode {
         case "en": return "🇬🇧"
         case "uk": return "🇺🇦"
-        case "ru": return "🇷🇺"
+        case "zh": return "🇨🇳"
         case "es": return "🇪🇸"
         case "fr": return "🇫🇷"
         case "de": return "🇩🇪"

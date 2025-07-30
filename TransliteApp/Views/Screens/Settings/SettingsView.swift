@@ -69,7 +69,7 @@ struct SettingsView: View {
                         Text("auto_detect".localized).tag("auto")
                         Text("language_english".localized).tag("en")
                         Text("language_ukrainian".localized).tag("uk")
-                        Text("language_russian".localized).tag("ru")
+                        Text("language_chinese_simplified".localized).tag("zh")
                         Text("language_spanish".localized).tag("es")
                         Text("language_french".localized).tag("fr")
                         Text("language_german".localized).tag("de")
@@ -79,7 +79,7 @@ struct SettingsView: View {
                     Picker("target_language".localized, selection: $defaultTargetLanguage) {
                         Text("language_ukrainian".localized).tag("uk")
                         Text("language_english".localized).tag("en")
-                        Text("language_russian".localized).tag("ru")
+                        Text("language_chinese_simplified".localized).tag("zh")
                         Text("language_spanish".localized).tag("es")
                         Text("language_french".localized).tag("fr")
                         Text("language_german".localized).tag("de")
@@ -171,17 +171,6 @@ struct SettingsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     
-                    Button(action: openPrivacyPolicy) {
-                        HStack {
-                            Image(systemName: "shield.fill")
-                                .foregroundColor(AppColors.successColor)
-                            Text("menu_privacy_policy".localized)
-                                .foregroundColor(AppColors.primaryText)
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
                     Button("reset_to_defaults".localized) {
                         resetToDefaults()
                     }
@@ -266,12 +255,6 @@ struct SettingsView: View {
         }
     }
     
-    
-    private func openPrivacyPolicy() {
-        if let url = URL(string: "https://smarttranslator.com/privacy") {
-            UIApplication.shared.open(url)
-        }
-    }
     
 }
 

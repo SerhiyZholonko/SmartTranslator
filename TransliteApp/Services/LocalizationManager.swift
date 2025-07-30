@@ -24,7 +24,7 @@ class LocalizationManager: ObservableObject {
         } else {
             // Use system language if available, otherwise default to English
             let systemLanguage = Locale.current.language.languageCode?.identifier ?? "en"
-            let supportedLanguages = ["en", "uk", "ru", "es", "fr", "de"]
+            let supportedLanguages = ["en", "uk", "zh-Hans", "es", "fr", "de"]
             self.currentLanguage = supportedLanguages.contains(systemLanguage) ? systemLanguage : "en"
         }
     }
@@ -88,7 +88,7 @@ struct SupportedLanguage: Identifiable, Hashable {
     static let supportedLanguages: [SupportedLanguage] = [
         SupportedLanguage(id: "en", code: "en", name: "English", englishName: "English"),
         SupportedLanguage(id: "uk", code: "uk", name: "Українська", englishName: "Ukrainian"),
-        SupportedLanguage(id: "ru", code: "ru", name: "Русский", englishName: "Russian"),
+        SupportedLanguage(id: "zh-Hans", code: "zh-Hans", name: "中文（简体）", englishName: "Chinese (Simplified)"),
         SupportedLanguage(id: "es", code: "es", name: "Español", englishName: "Spanish"),
         SupportedLanguage(id: "fr", code: "fr", name: "Français", englishName: "French"),
         SupportedLanguage(id: "de", code: "de", name: "Deutsch", englishName: "German")

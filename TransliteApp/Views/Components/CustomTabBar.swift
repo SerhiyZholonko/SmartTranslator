@@ -50,7 +50,6 @@ struct CustomTabBar: View {
                             .font(.system(size: tab == .flashcards ? 28 : 24, weight: .medium))
                             .foregroundColor(selectedTab == tab ? AppColors.appAccent : AppColors.secondaryText)
                             .scaleEffect(selectedTab == tab ? 1.1 : 1.0)
-                            .rotationEffect(.degrees(selectedTab == tab ? 360 : 0))
                             .animation(.spring(response: 0.6, dampingFraction: 0.8), value: selectedTab)
                         
                         Text(tab.title)

@@ -30,7 +30,7 @@ struct TextTranslatorView: View {
             ("auto", "auto_detect".localized),
             ("en", "language_english".localized),
             ("uk", "language_ukrainian".localized),
-            ("ru", "language_russian".localized),
+            ("zh", "language_chinese_simplified".localized),
             ("es", "language_spanish".localized),
             ("fr", "language_french".localized),
             ("de", "language_german".localized)
@@ -527,7 +527,7 @@ struct TextTranslatorView: View {
         switch languageCode {
         case "en": return "en-US"
         case "uk": return "uk-UA"
-        case "ru": return "ru-RU"
+        case "zh": return "zh-CN"
         case "es": return "es-ES"
         case "fr": return "fr-FR"
         case "de": return "de-DE"
@@ -695,7 +695,7 @@ struct DeckSelectionView: View {
         case "auto": return "language_auto".localized
         case "en": return "language_english".localized
         case "uk": return "language_ukrainian".localized
-        case "ru": return "language_russian".localized
+        case "zh": return "language_chinese_simplified".localized
         case "es": return "language_spanish".localized
         case "fr": return "language_french".localized
         case "de": return "language_german".localized
@@ -755,7 +755,7 @@ struct DeckSelectionCard: View {
         switch code {
         case "en": return "language_en_short".localized
         case "uk": return "language_uk_short".localized
-        case "ru": return "language_ru_short".localized
+        case "zh": return "language_zh_short".localized
         case "es": return "language_es_short".localized
         case "fr": return "language_fr_short".localized
         case "de": return "language_de_short".localized
@@ -808,7 +808,7 @@ struct LanguageSelector: View {
         switch languageCode {
         case "en": return "🇬🇧"
         case "uk": return "🇺🇦"
-        case "ru": return "🇷🇺"
+        case "zh": return "🇨🇳"
         case "es": return "🇪🇸"
         case "fr": return "🇫🇷"
         case "de": return "🇩🇪"

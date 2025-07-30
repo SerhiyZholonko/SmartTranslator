@@ -19,6 +19,15 @@
 "history" = "Historique";
 "settings" = "Paramètres";
 
+// MARK: - Language Names (shorter versions)
+"language_auto" = "Auto";
+"language_en_short" = "EN";
+"language_uk_short" = "UK";
+"language_zh_short" = "ZH";
+"language_es_short" = "ES";
+"language_fr_short" = "FR";
+"language_de_short" = "DE";
+
 // MARK: - Side Menu
 "menu_title" = "Menu";
 "menu_history" = "Historique";
