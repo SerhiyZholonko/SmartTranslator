@@ -22,7 +22,6 @@ struct FileTranslatorView: View {
     @State private var targetLanguage = "en"
     @State private var isProcessing = false
     @State private var showImagePicker = false
-    @State private var showCamera = false
     @State private var showResults = false
     @State private var selectedItem: PhotosPickerItem?
     @State private var showDocumentPicker = false
@@ -65,7 +64,7 @@ struct FileTranslatorView: View {
                 ScrollView {
                     VStack(spacing: 20) {
                         // Language selectors
-                        HStack(spacing: 20) {
+                        HStack(spacing: 12) {
                             FileLanguageSelector(
                                 selectedLanguage: $sourceLanguage,
                                 languages: [
@@ -80,8 +79,12 @@ struct FileTranslatorView: View {
                                 title: "from".localized
                             )
                             
-                            Image(systemName: "arrow.right")
-                                .foregroundColor(AppColors.secondaryText)
+                            Button(action: swapLanguages) {
+                                Image(systemName: "arrow.left.arrow.right")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(AppColors.appAccent)
+                            }
+                            .disabled(sourceLanguage == "auto")
                             
                             FileLanguageSelector(
                                 selectedLanguage: $targetLanguage,
@@ -205,29 +208,6 @@ struct FileTranslatorView: View {
                                             .background(AppColors.warningColor)
                                             .cornerRadius(12)
                                         }
-                                        
-                                        // Camera button
-                                        Button(action: { 
-                                            Task {
-                                                let granted = await permissionsManager.requestCameraPermission()
-                                                if granted {
-                                                    showCamera = true
-                                                }
-                                            }
-                                        }) {
-                                            VStack(spacing: 8) {
-                                                Image(systemName: "camera.fill")
-                                                    .font(.system(size: 30))
-                                                    .foregroundColor(AppColors.buttonText)
-                                                
-                                                Text("camera".localized)
-                                                    .font(.system(size: 14))
-                                                    .foregroundColor(AppColors.buttonText)
-                                            }
-                                            .frame(width: 100, height: 80)
-                                            .background(AppColors.successColor)
-                                            .cornerRadius(12)
-                                        }
                                     }
                                 }
                                 .padding(40)
@@ -297,15 +277,6 @@ struct FileTranslatorView: View {
             }
             .background(AppColors.appBackground)
             .navigationBarHidden(true)
-        }
-        .sheet(isPresented: $showCamera) {
-            ImagePicker(selectedImage: $selectedImage, sourceType: .camera)
-                .onDisappear {
-                    if selectedImage != nil {
-                        fileType = .image
-                        processImage()
-                    }
-                }
         }
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPicker(selectedFile: $selectedFile) { url in
@@ -471,6 +442,20 @@ struct FileTranslatorView: View {
         UIPasteboard.general.string = translatedText
     }
     
+    private func swapLanguages() {
+        guard sourceLanguage != "auto" else { return }
+        let temp = sourceLanguage
+        sourceLanguage = targetLanguage
+        targetLanguage = temp
+        
+        // Якщо є переведений текст, поміняти його місцями з оригінальним
+        if !translatedText.isEmpty && !detectedText.isEmpty {
+            let tempText = detectedText
+            detectedText = translatedText
+            translatedText = tempText
+        }
+    }
+    
     private func loadLanguageSettings() {
         let preferences = UserDefaults.standard
         
@@ -599,31 +584,27 @@ private struct FileLanguageSelector: View {
             
             Menu {
                 ForEach(languages, id: \.0) { language in
-                    Button(action: {
+                    Button("\(getFlag(for: language.0)) \(language.1)") {
                         selectedLanguage = language.0
-                    }) {
-                        HStack {
-                            Text(getFlag(for: language.0))
-                            Text(language.1)
-                        }
                     }
                 }
             } label: {
-                HStack {
+                HStack(spacing: 4) {
                     Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12))
                 }
                 .foregroundColor(AppColors.primaryText)
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 8)
                 .padding(.vertical, 8)
                 .background(AppColors.inputBackground)
                 .cornerRadius(8)
             }
         }
-        .frame(maxWidth: .infinity)
     }
     
     private func getFlag(for languageCode: String) -> String {

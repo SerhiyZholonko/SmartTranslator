@@ -62,6 +62,18 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .onChange(of: localizationManager.currentLanguage) { _, _ in
+                        saveSettings()
+                    }
+                    
+                    NavigationLink(destination: ThemeSettingsView()) {
+                        HStack {
+                            Image(systemName: "paintbrush.fill")
+                                .foregroundColor(AppColors.appAccent)
+                            Text("app_theme".localized)
+                                .foregroundColor(AppColors.primaryText)
+                        }
+                    }
                 }
                 
                 Section(header: Text("default_source_language".localized)) {
@@ -75,6 +87,9 @@ struct SettingsView: View {
                         Text("language_german".localized).tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .onChange(of: defaultSourceLanguage) { _, _ in
+                        saveSettings()
+                    }
                     
                     Picker("target_language".localized, selection: $defaultTargetLanguage) {
                         Text("language_ukrainian".localized).tag("uk")
@@ -85,10 +100,16 @@ struct SettingsView: View {
                         Text("language_german".localized).tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .onChange(of: defaultTargetLanguage) { _, _ in
+                        saveSettings()
+                    }
                 }
                 
                 Section(header: Text("cache_settings".localized)) {
                     Toggle("enable_smart_cache".localized, isOn: $enableSmartCache)
+                        .onChange(of: enableSmartCache) { _, _ in
+                            saveSettings()
+                        }
                     
                     if enableSmartCache {
                         let cacheStats = SmartCacheManager.shared.getCacheStatistics()
@@ -116,7 +137,10 @@ struct SettingsView: View {
                         
                         Slider(value: Binding(
                             get: { Double(maxCacheSize) },
-                            set: { maxCacheSize = Int($0) }
+                            set: { 
+                                maxCacheSize = Int($0)
+                                saveSettings()
+                            }
                         ), in: 10...100, step: 10)
                         
                         Button("clear_cache".localized) {
@@ -128,6 +152,9 @@ struct SettingsView: View {
                 
                 Section(header: Text("history_title".localized)) {
                     Toggle("save_translation_history".localized, isOn: $enableHistory)
+                        .onChange(of: enableHistory) { _, _ in
+                            saveSettings()
+                        }
                     
                     if enableHistory {
                         Button("clear_history".localized) {
@@ -233,6 +260,7 @@ struct SettingsView: View {
         enableHistory = true
         selectedTranslationService = .google
         UserDefaults.standard.selectedTranslationService = .google
+        saveSettings() // Save the reset values
     }
     
     // MARK: - Menu Actions
@@ -247,12 +275,59 @@ struct SettingsView: View {
         let appName = "app_name".localized
         let shareText = "Check out \(appName) - the smart translation app!"
         
-        let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        var activityItems: [Any] = [shareText]
+        
+        // Check if app is published on App Store
+        if let appStoreURL = getAppStoreURL() {
+            activityItems.append(appStoreURL)
+        } else {
+            // For development - share GitHub repository or website
+            if let websiteURL = URL(string: "https://github.com/SerhiyZholonko/SmartTranslator") {
+                activityItems.append(websiteURL)
+            }
+        }
+        
+        let activityVC = UIActivityViewController(
+            activityItems: activityItems, 
+            applicationActivities: nil
+        )
+        
+        // Exclude some activity types if needed
+        activityVC.excludedActivityTypes = [
+            .assignToContact,
+            .saveToCameraRoll
+        ]
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let keyWindow = windowScene.windows.first {
             keyWindow.rootViewController?.present(activityVC, animated: true)
         }
+    }
+    
+    private func getAppStoreURL() -> URL? {
+        // Check if running from TestFlight
+        if isRunningFromTestFlight() {
+            // TestFlight public link - replace with your actual TestFlight invite link
+            return URL(string: "https://testflight.apple.com/join/YOUR_TESTFLIGHT_CODE")
+        }
+        
+        // Check if it's a release build (App Store)
+        #if DEBUG
+        // For development/debug builds, return nil to use GitHub
+        return nil
+        #else
+        // For App Store release builds
+        return URL(string: "https://apps.apple.com/app/smart-translator/idYOUR_APP_ID")
+        #endif
+    }
+    
+    private func isRunningFromTestFlight() -> Bool {
+        // Check if the app is running from TestFlight
+        guard let receiptURL = Bundle.main.appStoreReceiptURL else {
+            return false
+        }
+        
+        return receiptURL.path.contains("sandboxReceipt")
     }
     
     

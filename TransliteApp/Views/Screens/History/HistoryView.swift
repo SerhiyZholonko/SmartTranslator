@@ -86,7 +86,7 @@ struct HistoryView: View {
                 } else {
                     List {
                         ForEach(filteredHistory) { item in
-                            HistoryItemRow(item: item)
+                            HistoryItemRow(itemId: item.id)
                                 .listRowBackground(AppColors.cardBackground)
                                 .onTapGesture {
                                     selectedItem = item
@@ -97,6 +97,7 @@ struct HistoryView: View {
                     .scrollContentBackground(.hidden)
                     .background(AppColors.appBackground)
                     .listStyle(PlainListStyle())
+                    .id(historyManager.refreshTrigger) // Force refresh when favorites change
                 }
             }
             .navigationTitle("history_title".localized)
@@ -151,94 +152,98 @@ struct HistoryView: View {
 }
 
 struct HistoryItemRow: View {
-    let item: TranslationHistoryItem
+    let itemId: UUID
     @State private var starScale: CGFloat = 1.0
     @ObservedObject private var historyManager = TranslationHistoryManager.shared
     
-    var currentItem: TranslationHistoryItem {
-        historyManager.history.first(where: { $0.id == item.id }) ?? item
+    var item: TranslationHistoryItem? {
+        historyManager.history.first(where: { $0.id == itemId })
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(languageName(item.sourceLanguage))
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(AppColors.appAccent.opacity(0.2))
-                    .cornerRadius(4)
-                
-                Image(systemName: "arrow.right")
-                    .font(.caption)
-                    .foregroundColor(AppColors.secondaryText)
-                
-                Text(languageName(item.targetLanguage))
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(AppColors.successColor.opacity(0.2))
-                    .cornerRadius(4)
-                
-                Spacer()
-                
-                Button(action: {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                        starScale = currentItem.isFavorite ? 0.8 : 1.4
-                    }
+        if let item = item {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(languageName(item.sourceLanguage))
+                        .font(.caption)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(AppColors.appAccent.opacity(0.2))
+                        .cornerRadius(4)
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                            starScale = 1.0
+                    Image(systemName: "arrow.right")
+                        .font(.caption)
+                        .foregroundColor(AppColors.secondaryText)
+                    
+                    Text(languageName(item.targetLanguage))
+                        .font(.caption)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(AppColors.successColor.opacity(0.2))
+                        .cornerRadius(4)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                            starScale = item.isFavorite ? 0.8 : 1.4
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                starScale = 1.0
+                            }
+                        }
+                        
+                        historyManager.toggleFavorite(for: itemId)
+                    }) {
+                        Image(systemName: item.isFavorite ? "star.fill" : "star")
+                            .font(.caption)
+                            .foregroundColor(item.isFavorite ? AppColors.warningColor : AppColors.secondaryText)
+                            .scaleEffect(starScale)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: starScale)
+                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: item.isFavorite)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Text(item.timestamp.formatted(.relative(presentation: .numeric)))
+                        .font(.caption2)
+                        .foregroundColor(AppColors.secondaryText)
+                }
+                
+                Text(item.sourceText)
+                    .font(.system(size: 14))
+                    .lineLimit(2)
+                
+                Text(item.translatedText)
+                    .font(.system(size: 14))
+                    .foregroundColor(AppColors.secondaryText)
+                    .lineLimit(2)
+                
+                if !item.alternatives.isEmpty || !item.corrections.isEmpty {
+                    HStack(spacing: 12) {
+                        if !item.alternatives.isEmpty {
+                            Label("\(item.alternatives.count)", systemImage: "text.badge.plus")
+                                .font(.caption2)
+                                .foregroundColor(AppColors.appAccent)
+                        }
+                        
+                        if !item.corrections.isEmpty {
+                            Label("\(item.corrections.count)", systemImage: "exclamationmark.triangle")
+                                .font(.caption2)
+                                .foregroundColor(AppColors.warningColor)
                         }
                     }
-                    
-                    historyManager.toggleFavorite(for: item.id)
-                }) {
-                    Image(systemName: currentItem.isFavorite ? "star.fill" : "star")
-                        .font(.caption)
-                        .foregroundColor(currentItem.isFavorite ? AppColors.warningColor : AppColors.secondaryText)
-                        .scaleEffect(starScale)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: starScale)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: currentItem.isFavorite)
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                Text(item.timestamp.formatted(.relative(presentation: .numeric)))
-                    .font(.caption2)
-                    .foregroundColor(AppColors.secondaryText)
-            }
-            
-            Text(item.sourceText)
-                .font(.system(size: 14))
-                .lineLimit(2)
-            
-            Text(item.translatedText)
-                .font(.system(size: 14))
-                .foregroundColor(AppColors.secondaryText)
-                .lineLimit(2)
-            
-            if !item.alternatives.isEmpty || !item.corrections.isEmpty {
-                HStack(spacing: 12) {
-                    if !item.alternatives.isEmpty {
-                        Label("\(item.alternatives.count)", systemImage: "text.badge.plus")
-                            .font(.caption2)
-                            .foregroundColor(AppColors.appAccent)
-                    }
-                    
-                    if !item.corrections.isEmpty {
-                        Label("\(item.corrections.count)", systemImage: "exclamationmark.triangle")
-                            .font(.caption2)
-                            .foregroundColor(AppColors.warningColor)
-                    }
                 }
             }
+            .padding()
+            .background(AppColors.cardBackground)
+            .cornerRadius(12)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 4)
+        } else {
+            EmptyView()
         }
-        .padding()
-        .background(AppColors.cardBackground)
-        .cornerRadius(12)
-        .padding(.horizontal, 4)
-        .padding(.vertical, 4)
     }
     
     func languageName(_ code: String) -> String {

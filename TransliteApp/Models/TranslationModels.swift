@@ -34,6 +34,27 @@ struct TranslationHistoryItem: Codable, Identifiable {
         self.corrections = corrections
         self.isFavorite = isFavorite
     }
+    
+    // Initializer to preserve existing id and timestamp when modifying properties
+    init(id: UUID,
+         sourceText: String,
+         translatedText: String,
+         sourceLanguage: String,
+         targetLanguage: String,
+         timestamp: Date,
+         alternatives: [String] = [],
+         corrections: [String] = [],
+         isFavorite: Bool = false) {
+        self.id = id
+        self.sourceText = sourceText
+        self.translatedText = translatedText
+        self.sourceLanguage = sourceLanguage
+        self.targetLanguage = targetLanguage
+        self.timestamp = timestamp
+        self.alternatives = alternatives
+        self.corrections = corrections
+        self.isFavorite = isFavorite
+    }
 }
 
 // MARK: - Smart Cache

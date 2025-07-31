@@ -297,25 +297,39 @@ struct LanguagePicker: View {
             
             Menu {
                 ForEach(languages, id: \.0) { language in
-                    Button(action: {
+                    Button("\(getFlag(for: language.0)) \(language.1)") {
                         selectedLanguage = language.0
-                    }) {
-                        Text(language.1)
                     }
                 }
             } label: {
-                HStack {
+                HStack(spacing: 4) {
+                    Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10))
                 }
                 .foregroundColor(AppColors.buttonText)
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 8)
                 .padding(.vertical, 6)
                 .background(AppColors.shadow)
                 .cornerRadius(15)
             }
+        }
+    }
+    
+    private func getFlag(for languageCode: String) -> String {
+        switch languageCode {
+        case "en": return "🇬🇧"
+        case "uk": return "🇺🇦"
+        case "zh": return "🇨🇳"
+        case "es": return "🇪🇸"
+        case "fr": return "🇫🇷"
+        case "de": return "🇩🇪"
+        case "auto": return "🌐"
+        default: return "🌐"
         }
     }
 }

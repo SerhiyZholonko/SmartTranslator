@@ -65,6 +65,17 @@ struct TextTranslatorView: View {
                     }
                     
                     Spacer()
+                }
+                .padding()
+                .background(AppColors.cardBackground)
+                
+                // Language selectors
+                HStack(spacing: 12) {
+                    LanguageSelector(
+                        selectedLanguage: $sourceLanguage,
+                        languages: languages,
+                        title: "from".localized
+                    )
                     
                     Button(action: { swapLanguages() }) {
                         Image(systemName: "arrow.left.arrow.right")
@@ -72,20 +83,6 @@ struct TextTranslatorView: View {
                             .foregroundColor(AppColors.appAccent)
                     }
                     .disabled(sourceLanguage == "auto")
-                }
-                .padding()
-                .background(AppColors.cardBackground)
-                
-                // Language selectors
-                HStack(spacing: 16) {
-                    LanguageSelector(
-                        selectedLanguage: $sourceLanguage,
-                        languages: languages,
-                        title: "from".localized
-                    )
-                    
-                    Image(systemName: "arrow.right")
-                        .foregroundColor(AppColors.secondaryText)
                     
                     LanguageSelector(
                         selectedLanguage: $targetLanguage,
@@ -777,31 +774,27 @@ struct LanguageSelector: View {
             
             Menu {
                 ForEach(languages, id: \.0) { language in
-                    Button(action: {
+                    Button("\(getFlag(for: language.0)) \(language.1)") {
                         selectedLanguage = language.0
-                    }) {
-                        HStack {
-                            Text(getFlag(for: language.0))
-                            Text(language.1)
-                        }
                     }
                 }
             } label: {
-                HStack {
+                HStack(spacing: 4) {
                     Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12))
                 }
                 .foregroundColor(AppColors.primaryText)
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 8)
                 .padding(.vertical, 8)
                 .background(AppColors.inputBackground)
                 .cornerRadius(8)
             }
         }
-        .frame(maxWidth: .infinity)
     }
     
     private func getFlag(for languageCode: String) -> String {

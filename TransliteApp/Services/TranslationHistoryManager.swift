@@ -6,6 +6,7 @@ class TranslationHistoryManager: ObservableObject {
     
     @Published var history: [TranslationHistoryItem] = []
     @Published var statistics: TranslationStatistics = .empty
+    @Published var refreshTrigger: UUID = UUID() // Force UI refresh
     
     private let historyKey = "translationHistory"
     private let statisticsKey = "translationStatistics"
@@ -38,15 +39,17 @@ class TranslationHistoryManager: ObservableObject {
     func toggleFavorite(for id: UUID) {
         guard let index = history.firstIndex(where: { $0.id == id }) else { return }
         
-        var updatedItem = history[index]
-        updatedItem = TranslationHistoryItem(
-            sourceText: updatedItem.sourceText,
-            translatedText: updatedItem.translatedText,
-            sourceLanguage: updatedItem.sourceLanguage,
-            targetLanguage: updatedItem.targetLanguage,
-            alternatives: updatedItem.alternatives,
-            corrections: updatedItem.corrections,
-            isFavorite: !updatedItem.isFavorite
+        let originalItem = history[index]
+        let updatedItem = TranslationHistoryItem(
+            id: originalItem.id,
+            sourceText: originalItem.sourceText,
+            translatedText: originalItem.translatedText,
+            sourceLanguage: originalItem.sourceLanguage,
+            targetLanguage: originalItem.targetLanguage,
+            timestamp: originalItem.timestamp,
+            alternatives: originalItem.alternatives,
+            corrections: originalItem.corrections,
+            isFavorite: !originalItem.isFavorite
         )
         
         history[index] = updatedItem
@@ -59,6 +62,9 @@ class TranslationHistoryManager: ObservableObject {
         
         saveHistory()
         saveStatistics()
+        
+        // Force UI refresh
+        refreshTrigger = UUID()
     }
     
     func deleteItem(at offsets: IndexSet) {
