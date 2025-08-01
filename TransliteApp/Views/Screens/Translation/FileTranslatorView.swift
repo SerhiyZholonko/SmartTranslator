@@ -162,19 +162,41 @@ struct FileTranslatorView: View {
                                     .cornerRadius(12)
                                 }
                                 
-                                // PDF Download button
+                                // PDF Download and Load Another File buttons
                                 if viewModel.isPDFReady {
-                                    Button(action: { viewModel.downloadPDF() }) {
-                                        HStack {
-                                            Image(systemName: "arrow.down.doc.fill")
-                                            Text("download_translated_pdf".localized)
+                                    VStack(spacing: 12) {
+                                        // Download PDF button
+                                        Button(action: { viewModel.downloadPDF() }) {
+                                            HStack {
+                                                Image(systemName: "arrow.down.doc.fill")
+                                                Text("download_translated_pdf".localized)
+                                            }
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(AppColors.buttonText)
+                                            .padding()
+                                            .frame(maxWidth: .infinity)
+                                            .background(AppColors.appAccent)
+                                            .cornerRadius(12)
                                         }
-                                        .font(.system(size: 16, weight: .medium))
-                                        .foregroundColor(AppColors.buttonText)
-                                        .padding()
-                                        .frame(maxWidth: .infinity)
-                                        .background(AppColors.appAccent)
-                                        .cornerRadius(12)
+                                        
+                                        // Load Another File button
+                                        Button(action: { 
+                                            viewModel.resetForNewFile()
+                                        }) {
+                                            HStack {
+                                                Image(systemName: "plus.circle.fill")
+                                                Text("load_another_file".localized)
+                                            }
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(AppColors.appAccent)
+                                            .padding()
+                                            .frame(maxWidth: .infinity)
+                                            .background(Color.clear)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(AppColors.appAccent, lineWidth: 2)
+                                            )
+                                        }
                                     }
                                     .padding(.horizontal)
                                 }

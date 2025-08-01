@@ -150,6 +150,7 @@
 "translation_error_prefix" = "Помилка перекладу: %@";
 "translation_complete" = "Переклад завершено";
 "download_translated_pdf" = "Завантажити перекладений PDF";
+"load_another_file" = "Завантажити інший файл";
 "generating_pdf" = "Генерування PDF...";
 "please_wait_pdf_generation" = "Зачекайте, поки ми створюємо ваш перекладений PDF файл.";
 "pdf_file_not_found" = "PDF файл не знайдено. Спробуйте ще раз.";

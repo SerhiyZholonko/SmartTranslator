@@ -220,6 +220,25 @@ final class FileTranslatorViewModel: BaseViewModel {
         showError("translation_cancelled".localized)
     }
     
+    func resetForNewFile() {
+        // Reset all state to allow user to select a new file
+        selectedFileURL = nil
+        extractedText = ""
+        translatedText = ""
+        originalFileName = ""
+        isPDFReady = false
+        exportedPDFURL = nil
+        isProcessing = false
+        canCancel = false
+        processingProgress = 0
+        pdfPageProgress = ""
+        clearError()
+        
+        // Cancel any ongoing operations
+        cancellationToken?.cancel()
+        cancellationToken = nil
+    }
+    
     // MARK: - Private Methods
     private func extractText(from url: URL) async throws -> String {
         let fileExtension = url.pathExtension.lowercased()
@@ -569,7 +588,7 @@ final class FileTranslatorViewModel: BaseViewModel {
                 }
                 
                 // Add a small delay between translations to prevent overwhelming the API
-                try await Task.sleep(for: .milliseconds(300)) // Increased delay
+                try await Task.sleep(for: .milliseconds(100)) // Reduced delay since we have retry logic
                 
             } catch {
                 print("Error translating chunk \(index + 1): \(error)")
@@ -587,8 +606,8 @@ final class FileTranslatorViewModel: BaseViewModel {
         // Check for cancellation before final steps
         try Task.checkCancellation()
         
-        // Join translated chunks as clean text for display
-        let cleanTranslation = translatedChunks.joined(separator: "\n\n")
+        // Join translated chunks with smart paragraph handling
+        let cleanTranslation = joinTranslatedChunksIntelligently(translatedChunks)
         
         // For PDF generation, we need to restore structure from original but with translated content
         let structuredTranslation = restoreStructureToTranslation(
@@ -884,6 +903,384 @@ final class FileTranslatorViewModel: BaseViewModel {
         return chunks.filter { !$0.isEmpty }
     }
     
+    private func joinTranslatedChunksIntelligently(_ chunks: [String]) -> String {
+        guard !chunks.isEmpty else { return "" }
+        
+        var result = ""
+        
+        for (index, chunk) in chunks.enumerated() {
+            let trimmedChunk = chunk.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if trimmedChunk.isEmpty {
+                continue
+            }
+            
+            // First chunk - just add it
+            if index == 0 {
+                result = trimmedChunk
+                continue
+            }
+            
+            let previousResult = result.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Check if we need paragraph separation or just continue the text
+            let needsParagraphBreak = shouldAddParagraphBreak(
+                previousText: previousResult,
+                nextText: trimmedChunk
+            )
+            
+            if needsParagraphBreak {
+                // Add double newline for paragraph break
+                result += "\n\n" + trimmedChunk
+            } else {
+                // Continue the sentence/paragraph with single space
+                let lastChar = previousResult.last
+                let firstChar = trimmedChunk.first
+                
+                // Smart spacing - check if we need space
+                if let last = lastChar, let first = firstChar {
+                    let needsSpace = !last.isPunctuation || (last == "," || last == ";" || last == ":")
+                    
+                    if needsSpace && !first.isWhitespace {
+                        result += " " + trimmedChunk
+                    } else {
+                        result += trimmedChunk
+                    }
+                } else {
+                    result += " " + trimmedChunk
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    private func shouldAddParagraphBreak(previousText: String, nextText: String) -> Bool {
+        // If either text is very short, likely continue same paragraph
+        if previousText.count < 10 {
+            return false
+        }
+        
+        // Get the last few characters of previous text and first few of next text
+        let lastChars = String(previousText.suffix(10)).trimmingCharacters(in: .whitespaces)
+        let firstChars = String(nextText.prefix(50)).trimmingCharacters(in: .whitespaces)
+        
+        // Strong indicators that we should NOT break (continue same sentence/paragraph)
+        let definitelyNotBreak = shouldDefinitelyNotBreak(lastChars: lastChars, firstChars: firstChars)
+        if definitelyNotBreak {
+            return false
+        }
+        
+        // Check if previous text ends with complete sentence
+        let endsWithCompleteSentence = lastChars.hasSuffix(".") || lastChars.hasSuffix("!") || lastChars.hasSuffix("?") || lastChars.hasSuffix(".")
+        
+        // If doesn't end with complete sentence, probably continuation
+        if !endsWithCompleteSentence {
+            // But check for special cases where we should break anyway
+            return shouldBreakDespiteNoSentenceEnd(firstChars: firstChars)
+        }
+        
+        // If ends with sentence, check if next text starts new paragraph
+        let startsNewParagraph = isLikelyNewParagraphStart(firstChars)
+        
+        return startsNewParagraph
+    }
+    
+    private func shouldDefinitelyNotBreak(lastChars: String, firstChars: String) -> Bool {
+        // If previous ends with comma, semicolon, or conjunction, likely continuation
+        if lastChars.hasSuffix(",") || lastChars.hasSuffix(";") || lastChars.hasSuffix(":") {
+            return true
+        }
+        
+        // If previous ends with words that typically continue
+        let continuationEndings = [
+            "та", "і", "й", "або", "чи", "але", "проте", "однак",
+            "and", "or", "but", "however", "yet", "so", "for", "nor",
+            "и", "или", "но", "однако", "а", "да"
+        ]
+        
+        for ending in continuationEndings {
+            if lastChars.lowercased().hasSuffix(" " + ending) {
+                return true
+            }
+        }
+        
+        // If next text starts with lowercase or continuation words
+        let firstWord = firstChars.components(separatedBy: .whitespaces).first?.lowercased() ?? ""
+        
+        let continuationStarters = [
+            "і", "та", "й", "або", "чи", "але", "проте", "однак", "що", "які", "яка", "який", "де", "коли",
+            "and", "or", "but", "however", "yet", "so", "which", "that", "where", "when", "while",
+            "и", "или", "но", "однако", "а", "что", "который", "которая", "где", "когда"
+        ]
+        
+        if continuationStarters.contains(firstWord) {
+            return true
+        }
+        
+        // If next starts with lowercase letter (likely continuation)
+        if let firstChar = firstChars.first, firstChar.isLowercase {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func shouldBreakDespiteNoSentenceEnd(firstChars: String) -> Bool {
+        // Check for numbered lists or bullet points
+        if firstChars.range(of: "^\\d+[.)\\s]", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Check for article/section headers
+        if firstChars.range(of: "^(Article|Section|ARTICLE|SECTION)\\s+\\d+", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Check for strong paragraph starters that override sentence continuation
+        let strongParagraphStarters = [
+            "ВАЖЛИВО:", "ПРИМІТКА:", "УВАГА:", "ПОПЕРЕДЖЕННЯ:",
+            "IMPORTANT:", "NOTE:", "WARNING:", "ATTENTION:",
+            "ВАЖНО:", "ПРИМЕЧАНИЕ:", "ВНИМАНИЕ:", "ПРЕДУПРЕЖДЕНИЕ:"
+        ]
+        
+        let upperFirstChars = firstChars.uppercased()
+        for starter in strongParagraphStarters {
+            if upperFirstChars.hasPrefix(starter) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func isLikelyNewParagraphStart(_ text: String) -> Bool {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Check for numbered sections (strong indicator)
+        if trimmed.range(of: "^\\d+\\.\\d*\\s+[A-ZА-ЯҐІЇЄ]", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Check for article/section headers
+        if trimmed.range(of: "^(Article|Section|ARTICLE|SECTION|Стаття|Розділ|СТАТТЯ|РОЗДІЛ)\\s+\\d+", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Common new paragraph indicators that override continuation logic
+        let strongParagraphIndicators = [
+            "Відповідно до", "Згідно з", "Враховуючи", "Беручи до уваги", "Керуючись",
+            "Accordingly", "According to", "Considering", "Taking into account", "Based on", "Pursuant to",
+            "Соответственно", "Согласно", "Учитывая", "Принимая во внимание"
+        ]
+        
+        for indicator in strongParagraphIndicators {
+            if trimmed.hasPrefix(indicator) {
+                return true
+            }
+        }
+        
+        // Check for formal definitions or legal statements
+        let definitionKeywords = ["означає", "means", "означает", "визначається як", "defined as", "определяется как"]
+        for keyword in definitionKeywords {
+            if trimmed.lowercased().contains(keyword) {
+                return true
+            }
+        }
+        
+        // Check for list items
+        if trimmed.range(of: "^\\([a-zA-Zа-яА-ЯіІїЇєЄґҐ]\\)", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Only return true for very strong indicators
+        return false
+    }
+    
+    private func createPDFParagraphs(from text: String) -> [String] {
+        // More aggressive approach: try to keep text as continuous as possible
+        
+        // First, clean up the text and replace multiple line breaks with single spaces
+        let cleanedText = text
+            .replacingOccurrences(of: "\n\n\n+", with: "\n\n", options: .regularExpression)
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "  +", with: " ", options: .regularExpression)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Split only on very clear paragraph boundaries
+        let paragraphs = splitIntoNaturalParagraphs(cleanedText)
+        
+        return paragraphs.filter { !$0.isEmpty }
+    }
+    
+    private func splitIntoNaturalParagraphs(_ text: String) -> [String] {
+        var paragraphs: [String] = []
+        var currentParagraph = ""
+        
+        // Split by sentences, but only create new paragraphs at very clear boundaries
+        let sentences = text.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        
+        for (index, sentence) in sentences.enumerated() {
+            let isLast = index == sentences.count - 1
+            let trimmedSentence = sentence.trimmingCharacters(in: .whitespaces)
+            
+            if trimmedSentence.isEmpty { continue }
+            
+            let fullSentence = trimmedSentence + (isLast ? "" : ".")
+            
+            // Only create new paragraph if current one is getting very long (>1500 chars)
+            // OR if we detect a very strong paragraph boundary
+            let shouldStartNewParagraph = shouldForceNewParagraph(
+                currentParagraph: currentParagraph,
+                nextSentence: fullSentence
+            )
+            
+            if shouldStartNewParagraph && !currentParagraph.isEmpty {
+                paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+                currentParagraph = fullSentence
+            } else {
+                if currentParagraph.isEmpty {
+                    currentParagraph = fullSentence
+                } else {
+                    currentParagraph += " " + fullSentence
+                }
+            }
+        }
+        
+        // Add the final paragraph
+        if !currentParagraph.isEmpty {
+            paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+        }
+        
+        return paragraphs
+    }
+    
+    private func shouldForceNewParagraph(currentParagraph: String, nextSentence: String) -> Bool {
+        // Only force new paragraph in very specific cases
+        
+        // 1. Current paragraph is getting too long
+        if currentParagraph.count > 1500 {
+            return true
+        }
+        
+        // 2. Next sentence starts with very strong new section indicators
+        let strongSectionStarters = [
+            "Стаття ", "Розділ ", "Глава ", "Частина ",
+            "Article ", "Section ", "Chapter ", "Part ",
+            "СТАТТЯ ", "РОЗДІЛ ", "ГЛАВА ", "ЧАСТИНА ",
+            "ARTICLE ", "SECTION ", "CHAPTER ", "PART "
+        ]
+        
+        for starter in strongSectionStarters {
+            if nextSentence.hasPrefix(starter) {
+                return true
+            }
+        }
+        
+        // 3. Numbered sections (1., 2., 3., etc. at the start)
+        if nextSentence.range(of: "^\\d+\\.\\s+[A-ZА-ЯҐІЇЄ]", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // 4. Subsection numbering (1.1, 2.3, etc.)
+        if nextSentence.range(of: "^\\d+\\.\\d+\\s+[A-ZА-ЯҐІЇЄ]", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Otherwise, keep everything in the same paragraph
+        return false
+    }
+    
+    private func shouldMergePDFSections(previous: String, next: String) -> Bool {
+        let lastChars = String(previous.suffix(15)).trimmingCharacters(in: .whitespaces)
+        let firstChars = String(next.prefix(30)).trimmingCharacters(in: .whitespaces)
+        
+        // Strong indicators to merge (continue same logical unit)
+        
+        // 1. Previous doesn't end with sentence-ending punctuation
+        let endsWithSentence = lastChars.hasSuffix(".") || lastChars.hasSuffix("!") || lastChars.hasSuffix("?")
+        if !endsWithSentence {
+            return true
+        }
+        
+        // 2. Next starts with lowercase or continuation words
+        if let firstChar = firstChars.first, firstChar.isLowercase {
+            return true
+        }
+        
+        let continuationWords = ["і", "та", "й", "або", "чи", "але", "проте", "однак", "що", "які", "яка", "який",
+                               "and", "or", "but", "however", "yet", "so", "which", "that", "where", "when",
+                               "и", "или", "но", "однако", "а", "что", "который", "которая"]
+        
+        let firstWord = firstChars.components(separatedBy: .whitespaces).first?.lowercased() ?? ""
+        if continuationWords.contains(firstWord) {
+            return true
+        }
+        
+        // 3. Previous ends with connecting punctuation
+        if lastChars.hasSuffix(",") || lastChars.hasSuffix(";") || lastChars.hasSuffix(":") {
+            return true
+        }
+        
+        // 4. Check for list continuation patterns
+        let listContinuationPattern = "^\\([a-zA-Zа-яА-ЯіІїЇєЄґҐ]\\)|^\\d+[.)\\s]"
+        if previous.range(of: listContinuationPattern, options: .regularExpression) != nil &&
+           firstChars.range(of: listContinuationPattern, options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Don't merge if next section looks like a clear new section
+        let newSectionPatterns = [
+            "^\\d+\\.\\d*\\s+[A-ZА-ЯҐІЇЄ]", // Numbered sections
+            "^(Article|Section|ARTICLE|SECTION|Стаття|Розділ)\\s+\\d+", // Articles/Sections
+            "^[A-ZА-ЯҐІЇЄ][A-ZА-ЯҐІЇЄ\\s]{5,}$" // All caps headers
+        ]
+        
+        for pattern in newSectionPatterns {
+            if firstChars.range(of: pattern, options: .regularExpression) != nil {
+                return false
+            }
+        }
+        
+        return false
+    }
+    
+    private func splitLongParagraphIntelligently(_ paragraph: String) -> [String] {
+        guard paragraph.count > 1000 else { return [paragraph] }
+        
+        var result: [String] = []
+        var currentPart = ""
+        
+        // Split by sentences but try to keep logical groups together
+        let sentences = paragraph.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        
+        for (index, sentence) in sentences.enumerated() {
+            let isLast = index == sentences.count - 1
+            let fullSentence = sentence.trimmingCharacters(in: .whitespaces) + (isLast ? "" : ".")
+            
+            if fullSentence.isEmpty { continue }
+            
+            // If adding this sentence would make the part too long, save current part
+            if currentPart.count + fullSentence.count > 700 && !currentPart.isEmpty {
+                result.append(currentPart.trimmingCharacters(in: .whitespaces))
+                currentPart = fullSentence
+            } else {
+                if currentPart.isEmpty {
+                    currentPart = fullSentence
+                } else {
+                    currentPart += " " + fullSentence
+                }
+            }
+        }
+        
+        // Add the final part
+        if !currentPart.isEmpty {
+            result.append(currentPart.trimmingCharacters(in: .whitespaces))
+        }
+        
+        return result.filter { !$0.isEmpty }
+    }
+    
     
     // MARK: - PDF Export
     @MainActor
@@ -1026,12 +1423,16 @@ final class FileTranslatorViewModel: BaseViewModel {
         var currentY = point.y
         let margin: CGFloat = 40
         
-        // Simple paragraph style
+        // Optimized paragraph style to prevent unwanted line breaks
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.alignment = .left
-        paragraphStyle.paragraphSpacing = 8
-        paragraphStyle.lineSpacing = 2
+        paragraphStyle.alignment = .left       // Left alignment for better readability
+        paragraphStyle.paragraphSpacing = 8    // Space between paragraphs
+        paragraphStyle.lineSpacing = 1         // Minimal line spacing to keep text compact
+        paragraphStyle.paragraphSpacingBefore = 0
+        paragraphStyle.firstLineHeadIndent = 0 // No first line indent
+        paragraphStyle.headIndent = 0
+        paragraphStyle.tailIndent = 0
         
         let textAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 12),
@@ -1039,9 +1440,8 @@ final class FileTranslatorViewModel: BaseViewModel {
             .paragraphStyle: paragraphStyle
         ]
         
-        // Split text into paragraphs and draw each one
-        let paragraphs = text.components(separatedBy: "\n\n")
-            .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        // Use intelligent paragraph grouping to prevent mid-sentence breaks
+        let paragraphs = createPDFParagraphs(from: text)
         
         for paragraph in paragraphs {
             let cleanParagraph = paragraph.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -1050,28 +1450,133 @@ final class FileTranslatorViewModel: BaseViewModel {
                 continue
             }
             
+            // Create attributed string for better control
+            let attributedParagraph = NSAttributedString(string: cleanParagraph, attributes: textAttributes)
+            
             // Calculate height needed for this paragraph
-            let paragraphHeight = cleanParagraph.boundingRect(
+            let paragraphHeight = attributedParagraph.boundingRect(
                 with: CGSize(width: width, height: .greatestFiniteMagnitude),
                 options: [.usesLineFragmentOrigin, .usesFontLeading],
-                attributes: textAttributes,
                 context: nil
             ).height
             
-            // Check if we need a new page
-            if currentY + paragraphHeight + paragraphStyle.paragraphSpacing > pageHeight {
+            // Check if we need a new page - leave room for next paragraph
+            if currentY + paragraphHeight + paragraphStyle.paragraphSpacing + 50 > pageHeight {
                 context.beginPage()
                 currentY = margin
             }
             
-            // Draw the paragraph
+            // Draw the attributed paragraph with better line control
             let drawingRect = CGRect(x: point.x, y: currentY, width: width, height: paragraphHeight)
-            cleanParagraph.draw(in: drawingRect, withAttributes: textAttributes)
+            attributedParagraph.draw(in: drawingRect)
             
             currentY += paragraphHeight + paragraphStyle.paragraphSpacing
         }
         
         return currentY
+    }
+    
+    private func splitLongParagraph(_ text: String) -> [String] {
+        guard text.count > 800 else { return [text] }
+        
+        var paragraphs: [String] = []
+        var currentParagraph = ""
+        
+        // Split by sentences first
+        let sentences = text.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        
+        for (index, sentence) in sentences.enumerated() {
+            let isLast = index == sentences.count - 1
+            let fullSentence = sentence.trimmingCharacters(in: .whitespaces) + (isLast ? "" : ".")
+            
+            if fullSentence.isEmpty { continue }
+            
+            // If adding this sentence would make paragraph too long, start new one
+            let potentialLength = currentParagraph.count + fullSentence.count + 1
+            if potentialLength > 500 && !currentParagraph.isEmpty {
+                paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+                currentParagraph = fullSentence
+            } else {
+                if currentParagraph.isEmpty {
+                    currentParagraph = fullSentence
+                } else {
+                    currentParagraph += " " + fullSentence
+                }
+            }
+        }
+        
+        // Add the final paragraph
+        if !currentParagraph.isEmpty {
+            paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+        }
+        
+        return paragraphs.filter { !$0.isEmpty }
+    }
+    
+    private func splitIntoLogicalParagraphs(_ text: String) -> [String] {
+        // Split text into logical paragraphs based on content structure
+        var paragraphs: [String] = []
+        let lines = text.components(separatedBy: .newlines)
+        var currentParagraph = ""
+        
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            
+            // Empty line indicates paragraph break
+            if trimmed.isEmpty {
+                if !currentParagraph.isEmpty {
+                    paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+                    currentParagraph = ""
+                }
+                continue
+            }
+            
+            // Check if this looks like a new paragraph start
+            let isNewParagraphStart = isLikelyParagraphStart(trimmed, currentParagraph: currentParagraph)
+            
+            if isNewParagraphStart && !currentParagraph.isEmpty {
+                paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+                currentParagraph = trimmed
+            } else {
+                if currentParagraph.isEmpty {
+                    currentParagraph = trimmed
+                } else {
+                    currentParagraph += " " + trimmed
+                }
+            }
+        }
+        
+        // Add the final paragraph
+        if !currentParagraph.isEmpty {
+            paragraphs.append(currentParagraph.trimmingCharacters(in: .whitespaces))
+        }
+        
+        return paragraphs.filter { !$0.isEmpty }
+    }
+    
+    private func isLikelyParagraphStart(_ line: String, currentParagraph: String) -> Bool {
+        // If current paragraph is getting very long, this might be a good break point
+        if currentParagraph.count > 600 {
+            return true
+        }
+        
+        // Check for numbered lists or bullet points
+        if line.range(of: "^\\d+[.)\\s]", options: .regularExpression) != nil {
+            return true
+        }
+        
+        // Check for common paragraph starters in Ukrainian/English
+        let paragraphStarters = ["Однак", "Проте", "Крім того", "Також", "Зокрема", "Наприклад", 
+                               "However", "Moreover", "Furthermore", "Additionally", "For example",
+                               "В той же час", "У той же час", "At the same time"]
+        
+        for starter in paragraphStarters {
+            if line.hasPrefix(starter) {
+                return true
+            }
+        }
+        
+        return false
     }
     
     private func drawFormattedText(_ text: String, at point: CGPoint, width: CGFloat, 

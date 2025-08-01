@@ -153,6 +153,7 @@
 "translation_error_prefix" = "Translation error: %@";
 "translation_complete" = "Translation Complete";
 "download_translated_pdf" = "Download Translated PDF";
+"load_another_file" = "Load Another File";
 "generating_pdf" = "Generating PDF...";
 "please_wait_pdf_generation" = "Please wait while we generate your translated PDF file.";
 "pdf_file_not_found" = "PDF file not found. Please try again.";

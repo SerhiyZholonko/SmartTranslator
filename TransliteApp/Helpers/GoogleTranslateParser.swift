@@ -31,6 +31,17 @@ class GoogleTranslateParser: ObservableObject {
     private let baseURL = "https://translate.googleapis.com/translate_a/single"
     private let maxTextLength = 4500 // Google's limit
     
+    // Custom URLSession with longer timeouts
+    private lazy var urlSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 60.0  // 60 seconds for request
+        configuration.timeoutIntervalForResource = 120.0 // 2 minutes for resource
+        configuration.waitsForConnectivity = true
+        configuration.allowsCellularAccess = true
+        configuration.httpMaximumConnectionsPerHost = 4
+        return URLSession(configuration: configuration)
+    }()
+    
     struct TranslationOption: Identifiable, Hashable {
         let id = UUID()
         let text: String
@@ -151,6 +162,10 @@ class GoogleTranslateParser: ObservableObject {
     // MARK: - Private Translation Methods
     
     private func performSingleTranslation(text: String, from sourceLanguage: String, to targetLanguage: String) async throws -> String {
+        return try await performTranslationWithRetry(text: text, from: sourceLanguage, to: targetLanguage)
+    }
+    
+    private func performTranslationWithRetry(text: String, from sourceLanguage: String, to targetLanguage: String, attempt: Int = 1) async throws -> String {
         var components = URLComponents(string: baseURL)!
         components.queryItems = [
             URLQueryItem(name: "client", value: "gtx"),
@@ -164,9 +179,19 @@ class GoogleTranslateParser: ObservableObject {
             throw TranslationError.networkError
         }
         
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await performNetworkRequestWithRetry(url: url, attempt: attempt)
         
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any],
+        guard let responseString = String(data: data, encoding: .utf8) else {
+            throw TranslationError.invalidResponse
+        }
+        
+        return try parseTranslationResponse(responseString)
+    }
+    
+    private func parseTranslationResponse(_ responseString: String) throws -> String {
+        
+        guard let data = responseString.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any],
               let translations = json.first as? [Any] else {
             throw TranslationError.invalidResponse
         }
@@ -180,6 +205,32 @@ class GoogleTranslateParser: ObservableObject {
         }
         
         return translatedText
+    }
+    
+    private func performNetworkRequestWithRetry(url: URL, attempt: Int = 1) async throws -> (Data, URLResponse) {
+        do {
+            let result = try await urlSession.data(from: url)
+            return result
+        } catch {
+            print("Network request attempt \(attempt) failed: \(error.localizedDescription)")
+            
+            // Check if this is a network timeout or connection error
+            if let urlError = error as? URLError,
+               (urlError.code == .timedOut || urlError.code == .networkConnectionLost || urlError.code == .notConnectedToInternet) {
+                
+                // Retry up to 3 times with exponential backoff
+                if attempt < 3 {
+                    let delay = pow(2.0, Double(attempt)) // 2, 4, 8 seconds
+                    print("Retrying network request in \(delay) seconds...")
+                    
+                    try await Task.sleep(for: .seconds(delay))
+                    return try await performNetworkRequestWithRetry(url: url, attempt: attempt + 1)
+                }
+            }
+            
+            // If all retries failed or it's not a network error, throw the original error
+            throw error
+        }
     }
     
     private func getDetailedTranslations(text: String, from sourceLanguage: String, to targetLanguage: String) async throws -> [TranslationOption] {
@@ -201,7 +252,7 @@ class GoogleTranslateParser: ObservableObject {
             throw TranslationError.networkError
         }
         
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await performNetworkRequestWithRetry(url: url)
         
         guard let jsonArray = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any] else {
             throw TranslationError.invalidResponse
