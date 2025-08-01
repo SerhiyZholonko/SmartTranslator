@@ -2,7 +2,6 @@ import SwiftUI
 
 struct HeaderView: View {
     @Binding var showMenu: Bool
-    @Binding var isPremium: Bool
     @State private var menuButtonScale: CGFloat = 1.0
     @State private var headerOpacity: Double = 0.0
     
@@ -16,12 +15,6 @@ struct HeaderView: View {
                 .shadow(color: AppColors.shadow, radius: 1, x: 0, y: 1)
             
             Spacer()
-            
-            // Premium toggle
-            Toggle("", isOn: $isPremium)
-                .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: AppColors.successColor))
-                .scaleEffect(0.8)
         }
         .opacity(headerOpacity)
         .onAppear {
@@ -33,5 +26,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(showMenu: .constant(false), isPremium: .constant(false))
+    HeaderView(showMenu: .constant(false))
 }

@@ -3,9 +3,7 @@ import StoreKit
 
 struct SideMenuView: View {
     @Binding var isShowing: Bool
-    @Binding var isPremium: Bool
-    @Binding var showPremiumScreen: Bool
-    @State private var showHistory = false
+    @State private var showHistory = false  
     @State private var showFlashcards = false
     @State private var showSettings = false
     @State private var showShareSheet = false
@@ -92,39 +90,6 @@ struct SideMenuView: View {
                         .padding(.top, 40)
                     }
             
-                    // Get Premium button with gradient
-                    Button(action: {
-                        showPremiumScreen = true
-                        closeMenu()
-                    }) {
-                        HStack(spacing: 10) {
-                            Image(systemName: "crown.fill")
-                                .foregroundColor(AppColors.buttonText)
-                                .font(.system(size: 18))
-                            Text("get_premium".localized)
-                                .font(.system(size: 17, weight: .semibold, design: .rounded))
-                                .foregroundColor(AppColors.buttonText)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    AppColors.successColor,
-                                    AppColors.successColor.opacity(0.8)
-                                ]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .cornerRadius(28)
-                        .shadow(color: AppColors.successColor.opacity(0.4), radius: 8, x: 0, y: 4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 20)
-                    .opacity(menuItemsOpacity)
-                    .scaleEffect(menuItemsOpacity)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.1), value: menuItemsOpacity)
             
                     // Menu items with staggered animation
                     ScrollView {
@@ -209,30 +174,6 @@ struct SideMenuView: View {
             
                     Spacer()
                     
-                    // Premium status indicator
-                    if isPremium {
-                        HStack {
-                            Image(systemName: "crown.fill")
-                                .foregroundColor(AppColors.successColor)
-                            Text("premium_active".localized)
-                                .font(.system(size: 14, weight: .medium, design: .rounded))
-                                .foregroundColor(AppColors.successColor)
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(AppColors.successColor.opacity(0.1))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(AppColors.successColor.opacity(0.3), lineWidth: 1)
-                        )
-                        .padding()
-                        .opacity(menuItemsOpacity)
-                        .scaleEffect(menuItemsOpacity)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.36), value: menuItemsOpacity)
-                    }
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.75)
                 .frame(maxHeight: .infinity)
@@ -382,8 +323,6 @@ struct MenuItemView: View {
 #Preview {
     SideMenuView(
         isShowing: .constant(true),
-        isPremium: .constant(false),
-        showPremiumScreen: .constant(false)
     )
 }
 

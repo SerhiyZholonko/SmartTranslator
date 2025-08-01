@@ -6,7 +6,7 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            HeaderView(showMenu: .constant(false), isPremium: $viewModel.isPremium)
+            HeaderView(showMenu: .constant(false))
                 .padding(.horizontal)
                 .padding(.top, 10)
             
@@ -21,13 +21,11 @@ struct HomeView: View {
                 HStack(spacing: 20) {
                     FeatureCard(
                         feature: .textTranslator,
-                        isPremium: viewModel.isPremium,
                         action: { viewModel.selectFeature(.textTranslator) }
                     )
                     
                     FeatureCard(
                         feature: .voiceChat,
-                        isPremium: viewModel.isPremium,
                         action: { viewModel.selectFeature(.voiceChat) }
                     )
                 }
@@ -35,13 +33,11 @@ struct HomeView: View {
                 HStack(spacing: 20) {
                     FeatureCard(
                         feature: .cameraTranslator,
-                        isPremium: viewModel.isPremium,
                         action: { viewModel.selectFeature(.cameraTranslator) }
                     )
                     
                     FeatureCard(
                         feature: .fileTranslator,
-                        isPremium: viewModel.isPremium,
                         action: { viewModel.selectFeature(.fileTranslator) }
                     )
                 }

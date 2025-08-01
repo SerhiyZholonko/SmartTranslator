@@ -83,7 +83,9 @@ class AppleTranslationServiceWrapper: ObservableObject {
     
     private init() {
         if #available(iOS 17.4, *) {
-            isAvailable = true
+            // Apple Translation is available but not implemented yet
+            // Set to false to avoid repeated failures
+            isAvailable = false
         }
     }
     

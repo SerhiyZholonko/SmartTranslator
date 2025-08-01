@@ -121,6 +121,14 @@
 
 // MARK: - File Translator
 "file_translator_title" = "Переклад файлів";
+"no_translation_to_export" = "Немає перекладу для експорту";
+"copied_to_clipboard" = "Скопійовано в буфер обміну";
+"reading_file" = "Читання файлу...";
+"extracting_text" = "Витягування тексту...";
+"translating_content" = "Переклад контенту...";
+"generating_document" = "Генерація документа...";
+"pdf_ready_for_download" = "Ваш перекладений PDF готовий до завантаження";
+"translation_cancelled" = "Переклад скасовано";
 "select_file" = "Вибрати файл";
 "supported_formats" = "Підтримувані формати: PDF, DOC, DOCX, TXT";
 "file_selected" = "Вибраний файл:";
@@ -140,6 +148,12 @@
 "no_text_detected_image" = "Текст у зображенні не виявлено";
 "no_text_found_pdf" = "Текст у PDF не знайдено";
 "translation_error_prefix" = "Помилка перекладу: %@";
+"translation_complete" = "Переклад завершено";
+"download_translated_pdf" = "Завантажити перекладений PDF";
+"generating_pdf" = "Генерування PDF...";
+"please_wait_pdf_generation" = "Зачекайте, поки ми створюємо ваш перекладений PDF файл.";
+"pdf_file_not_found" = "PDF файл не знайдено. Спробуйте ще раз.";
+"translated_document" = "Перекладений документ";
 
 // MARK: - Offline Translator
 "offline_translator_title" = "Офлайн перекладач";

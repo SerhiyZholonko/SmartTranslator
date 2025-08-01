@@ -2,7 +2,6 @@ import SwiftUI
 
 struct FeatureCard: View {
     let feature: FeatureType
-    let isPremium: Bool
     let action: () -> Void
     @State private var isPressed = false
     @State private var hasAppeared = false
@@ -66,35 +65,6 @@ struct FeatureCard: View {
                 }
                 .padding(.vertical, 20)
                 
-                // Enhanced AD badge for premium features
-                if feature.requiresPremium && !isPremium {
-                    VStack {
-                        
-                        HStack {
-                            Spacer()
-                            HStack(spacing: 4) {
-                                Image(systemName: "lock.fill")
-                                    .font(.system(size: 9))
-                                Text("PRO")
-                                    .font(.system(size: 10, weight: .bold))
-                            }
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.green, Color.green.opacity(0.5)]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                            .shadow(color: .orange.opacity(0.4), radius: 4, x: 0, y: 2)
-                        }
-                        Spacer()
-                    }
-                    .padding(6)
-                }
             }
             .frame(maxWidth: .infinity)
             .frame(height: 140)
@@ -124,7 +94,6 @@ struct FeatureCard: View {
 #Preview {
     FeatureCard(
         feature: .textTranslator,
-        isPremium: false,
         action: {}
     )
 }

@@ -33,10 +33,7 @@ enum FeatureType: String, CaseIterable {
     }
     
     var requiresPremium: Bool {
-        switch self {
-        case .textTranslator, .voiceChat: return false
-        case .cameraTranslator, .fileTranslator: return true
-        }
+        return false
     }
 }
 

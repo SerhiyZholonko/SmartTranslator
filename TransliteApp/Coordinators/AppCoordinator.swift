@@ -49,7 +49,6 @@ enum SheetDestination: Identifiable {
     case flashcards
     case history
     case settings
-    case premium
     case addFlashcard(deck: FlashcardDeck?)
     case createDeck
     case studyDeck(deck: FlashcardDeck)
@@ -64,7 +63,6 @@ enum SheetDestination: Identifiable {
         case .flashcards: return "flashcards"
         case .history: return "history"
         case .settings: return "settings"
-        case .premium: return "premium"
         case .addFlashcard: return "addFlashcard"
         case .createDeck: return "createDeck"
         case .studyDeck: return "studyDeck"
@@ -74,12 +72,10 @@ enum SheetDestination: Identifiable {
 
 enum FullScreenDestination: Identifiable {
     case onboarding
-    case premium
     
     var id: String {
         switch self {
         case .onboarding: return "onboarding"
-        case .premium: return "premium"
         }
     }
 }
@@ -113,8 +109,6 @@ struct AppCoordinatorView<Content: View>: View {
                     HistoryView()
                 case .settings:
                     SettingsView()
-                case .premium:
-                    PremiumView()
                 case .addFlashcard(_):
                     EmptyView() // TODO: Fix AddCardView parameters
                 case .createDeck:
@@ -128,8 +122,6 @@ struct AppCoordinatorView<Content: View>: View {
                 case .onboarding:
                     // OnboardingView() // TODO: Create onboarding view
                     EmptyView()
-                case .premium:
-                    PremiumView()
                 }
             }
     }

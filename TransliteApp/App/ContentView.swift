@@ -31,9 +31,6 @@ struct ContentView: View {
                     .ignoresSafeArea(.keyboard)
             }
             .navigationBarHidden(true)
-            .sheet(isPresented: $viewModel.showPremiumScreen) {
-                PremiumView()
-            }
             .fullScreenCover(isPresented: $viewModel.showTextTranslator) {
                 TextTranslatorView()
             }

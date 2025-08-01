@@ -4,27 +4,11 @@ import Vision
 import PDFKit
 import UniformTypeIdentifiers
 
-enum FileType {
-    case image
-    case pdf
-}
-
 struct FileTranslatorView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject private var viewModel = FileTranslatorViewModel()
     @StateObject private var permissionsManager = PermissionsManager.shared
-    @StateObject private var translationManager = TranslationManager.shared
-    @State private var selectedImage: UIImage?
-    @State private var selectedFile: URL?
-    @State private var fileType: FileType = .image
-    @State private var detectedText = ""
-    @State private var translatedText = ""
-    @State private var sourceLanguage = "auto"
-    @State private var targetLanguage = "en"
-    @State private var isProcessing = false
-    @State private var showImagePicker = false
-    @State private var showResults = false
     @State private var selectedItem: PhotosPickerItem?
-    @State private var showDocumentPicker = false
     
     var body: some View {
         LocalizedView {
@@ -44,19 +28,24 @@ struct FileTranslatorView: View {
                         Text("file_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
-                        Text(translationManager.currentServiceName)
+                        Text(TranslationManager.shared.currentServiceName)
                             .font(.system(size: 12))
                             .foregroundColor(AppColors.secondaryText)
                     }
                     
                     Spacer()
                     
-                    Button(action: resetTranslation) {
+                    Button(action: { 
+                        viewModel.selectedFileURL = nil
+                        viewModel.extractedText = ""
+                        viewModel.translatedText = ""
+                        viewModel.isPDFReady = false
+                    }) {
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 20))
                             .foregroundColor(AppColors.appAccent)
                     }
-                    .opacity(selectedImage == nil ? 0 : 1)
+                    .opacity(viewModel.selectedFileURL == nil ? 0 : 1)
                 }
                 .padding()
                 .background(AppColors.cardBackground)
@@ -66,7 +55,7 @@ struct FileTranslatorView: View {
                         // Language selectors
                         HStack(spacing: 12) {
                             FileLanguageSelector(
-                                selectedLanguage: $sourceLanguage,
+                                selectedLanguage: $viewModel.sourceLanguage,
                                 languages: [
                                     ("auto", "auto_detect".localized),
                                     ("en", "language_english".localized),
@@ -79,15 +68,20 @@ struct FileTranslatorView: View {
                                 title: "from".localized
                             )
                             
-                            Button(action: swapLanguages) {
+                            Button(action: {
+                                guard viewModel.sourceLanguage != "auto" else { return }
+                                let temp = viewModel.sourceLanguage
+                                viewModel.sourceLanguage = viewModel.targetLanguage
+                                viewModel.targetLanguage = temp
+                            }) {
                                 Image(systemName: "arrow.left.arrow.right")
                                     .font(.system(size: 20))
                                     .foregroundColor(AppColors.appAccent)
                             }
-                            .disabled(sourceLanguage == "auto")
+                            .disabled(viewModel.sourceLanguage == "auto")
                             
                             FileLanguageSelector(
-                                selectedLanguage: $targetLanguage,
+                                selectedLanguage: $viewModel.targetLanguage,
                                 languages: [
                                     ("en", "language_english".localized),
                                     ("uk", "language_ukrainian".localized),
@@ -102,48 +96,87 @@ struct FileTranslatorView: View {
                         .padding(.horizontal)
                         
                         // File display or picker
-                        if selectedImage != nil || selectedFile != nil {
+                        if let fileURL = viewModel.selectedFileURL {
                             // Show selected file
                             VStack(spacing: 16) {
-                                if let image = selectedImage {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxHeight: 300)
-                                        .cornerRadius(12)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(AppColors.inputBorder, lineWidth: 1)
-                                        )
-                                } else if let fileURL = selectedFile {
+                                VStack(spacing: 12) {
+                                    Image(systemName: "doc.fill")
+                                        .font(.system(size: 60))
+                                        .foregroundColor(AppColors.appAccent)
+                                    
+                                    Text(viewModel.originalFileName.isEmpty ? fileURL.lastPathComponent : viewModel.originalFileName)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(AppColors.primaryText)
+                                    
+                                    Text("pdf_document".localized)
+                                        .font(.system(size: 14))
+                                        .foregroundColor(AppColors.secondaryText)
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 200)
+                                .background(AppColors.translationBackground)
+                                .cornerRadius(12)
+                                
+                                if viewModel.isProcessing {
                                     VStack(spacing: 12) {
-                                        Image(systemName: fileType == .pdf ? "doc.fill" : "photo.fill")
-                                            .font(.system(size: 60))
-                                            .foregroundColor(AppColors.appAccent)
+                                        HStack {
+                                            ProgressView()
+                                                .scaleEffect(0.8)
+                                            Text(getProcessingStageText())
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(AppColors.primaryText)
+                                        }
                                         
-                                        Text(fileURL.lastPathComponent)
-                                            .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(AppColors.primaryText)
+                                        if viewModel.processingProgress > 0 {
+                                            VStack(spacing: 4) {
+                                                ProgressView(value: viewModel.processingProgress)
+                                                    .progressViewStyle(LinearProgressViewStyle(tint: AppColors.appAccent))
+                                                    .frame(maxWidth: 250)
+                                                
+                                                Text("\(Int(viewModel.processingProgress * 100))%")
+                                                    .font(.system(size: 12))
+                                                    .foregroundColor(AppColors.secondaryText)
+                                            }
+                                        }
                                         
-                                        Text(fileType == .pdf ? "pdf_document".localized : "image_file".localized)
-                                            .font(.system(size: 14))
-                                            .foregroundColor(AppColors.secondaryText)
+                                        // Cancel button
+                                        if viewModel.canCancel {
+                                            Button(action: { viewModel.cancelTranslation() }) {
+                                                HStack(spacing: 6) {
+                                                    Image(systemName: "xmark.circle.fill")
+                                                    Text("cancel".localized)
+                                                }
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(.red)
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 8)
+                                                .background(Color.red.opacity(0.1))
+                                                .cornerRadius(8)
+                                            }
+                                        }
                                     }
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 200)
-                                    .background(AppColors.translationBackground)
+                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 16)
+                                    .background(AppColors.inputBackground.opacity(0.5))
                                     .cornerRadius(12)
                                 }
                                 
-                                if isProcessing {
-                                    HStack {
-                                        ProgressView()
-                                        Text("processing_file".localized)
-                                            .font(.system(size: 14))
-                                            .foregroundColor(AppColors.secondaryText)
+                                // PDF Download button
+                                if viewModel.isPDFReady {
+                                    Button(action: { viewModel.downloadPDF() }) {
+                                        HStack {
+                                            Image(systemName: "arrow.down.doc.fill")
+                                            Text("download_translated_pdf".localized)
+                                        }
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(AppColors.buttonText)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(AppColors.appAccent)
+                                        .cornerRadius(12)
                                     }
-                                    .padding()
+                                    .padding(.horizontal)
                                 }
                             }
                             .padding(.horizontal)
@@ -184,16 +217,23 @@ struct FileTranslatorView: View {
                                             Task {
                                                 if let data = try? await newItem?.loadTransferable(type: Data.self),
                                                    let image = UIImage(data: data) {
-                                                    selectedImage = image
-                                                    fileType = .image
-                                                    processImage()
+                                                    // Create a temporary file for the image
+                                                    let tempURL = FileManager.default.temporaryDirectory
+                                                        .appendingPathComponent("selected_image_\(UUID().uuidString).png")
+                                                    
+                                                    if let pngData = image.pngData() {
+                                                        try? pngData.write(to: tempURL)
+                                                        await MainActor.run {
+                                                            viewModel.processFile(at: tempURL)
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
                                         
                                         // Document picker button
                                         Button(action: { 
-                                            showDocumentPicker = true
+                                            viewModel.selectFile()
                                         }) {
                                             VStack(spacing: 8) {
                                                 Image(systemName: "doc.fill")
@@ -225,49 +265,30 @@ struct FileTranslatorView: View {
                             .padding(.horizontal)
                         }
                         
-                        // Results section
-                        if showResults {
-                            VStack(alignment: .leading, spacing: 16) {
-                                // Detected text
-                                if !detectedText.isEmpty {
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text("detected_text_title".localized)
+                        // Success message - translation completed
+                        if !viewModel.translatedText.isEmpty && !viewModel.isProcessing {
+                            VStack(spacing: 16) {
+                                // Success indicator
+                                HStack {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .font(.system(size: 24))
+                                        .foregroundColor(.green)
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("translation_complete".localized)
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(AppColors.primaryText)
+                                        
+                                        Text("pdf_ready_for_download".localized)
                                             .font(.system(size: 14))
                                             .foregroundColor(AppColors.secondaryText)
-                                        
-                                        Text(detectedText)
-                                            .font(.system(size: 16))
-                                            .padding()
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .background(AppColors.translationBackground)
-                                            .cornerRadius(12)
                                     }
+                                    
+                                    Spacer()
                                 }
-                                
-                                // Translated text
-                                if !translatedText.isEmpty {
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        HStack {
-                                            Text("translation_title".localized)
-                                                .font(.system(size: 14))
-                                                .foregroundColor(AppColors.secondaryText)
-                                            
-                                            Spacer()
-                                            
-                                            Button(action: copyTranslation) {
-                                                Image(systemName: "doc.on.doc")
-                                                    .foregroundColor(AppColors.appAccent)
-                                            }
-                                        }
-                                        
-                                        Text(translatedText)
-                                            .font(.system(size: 16))
-                                            .padding()
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .background(AppColors.translationBackground)
-                                            .cornerRadius(12)
-                                    }
-                                }
+                                .padding()
+                                .background(Color.green.opacity(0.1))
+                                .cornerRadius(12)
                             }
                             .padding(.horizontal)
                         }
@@ -278,235 +299,53 @@ struct FileTranslatorView: View {
             .background(AppColors.appBackground)
             .navigationBarHidden(true)
         }
-        .sheet(isPresented: $showDocumentPicker) {
-            DocumentPicker(selectedFile: $selectedFile) { url in
-                selectedFile = url
-                fileType = .pdf
-                processPDF()
+        .sheet(isPresented: $viewModel.showDocumentPicker) {
+            DocumentPicker(selectedFile: $viewModel.selectedFileURL) { url in
+                viewModel.processFile(at: url)
+            }
+        }
+        .sheet(isPresented: $viewModel.showShareSheet) {
+            if let pdfURL = viewModel.exportedPDFURL {
+                ShareSheet(activityItems: [pdfURL])
             }
         }
         .onAppear {
-            loadLanguageSettings()
+            viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultSourceLanguage") ?? "auto", isSource: true)
+            viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultTargetLanguage") ?? "en", isSource: false)
         }
         }
     }
     
-    private func processImage() {
-        guard let image = selectedImage else { return }
+    // MARK: - Helper Methods
+    private func getProcessingStageText() -> String {
+        let progress = viewModel.processingProgress
         
-        isProcessing = true
-        showResults = false
-        detectedText = ""
-        translatedText = ""
-        
-        // Perform text recognition
-        recognizeText(in: image) { recognizedText in
-            guard let text = recognizedText, !text.isEmpty else {
-                isProcessing = false
-                showResults = true
-                detectedText = "no_text_detected_image".localized
-                return
+        if progress < 0.2 {
+            return "reading_file".localized
+        } else if progress < 0.6 {
+            if !viewModel.pdfPageProgress.isEmpty {
+                return viewModel.pdfPageProgress
             }
-            
-            detectedText = text
-            translateText(text)
-        }
-    }
-    
-    private func processPDF() {
-        guard let fileURL = selectedFile else { return }
-        
-        isProcessing = true
-        showResults = false
-        detectedText = ""
-        translatedText = ""
-        
-        // Extract text from PDF
-        extractTextFromPDF(at: fileURL) { extractedText in
-            guard let text = extractedText, !text.isEmpty else {
-                DispatchQueue.main.async {
-                    self.isProcessing = false
-                    self.showResults = true
-                    self.detectedText = "no_text_found_pdf".localized
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.detectedText = text
-                self.translateText(text)
-            }
-        }
-    }
-    
-    private func translateText(_ text: String) {
-        // Translate the text
-        Task {
-            do {
-                let translated = try await translationManager.translate(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-                
-                await MainActor.run {
-                    translatedText = translated
-                    showResults = true
-                    isProcessing = false
-                    
-                    // Save to history
-                    let historyItem = TranslationHistoryItem(
-                        sourceText: text,
-                        translatedText: translated,
-                        sourceLanguage: sourceLanguage,
-                        targetLanguage: targetLanguage
-                    )
-                    TranslationHistoryManager.shared.addTranslation(historyItem)
-                }
-            } catch {
-                await MainActor.run {
-                    translatedText = "translation_error_prefix".localized(with: error.localizedDescription)
-                    showResults = true
-                    isProcessing = false
-                }
-            }
-        }
-    }
-    
-    private func recognizeText(in image: UIImage, completion: @escaping (String?) -> Void) {
-        guard let cgImage = image.cgImage else {
-            completion(nil)
-            return
-        }
-        
-        let request = VNRecognizeTextRequest { request, error in
-            guard let observations = request.results as? [VNRecognizedTextObservation],
-                  error == nil else {
-                completion(nil)
-                return
-            }
-            
-            let recognizedStrings = observations.compactMap { observation in
-                observation.topCandidates(1).first?.string
-            }
-            
-            let fullText = recognizedStrings.joined(separator: "\n")
-            completion(fullText)
-        }
-        
-        request.recognitionLevel = .accurate
-        request.recognitionLanguages = ["en", "uk", "zh", "es", "fr", "de"]
-        
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print("Text recognition error: \(error)")
-                completion(nil)
-            }
-        }
-    }
-    
-    private func resetTranslation() {
-        selectedImage = nil
-        selectedFile = nil
-        detectedText = ""
-        translatedText = ""
-        showResults = false
-    }
-    
-    private func extractTextFromPDF(at url: URL, completion: @escaping (String?) -> Void) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            guard let document = PDFDocument(url: url) else {
-                completion(nil)
-                return
-            }
-            
-            var extractedText = ""
-            
-            for pageIndex in 0..<document.pageCount {
-                if let page = document.page(at: pageIndex) {
-                    if let pageText = page.string {
-                        extractedText += pageText + "\n"
-                    }
-                }
-            }
-            
-            completion(extractedText.isEmpty ? nil : extractedText.trimmingCharacters(in: .whitespacesAndNewlines))
-        }
-    }
-    
-    private func copyTranslation() {
-        UIPasteboard.general.string = translatedText
-    }
-    
-    private func swapLanguages() {
-        guard sourceLanguage != "auto" else { return }
-        let temp = sourceLanguage
-        sourceLanguage = targetLanguage
-        targetLanguage = temp
-        
-        // Якщо є переведений текст, поміняти його місцями з оригінальним
-        if !translatedText.isEmpty && !detectedText.isEmpty {
-            let tempText = detectedText
-            detectedText = translatedText
-            translatedText = tempText
-        }
-    }
-    
-    private func loadLanguageSettings() {
-        let preferences = UserDefaults.standard
-        
-        // Завантажуємо збережені налаштування мов з Settings
-        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") {
-            sourceLanguage = savedSourceLanguage
-        }
-        
-        if let savedTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") {
-            targetLanguage = savedTargetLanguage
+            return "extracting_text".localized
+        } else if progress < 0.9 {
+            return "translating_content".localized
+        } else {
+            return "generating_document".localized
         }
     }
 }
 
-// Image Picker
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImage: UIImage?
-    var sourceType: UIImagePickerController.SourceType
-    @Environment(\.presentationMode) var presentationMode
+
+// ShareSheet
+struct ShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
     
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.sourceType = sourceType
-        picker.delegate = context.coordinator
-        return picker
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        return controller
     }
     
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePicker
-        
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.selectedImage = image
-            }
-            parent.presentationMode.wrappedValue.dismiss()
-        }
-        
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.presentationMode.wrappedValue.dismiss()
-        }
-    }
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // Document Picker

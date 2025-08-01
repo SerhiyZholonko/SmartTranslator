@@ -121,6 +121,15 @@
 
 // MARK: - File Translator
 "file_translator_title" = "File Translator";
+"no_translation_to_export" = "No translation to export";
+"copied_to_clipboard" = "Copied to clipboard";
+"pdf_generated_successfully" = "PDF generated successfully";
+"reading_file" = "Reading file...";
+"extracting_text" = "Extracting text...";
+"translating_content" = "Translating content...";
+"generating_document" = "Generating document...";
+"pdf_ready_for_download" = "Your translated PDF is ready for download";
+"translation_cancelled" = "Translation cancelled";
 "select_file" = "Select File";
 "supported_formats" = "Supported formats: PDF, DOC, DOCX, TXT";
 "file_selected" = "File selected:";
@@ -129,17 +138,25 @@
 "file_translation_complete" = "Translation complete";
 "download_translation" = "Download Translation";
 "select_file_to_translate" = "Select a file to translate";
-"supported_files_note" = "Supported: Images, PDF documents";
+"supported_files_note" = "Supported: Images, PDF documents (max 50MB)";
 "gallery" = "Gallery";
 "camera" = "Camera";
 "processing_file" = "Processing file...";
+"processing_pages_format" = "Processing pages %d of %d";
 "pdf_document" = "PDF Document";
 "image_file" = "Image File";
 "detected_text_title" = "Detected Text";
 "translation_title" = "Translation";
 "no_text_detected_image" = "No text detected in the image";
 "no_text_found_pdf" = "No text found in the PDF";
+"pdf_too_large" = "PDF file is too large. Maximum size is 50MB";
 "translation_error_prefix" = "Translation error: %@";
+"translation_complete" = "Translation Complete";
+"download_translated_pdf" = "Download Translated PDF";
+"generating_pdf" = "Generating PDF...";
+"please_wait_pdf_generation" = "Please wait while we generate your translated PDF file.";
+"pdf_file_not_found" = "PDF file not found. Please try again.";
+"translated_document" = "Translated Document";
 
 // MARK: - Offline Translator
 "offline_translator_title" = "Offline Translator";

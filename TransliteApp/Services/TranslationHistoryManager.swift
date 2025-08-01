@@ -10,7 +10,9 @@ class TranslationHistoryManager: ObservableObject {
     
     private let historyKey = "translationHistory"
     private let statisticsKey = "translationStatistics"
-    private let maxHistoryItems = 1000
+    private let maxHistoryItems = 100 // Reduced to avoid UserDefaults size limit
+    private let historyFileName = "translation_history.json"
+    private let statisticsFileName = "translation_statistics.json"
     
     private init() {
         // Defer loading to avoid blocking UI on startup
@@ -190,29 +192,66 @@ class TranslationHistoryManager: ObservableObject {
     
     // MARK: - Persistence
     
+    private func getDocumentsDirectory() -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+    
     private func loadHistory() {
-        guard let data = UserDefaults.standard.data(forKey: historyKey),
-              let decoded = try? JSONDecoder().decode([TranslationHistoryItem].self, from: data) else {
+        // First try to load from file storage
+        let fileURL = getDocumentsDirectory().appendingPathComponent(historyFileName)
+        
+        if let data = try? Data(contentsOf: fileURL),
+           let decoded = try? JSONDecoder().decode([TranslationHistoryItem].self, from: data) {
+            history = decoded
             return
         }
-        history = decoded
+        
+        // Fallback: Try to migrate from UserDefaults if it exists
+        if let data = UserDefaults.standard.data(forKey: historyKey),
+           let decoded = try? JSONDecoder().decode([TranslationHistoryItem].self, from: data) {
+            history = Array(decoded.prefix(maxHistoryItems)) // Limit items during migration
+            saveHistory() // Save to file storage
+            // Clear from UserDefaults after successful migration
+            UserDefaults.standard.removeObject(forKey: historyKey)
+        }
     }
     
     private func saveHistory() {
+        // Limit history before saving
+        if history.count > maxHistoryItems {
+            history = Array(history.prefix(maxHistoryItems))
+        }
+        
         guard let encoded = try? JSONEncoder().encode(history) else { return }
-        UserDefaults.standard.set(encoded, forKey: historyKey)
+        
+        let fileURL = getDocumentsDirectory().appendingPathComponent(historyFileName)
+        try? encoded.write(to: fileURL)
     }
     
     private func loadStatistics() {
-        guard let data = UserDefaults.standard.data(forKey: statisticsKey),
-              let decoded = try? JSONDecoder().decode(TranslationStatistics.self, from: data) else {
+        // First try to load from file storage
+        let fileURL = getDocumentsDirectory().appendingPathComponent(statisticsFileName)
+        
+        if let data = try? Data(contentsOf: fileURL),
+           let decoded = try? JSONDecoder().decode(TranslationStatistics.self, from: data) {
+            statistics = decoded
             return
         }
-        statistics = decoded
+        
+        // Fallback: Try to migrate from UserDefaults if it exists
+        if let data = UserDefaults.standard.data(forKey: statisticsKey),
+           let decoded = try? JSONDecoder().decode(TranslationStatistics.self, from: data) {
+            statistics = decoded
+            saveStatistics() // Save to file storage
+            // Clear from UserDefaults after successful migration
+            UserDefaults.standard.removeObject(forKey: statisticsKey)
+        }
     }
     
     private func saveStatistics() {
         guard let encoded = try? JSONEncoder().encode(statistics) else { return }
-        UserDefaults.standard.set(encoded, forKey: statisticsKey)
+        
+        let fileURL = getDocumentsDirectory().appendingPathComponent(statisticsFileName)
+        try? encoded.write(to: fileURL)
     }
 }
