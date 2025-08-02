@@ -1,10 +1,17 @@
 import SwiftUI
 import Combine
+import AVFoundation
 
 @MainActor
 final class ContentViewModel: BaseViewModel {
     // MARK: - Published Properties
-    @Published var selectedTab: CustomTabBar.TabItem = .home
+    @Published var selectedTab: CustomTabBar.TabItem = .home {
+        didSet {
+            if oldValue != selectedTab {
+                handleTabChange(from: oldValue, to: selectedTab)
+            }
+        }
+    }
     @Published var selectedFeature: FeatureType?
     
     // MARK: - Navigation States
@@ -63,6 +70,34 @@ final class ContentViewModel: BaseViewModel {
         showVoiceChat = false
         showCameraTranslator = false
         showFileTranslator = false
+    }
+    
+    private func handleTabChange(from oldTab: CustomTabBar.TabItem, to newTab: CustomTabBar.TabItem) {
+        print("🔄 Tab changed from \(oldTab) to \(newTab)")
+        
+        // Dismiss any open translation views when changing tabs
+        if oldTab == .home {
+            resetNavigationStates()
+            cleanupTranslationViews()
+        }
+    }
+    
+    func cleanupTranslationViews() {
+        // Stop any ongoing translation tasks
+        TranslationManager.shared.isTranslating = false
+        
+        // Stop any audio sessions
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            print("🔊 Audio session deactivated after translation view")
+        } catch {
+            print("⚠️ Could not deactivate audio session: \(error)")
+        }
+        
+        // Force garbage collection by clearing references
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Small delay to ensure view cleanup
+        }
     }
     
 }

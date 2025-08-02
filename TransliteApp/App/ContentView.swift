@@ -33,15 +33,31 @@ struct ContentView: View {
             .navigationBarHidden(true)
             .fullScreenCover(isPresented: $viewModel.showTextTranslator) {
                 TextTranslatorView()
+                    .onDisappear {
+                        // Force cleanup when dismissing translation view
+                        viewModel.cleanupTranslationViews()
+                    }
             }
             .fullScreenCover(isPresented: $viewModel.showVoiceChat) {
                 VoiceChatView()
+                    .onDisappear {
+                        // Force cleanup when dismissing voice chat view
+                        viewModel.cleanupTranslationViews()
+                    }
             }
             .fullScreenCover(isPresented: $viewModel.showCameraTranslator) {
                 CameraTranslatorView()
+                    .onDisappear {
+                        // Force cleanup when dismissing camera view
+                        viewModel.cleanupTranslationViews()
+                    }
             }
             .fullScreenCover(isPresented: $viewModel.showFileTranslator) {
                 FileTranslatorView()
+                    .onDisappear {
+                        // Force cleanup when dismissing file translator view
+                        viewModel.cleanupTranslationViews()
+                    }
             }
             .sheet(isPresented: $viewModel.showSettings) {
                 SettingsView()

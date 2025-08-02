@@ -41,6 +41,9 @@ struct CustomTabBar: View {
         HStack {
             ForEach(TabItem.allCases, id: \.self) { tab in
                 Button(action: {
+                    // Prevent rapid tab switching that can cause hangs
+                    guard selectedTab != tab else { return }
+                    
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                         selectedTab = tab
                     }

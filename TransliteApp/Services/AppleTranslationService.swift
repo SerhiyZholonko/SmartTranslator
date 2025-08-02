@@ -11,61 +11,53 @@ class AppleTranslationService: ObservableObject {
     @Published var downloadedLanguages: Set<Locale.Language> = []
     
     private init() {
-        checkAvailability()
+        // Set default state immediately to avoid crashes
+        isTranslationAvailable = true
+        
+        // Add common languages by default
+        let commonLanguages: [Locale.Language] = [
+            .init(identifier: "en"),
+            .init(identifier: "uk"),
+            .init(identifier: "es"),
+            .init(identifier: "fr"),
+            .init(identifier: "de"),
+            .init(identifier: "zh")
+        ]
+        availableLanguages = Set(commonLanguages)
+        downloadedLanguages = Set(commonLanguages)
+        
+        // Do async check later to avoid blocking init
+        Task {
+            await checkAvailabilityAsync()
+        }
     }
     
     // MARK: - Availability Checking
     
     func checkAvailability() {
+        // Public method for manual refresh
         Task {
-            do {
-                let availability = LanguageAvailability()
-                let supportedLanguages = await availability.supportedLanguages
-                
-                await MainActor.run {
+            await checkAvailabilityAsync()
+        }
+    }
+    
+    private func checkAvailabilityAsync() async {
+        do {
+            let availability = LanguageAvailability()
+            let supportedLanguages = await availability.supportedLanguages
+            
+            await MainActor.run {
+                if !supportedLanguages.isEmpty {
                     self.availableLanguages = Set(supportedLanguages)
-                    self.isTranslationAvailable = !supportedLanguages.isEmpty
-                    
-                    // If no languages found but we're on iOS 17.4+, assume Translation is available
-                    if supportedLanguages.isEmpty {
-                        print("⚠️ Apple Translation: No languages found via LanguageAvailability, but iOS 17.4+ detected - assuming available")
-                        self.isTranslationAvailable = true
-                        
-                        // Add common languages manually
-                        let commonLanguages: [Locale.Language] = [
-                            .init(identifier: "en"),
-                            .init(identifier: "uk"),
-                            .init(identifier: "es"),
-                            .init(identifier: "fr"),
-                            .init(identifier: "de"),
-                            .init(identifier: "zh")
-                        ]
-                        self.availableLanguages = Set(commonLanguages)
-                        self.downloadedLanguages = Set(commonLanguages)
-                    } else {
-                        self.downloadedLanguages = Set(supportedLanguages)
-                    }
-                }
-            } catch {
-                print("❌ Apple Translation availability check failed: \(error)")
-                await MainActor.run {
-                    // On iOS 17.4+, assume Translation is available even if check fails
-                    self.isTranslationAvailable = true
-                    print("✅ Apple Translation: Assuming available on iOS 17.4+")
-                    
-                    // Add common languages manually
-                    let commonLanguages: [Locale.Language] = [
-                        .init(identifier: "en"),
-                        .init(identifier: "uk"),
-                        .init(identifier: "es"),
-                        .init(identifier: "fr"),
-                        .init(identifier: "de"),
-                        .init(identifier: "zh")
-                    ]
-                    self.availableLanguages = Set(commonLanguages)
-                    self.downloadedLanguages = Set(commonLanguages)
+                    self.downloadedLanguages = Set(supportedLanguages)
+                    print("✅ Apple Translation: Found \(supportedLanguages.count) languages")
+                } else {
+                    print("⚠️ Apple Translation: No languages found via LanguageAvailability, using defaults")
                 }
             }
+        } catch {
+            print("❌ Apple Translation availability check failed: \(error)")
+            // Keep defaults set in init
         }
     }
     
@@ -122,30 +114,29 @@ class AppleTranslationServiceWrapper: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     private init() {
-        checkAvailability()
-    }
-    
-    func checkAvailability() {
+        // Set availability immediately without async calls
         if #available(iOS 17.4, *) {
-            // For iOS 17.4+, Apple Translation is available
             isAvailable = true
             print("✅ AppleTranslationServiceWrapper: Available on iOS 17.4+")
-            
-            // Still subscribe to changes for completeness
-            Task {
-                AppleTranslationService.shared.$isTranslationAvailable
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] translationAvailable in
-                        // Only update if it becomes false (in case of specific issues)
-                        if !translationAvailable {
-                            self?.isAvailable = false
-                        }
-                    }
-                    .store(in: &cancellables)
-            }
         } else {
             isAvailable = false
             print("❌ AppleTranslationServiceWrapper: Not available on iOS < 17.4")
+        }
+    }
+    
+    func checkAvailability() {
+        // Only do async work if explicitly requested
+        if #available(iOS 17.4, *) {
+            // Subscribe to changes for completeness, but don't block initialization
+            AppleTranslationService.shared.$isTranslationAvailable
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] translationAvailable in
+                    // Only update if it becomes false (in case of specific issues)
+                    if !translationAvailable {
+                        self?.isAvailable = false
+                    }
+                }
+                .store(in: &cancellables)
         }
     }
     

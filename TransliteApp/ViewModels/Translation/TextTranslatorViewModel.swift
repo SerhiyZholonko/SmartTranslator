@@ -205,8 +205,26 @@ final class TextTranslatorViewModel: BaseViewModel {
         UserDefaults.standard.set(targetLanguage, forKey: "lastTargetLanguage")
     }
     
-    deinit {
+    func cleanup() {
+        // Cancel any ongoing translation
         translationTask?.cancel()
+        translationTask = nil
+        
+        // Stop speech synthesis
+        speechSynthesizer.stopSpeaking(at: .immediate)
+        
+        // Clear states
+        isTranslating = false
+        isSpeaking = false
+    }
+    
+    deinit {
+        print("🗑️ TextTranslatorViewModel deinit called")
+        
+        // Cancel translation task (safe to call from any thread)
+        translationTask?.cancel()
+        
+        // Stop speech synthesis (safe to call from any thread)
         speechSynthesizer.stopSpeaking(at: .immediate)
     }
 }

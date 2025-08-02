@@ -215,11 +215,17 @@ final class VoiceChatViewModel: BaseViewModel {
     }
     
     private func startAudioLevelMonitoring() {
+        // Stop any existing monitoring first
+        stopAudioLevelMonitoring()
+        
         audioLevelTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self = self, self.isRecording else { return }
             
             let inputNode = self.audioEngine.inputNode
             let bus = 0
+            
+            // Check if tap is already installed to prevent multiple installations
+            guard inputNode.numberOfInputs > 0 else { return }
             
             inputNode.installTap(onBus: bus, bufferSize: 2048, format: inputNode.inputFormat(forBus: bus)) { buffer, _ in
                 let level = self.getAudioLevel(from: buffer)
@@ -233,7 +239,11 @@ final class VoiceChatViewModel: BaseViewModel {
     private func stopAudioLevelMonitoring() {
         audioLevelTimer?.invalidate()
         audioLevelTimer = nil
-        audioEngine.inputNode.removeTap(onBus: 0)
+        
+        // Safely remove tap if audio engine is running
+        if audioEngine.isRunning {
+            audioEngine.inputNode.removeTap(onBus: 0)
+        }
     }
     
     private func getAudioLevel(from buffer: AVAudioPCMBuffer) -> Float {
@@ -253,9 +263,23 @@ final class VoiceChatViewModel: BaseViewModel {
     }
     
     deinit {
-        Task { @MainActor in
-            stopRecording()
-        }
+        print("🗑️ VoiceChatViewModel deinit called")
+        
+        // Stop audio engine and tasks (safe to call from any thread)
+        audioEngine.stop()
+        recognitionRequest?.endAudio()
+        recognitionTask?.cancel()
         speechSynthesizer.stopSpeaking(at: .immediate)
+        
+        // Stop timer (safe to call from any thread)
+        audioLevelTimer?.invalidate()
+        
+        // Deactivate audio session (safe to call from any thread)
+        do {
+            try AVAudioSession.sharedInstance().setActive(false)
+            print("🔊 Audio session deactivated in deinit")
+        } catch {
+            print("❌ Failed to deactivate audio session: \(error)")
+        }
     }
 }

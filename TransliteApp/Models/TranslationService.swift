@@ -41,42 +41,33 @@ extension UserDefaults {
     
     var selectedTranslationService: TranslationService {
         get {
-            // Check if we need to auto-select based on iOS version
-            if !hasUserManuallySelectedService {
-                // Auto-select based on iOS version and service availability
-                let defaultService: TranslationService
-                if #available(iOS 17.4, *), AppleTranslationServiceWrapper.shared.isAvailable {
-                    // Set Apple Translation as default for iOS 17.4+ when available
-                    defaultService = .apple
-                } else {
-                    // Set Google as default for older versions or when Apple Translation is not available
-                    defaultService = .google
-                }
-                
-                // Save the auto-selected service
-                set(defaultService.rawValue, forKey: Keys.selectedTranslationService)
-                return defaultService
+            // First check if there's already a saved service
+            if let rawValue = object(forKey: Keys.selectedTranslationService) as? String,
+               let service = TranslationService(rawValue: rawValue) {
+                return service
             }
             
-            guard let rawValue = string(forKey: Keys.selectedTranslationService),
-                  let service = TranslationService(rawValue: rawValue) else {
-                // Default to Google if not set
-                return .google
+            // If no service saved, use default based on iOS version
+            let defaultService: TranslationService
+            if #available(iOS 17.4, *) {
+                defaultService = .apple
+            } else {
+                defaultService = .google
             }
             
-            // Fallback to Google if selected service is not available
-            return service.isAvailable ? service : .google
+            // Save the default service for future use
+            set(defaultService.rawValue, forKey: Keys.selectedTranslationService)
+            return defaultService
         }
         set {
             set(newValue.rawValue, forKey: Keys.selectedTranslationService)
-            // Mark that user has manually selected a service
-            hasUserManuallySelectedService = true
+            set(true, forKey: Keys.hasUserManuallySelectedService)
         }
     }
     
     var hasUserManuallySelectedService: Bool {
         get {
-            return bool(forKey: Keys.hasUserManuallySelectedService)
+            return object(forKey: Keys.hasUserManuallySelectedService) as? Bool ?? false
         }
         set {
             set(newValue, forKey: Keys.hasUserManuallySelectedService)
@@ -85,7 +76,7 @@ extension UserDefaults {
     
     var hasAutoSelectedServiceForVersion: Bool {
         get {
-            return bool(forKey: Keys.hasAutoSelectedServiceForVersion)
+            return object(forKey: Keys.hasAutoSelectedServiceForVersion) as? Bool ?? false
         }
         set {
             set(newValue, forKey: Keys.hasAutoSelectedServiceForVersion)
@@ -94,7 +85,8 @@ extension UserDefaults {
     
     func resetTranslationServiceSelection() {
         removeObject(forKey: Keys.selectedTranslationService)
-        hasUserManuallySelectedService = false
-        hasAutoSelectedServiceForVersion = false
+        // Use direct UserDefaults methods to avoid computed property recursion
+        set(false, forKey: Keys.hasUserManuallySelectedService)
+        set(false, forKey: Keys.hasAutoSelectedServiceForVersion)
     }
 }
