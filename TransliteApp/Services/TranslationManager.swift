@@ -38,7 +38,7 @@ class TranslationManager: ObservableObject {
     
     func translate(
         text: String,
-        from sourceLanguage: String = "auto",
+        from sourceLanguage: String = "en",
         to targetLanguage: String
     ) async throws -> String {
         await MainActor.run {
@@ -87,7 +87,7 @@ class TranslationManager: ObservableObject {
     
     func translateWithOptions(
         text: String,
-        from sourceLanguage: String = "auto",
+        from sourceLanguage: String = "en",
         to targetLanguage: String
     ) async throws -> [GoogleTranslateParser.TranslationOption] {
         // Multiple options currently only supported by Google Translate

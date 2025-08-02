@@ -10,7 +10,7 @@ final class FileTranslatorViewModel: BaseViewModel {
     @Published var selectedFileURL: URL?
     @Published var extractedText = ""
     @Published var translatedText = ""
-    @Published var sourceLanguage = "auto"
+    @Published var sourceLanguage = "en"
     @Published var targetLanguage = "en"
     @Published var isProcessing = false
     @Published var showDocumentPicker = false
@@ -621,14 +621,7 @@ final class FileTranslatorViewModel: BaseViewModel {
             processingProgress = 0.95
         }
         
-        // Save to history with clean text
-        let historyItem = TranslationHistoryItem(
-            sourceText: cleanTextForTranslation(extractedText), // Clean version for history
-            translatedText: cleanTranslation,
-            sourceLanguage: sourceLanguage,
-            targetLanguage: targetLanguage
-        )
-        TranslationHistoryManager.shared.addTranslation(historyItem)
+        // File translations are not saved to history to avoid cluttering
         
         // Auto-generate PDF if this is a PDF file
         if originalFileName.lowercased().hasSuffix(".pdf") {
@@ -1859,7 +1852,6 @@ final class FileTranslatorViewModel: BaseViewModel {
     
     private func getLanguageName(_ code: String) -> String {
         switch code {
-        case "auto": return "Auto-detect"
         case "en": return "English"
         case "uk": return "Ukrainian"
         case "ru": return "Russian"

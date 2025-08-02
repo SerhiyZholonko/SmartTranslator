@@ -87,7 +87,7 @@ class GoogleTranslateParser: ObservableObject {
     // MARK: - Main Translation Methods
     
     /// Original translate method - returns single best translation
-    func translate(text: String, from sourceLanguage: String = "auto", to targetLanguage: String) async throws -> String {
+    func translate(text: String, from sourceLanguage: String = "en", to targetLanguage: String) async throws -> String {
         guard !text.isEmpty else { return "" }
         
         await MainActor.run {
@@ -109,7 +109,7 @@ class GoogleTranslateParser: ObservableObject {
     }
     
     /// Enhanced method - returns multiple translation options
-    func translateWithOptions(text: String, from sourceLanguage: String = "auto", to targetLanguage: String) async throws -> [TranslationOption] {
+    func translateWithOptions(text: String, from sourceLanguage: String = "en", to targetLanguage: String) async throws -> [TranslationOption] {
         guard !text.isEmpty else { return [] }
         
         await MainActor.run {

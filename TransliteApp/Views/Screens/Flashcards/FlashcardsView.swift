@@ -376,7 +376,6 @@ struct AddCardView: View {
     
     var languages: [(String, String)] {
         [
-            ("auto", "auto_detect".localized),
             ("en", "language_english".localized),
             ("uk", "language_ukrainian".localized), 
             ("ru", "language_russian".localized),
@@ -545,7 +544,7 @@ struct AddCardView: View {
                 // Get main translation
                 let mainTranslation = try await translator.translate(
                     text: frontText,
-                    from: sourceLanguage == "auto" ? "" : sourceLanguage,
+                    from: sourceLanguage,
                     to: targetLanguage
                 )
                 
@@ -601,7 +600,6 @@ struct AddCardView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "auto_detect".localized
         case "en": return "language_english".localized
         case "uk": return "language_ukrainian".localized
         case "ru": return "language_russian".localized

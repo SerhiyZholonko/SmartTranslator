@@ -335,8 +335,7 @@ struct VoiceChatView: View {
         let preferences = UserDefaults.standard
         
         // Завантажуємо збережені налаштування мов з Settings
-        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage"),
-           savedSourceLanguage != "auto" { // VoiceChat не підтримує auto-detect
+        if let savedSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") {
             sourceLanguage = savedSourceLanguage
         }
         

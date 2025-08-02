@@ -4,7 +4,7 @@ import StoreKit
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject private var localizationManager = LocalizationManager.shared
-    @State private var defaultSourceLanguage = "auto"
+    @State private var defaultSourceLanguage = "en"
     @State private var defaultTargetLanguage = "uk"
     @State private var enableSmartCache = true
     @State private var maxCacheSize = 50
@@ -40,6 +40,8 @@ struct SettingsView: View {
                             showingServiceAlert = true
                         } else {
                             UserDefaults.standard.selectedTranslationService = newValue
+                            // Mark that user manually selected the service
+                            UserDefaults.standard.hasUserManuallySelectedService = true
                         }
                     }
                     
@@ -57,7 +59,7 @@ struct SettingsView: View {
                 Section(header: Text("general".localized)) {
                     Picker("app_language".localized, selection: $localizationManager.currentLanguage) {
                         ForEach(SupportedLanguage.supportedLanguages, id: \.id) { language in
-                            Text(language.name)
+                            Text("\(language.flag) \(language.name)")
                                 .tag(language.code)
                         }
                     }
@@ -78,13 +80,12 @@ struct SettingsView: View {
                 
                 Section(header: Text("default_source_language".localized)) {
                     Picker("source_language".localized, selection: $defaultSourceLanguage) {
-                        Text("auto_detect".localized).tag("auto")
-                        Text("language_english".localized).tag("en")
-                        Text("language_ukrainian".localized).tag("uk")
-                        Text("language_chinese_simplified".localized).tag("zh")
-                        Text("language_spanish".localized).tag("es")
-                        Text("language_french".localized).tag("fr")
-                        Text("language_german".localized).tag("de")
+                        Text("\(getFlagForLanguage("en")) \("language_english".localized)").tag("en")
+                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)").tag("uk")
+                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)").tag("zh")
+                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)").tag("es")
+                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)").tag("fr")
+                        Text("\(getFlagForLanguage("de")) \("language_german".localized)").tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
                     .onChange(of: defaultSourceLanguage) { _, _ in
@@ -92,12 +93,12 @@ struct SettingsView: View {
                     }
                     
                     Picker("target_language".localized, selection: $defaultTargetLanguage) {
-                        Text("language_ukrainian".localized).tag("uk")
-                        Text("language_english".localized).tag("en")
-                        Text("language_chinese_simplified".localized).tag("zh")
-                        Text("language_spanish".localized).tag("es")
-                        Text("language_french".localized).tag("fr")
-                        Text("language_german".localized).tag("de")
+                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)").tag("uk")
+                        Text("\(getFlagForLanguage("en")) \("language_english".localized)").tag("en")
+                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)").tag("zh")
+                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)").tag("es")
+                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)").tag("fr")
+                        Text("\(getFlagForLanguage("de")) \("language_german".localized)").tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
                     .onChange(of: defaultTargetLanguage) { _, _ in
@@ -231,7 +232,7 @@ struct SettingsView: View {
     
     private func loadSettings() {
         let preferences = UserDefaults.standard
-        defaultSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") ?? "auto"
+        defaultSourceLanguage = preferences.string(forKey: "defaultSourceLanguage") ?? "en"
         defaultTargetLanguage = preferences.string(forKey: "defaultTargetLanguage") ?? "uk"
         enableSmartCache = preferences.bool(forKey: "enableSmartCache")
         maxCacheSize = preferences.integer(forKey: "maxCacheSize") == 0 ? 50 : preferences.integer(forKey: "maxCacheSize")
@@ -253,13 +254,18 @@ struct SettingsView: View {
     }
     
     private func resetToDefaults() {
-        defaultSourceLanguage = "auto"
+        defaultSourceLanguage = "en"
         defaultTargetLanguage = "uk"
         enableSmartCache = true
         maxCacheSize = 50
         enableHistory = true
-        selectedTranslationService = .google
-        UserDefaults.standard.selectedTranslationService = .google
+        
+        // Reset translation service preferences using new method
+        UserDefaults.standard.resetTranslationServiceSelection()
+        
+        // This will trigger auto-selection based on iOS version
+        selectedTranslationService = UserDefaults.standard.selectedTranslationService
+        
         saveSettings() // Save the reset values
     }
     
@@ -328,6 +334,18 @@ struct SettingsView: View {
         }
         
         return receiptURL.path.contains("sandboxReceipt")
+    }
+    
+    private func getFlagForLanguage(_ code: String) -> String {
+        switch code {
+        case "en": return "🇬🇧"
+        case "uk": return "🇺🇦"
+        case "zh": return "🇨🇳"
+        case "es": return "🇪🇸"
+        case "fr": return "🇫🇷"
+        case "de": return "🇩🇪"
+        default: return "🌐"
+        }
     }
     
     

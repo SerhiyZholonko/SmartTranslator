@@ -10,7 +10,7 @@ final class TextTranslatorViewModel: BaseViewModel {
     // MARK: - Published Properties
     @Published var sourceText = ""
     @Published var translatedText = ""
-    @Published var sourceLanguage = "auto"
+    @Published var sourceLanguage = "en"
     @Published var targetLanguage = "en"
     @Published var isTranslating = false
     @Published var isSpeaking = false
@@ -100,7 +100,7 @@ final class TextTranslatorViewModel: BaseViewModel {
     }
     
     func swapLanguages() {
-        guard sourceLanguage != "auto" else { return }
+        // Allow swap for all languages
         
         let temp = sourceLanguage
         sourceLanguage = targetLanguage

@@ -8,7 +8,7 @@ final class CameraTranslatorViewModel: BaseViewModel {
     @Published var capturedImage: UIImage?
     @Published var recognizedText = ""
     @Published var translatedText = ""
-    @Published var sourceLanguage = "auto"
+    @Published var sourceLanguage = "en"
     @Published var targetLanguage = "en"
     @Published var isProcessing = false
     @Published var showLanguagePicker = false
@@ -148,7 +148,8 @@ final class CameraTranslatorViewModel: BaseViewModel {
         request.usesLanguageCorrection = true
         
         // Set recognition languages based on source language
-        if sourceLanguage != "auto" {
+        // Allow swap for all languages
+        if true {
             request.recognitionLanguages = [sourceLanguage]
         }
         

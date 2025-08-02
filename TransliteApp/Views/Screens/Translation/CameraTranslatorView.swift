@@ -8,7 +8,7 @@ struct CameraTranslatorView: View {
     @StateObject private var permissionsManager = PermissionsManager.shared
     @State private var detectedText = ""
     @State private var translatedText = ""
-    @State private var sourceLanguage = "auto"
+    @State private var sourceLanguage = "en"
     @State private var targetLanguage = "en"
     @State private var isProcessing = false
     @State private var showTranslation = false
@@ -283,7 +283,7 @@ struct LanguagePicker: View {
         ]
         
         if includeAuto {
-            list.insert(("auto", "auto_detect".localized), at: 0)
+            // Remove auto-detect option
         }
         
         return list
@@ -328,7 +328,6 @@ struct LanguagePicker: View {
         case "es": return "🇪🇸"
         case "fr": return "🇫🇷"
         case "de": return "🇩🇪"
-        case "auto": return "🌐"
         default: return "🌐"
         }
     }

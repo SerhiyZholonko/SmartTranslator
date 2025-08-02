@@ -248,7 +248,6 @@ struct HistoryItemRow: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "language_auto".localized
         case "en": return "language_en_short".localized
         case "uk": return "language_uk_short".localized
         case "ru": return "language_ru_short".localized
@@ -503,7 +502,6 @@ struct HistoryDetailView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "auto_detect".localized
         case "en": return "language_english".localized
         case "uk": return "language_ukrainian".localized
         case "ru": return "language_russian".localized
@@ -682,7 +680,6 @@ struct DeckSelectorView: View {
     
     func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "auto_detect".localized
         case "en": return "language_english".localized
         case "uk": return "language_ukrainian".localized
         case "ru": return "language_russian".localized

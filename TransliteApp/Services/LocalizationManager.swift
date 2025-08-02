@@ -84,14 +84,15 @@ struct SupportedLanguage: Identifiable, Hashable {
     let code: String
     let name: String
     let englishName: String
+    let flag: String
     
     static let supportedLanguages: [SupportedLanguage] = [
-        SupportedLanguage(id: "en", code: "en", name: "English", englishName: "English"),
-        SupportedLanguage(id: "uk", code: "uk", name: "Українська", englishName: "Ukrainian"),
-        SupportedLanguage(id: "zh-Hans", code: "zh-Hans", name: "中文（简体）", englishName: "Chinese (Simplified)"),
-        SupportedLanguage(id: "es", code: "es", name: "Español", englishName: "Spanish"),
-        SupportedLanguage(id: "fr", code: "fr", name: "Français", englishName: "French"),
-        SupportedLanguage(id: "de", code: "de", name: "Deutsch", englishName: "German")
+        SupportedLanguage(id: "en", code: "en", name: "English", englishName: "English", flag: "🇬🇧"),
+        SupportedLanguage(id: "uk", code: "uk", name: "Українська", englishName: "Ukrainian", flag: "🇺🇦"),
+        SupportedLanguage(id: "zh-Hans", code: "zh-Hans", name: "中文（简体）", englishName: "Chinese (Simplified)", flag: "🇨🇳"),
+        SupportedLanguage(id: "es", code: "es", name: "Español", englishName: "Spanish", flag: "🇪🇸"),
+        SupportedLanguage(id: "fr", code: "fr", name: "Français", englishName: "French", flag: "🇫🇷"),
+        SupportedLanguage(id: "de", code: "de", name: "Deutsch", englishName: "German", flag: "🇩🇪")
     ]
     
     static func language(for code: String) -> SupportedLanguage {

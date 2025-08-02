@@ -86,7 +86,7 @@ struct UserPreferences: Codable {
     var favoritePhases: [FavoritePhrase]
     
     static let `default` = UserPreferences(
-        defaultSourceLanguage: "auto",
+        defaultSourceLanguage: "en",
         defaultTargetLanguage: "en",
         autoDetectLanguage: true,
         saveHistory: true,

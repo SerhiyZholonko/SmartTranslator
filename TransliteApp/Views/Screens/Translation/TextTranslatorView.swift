@@ -10,7 +10,7 @@ struct TextTranslatorView: View {
     @StateObject private var permissionsManager = PermissionsManager.shared
     @StateObject private var flashcardManager = FlashcardManager.shared
     
-    @State private var sourceLanguage = "auto"
+    @State private var sourceLanguage = "en"
     @State private var targetLanguage = "en"
     @State private var inputText = ""
     @State private var translatedText = ""
@@ -27,7 +27,6 @@ struct TextTranslatorView: View {
     
     var languages: [(String, String)] {
         [
-            ("auto", "auto_detect".localized),
             ("en", "language_english".localized),
             ("uk", "language_ukrainian".localized),
             ("zh", "language_chinese_simplified".localized),
@@ -82,11 +81,11 @@ struct TextTranslatorView: View {
                             .font(.system(size: 20))
                             .foregroundColor(AppColors.appAccent)
                     }
-                    .disabled(sourceLanguage == "auto")
+                    .disabled(false)
                     
                     LanguageSelector(
                         selectedLanguage: $targetLanguage,
-                        languages: languages.filter { $0.0 != "auto" },
+                        languages: languages,
                         title: "to".localized
                     )
                 }
@@ -232,7 +231,7 @@ struct TextTranslatorView: View {
         .sheet(isPresented: $showDeckSelection) {
             DeckSelectionView(
                 decks: flashcardManager.decks,
-                sourceLanguage: sourceLanguage == "auto" ? "en" : sourceLanguage,
+                sourceLanguage: sourceLanguage,
                 targetLanguage: targetLanguage,
                 onDeckSelected: { deck in
                     selectedDeck = deck
@@ -299,7 +298,7 @@ struct TextTranslatorView: View {
     }
     
     private func swapLanguages() {
-        guard sourceLanguage != "auto" else { return }
+        // Allow swap for all languages
         let temp = sourceLanguage
         sourceLanguage = targetLanguage
         targetLanguage = temp
@@ -348,7 +347,7 @@ struct TextTranslatorView: View {
                 print("🎤 Starting voice recognition...")
                 
                 // Get source language for recognition
-                let recognitionLanguage = sourceLanguage == "auto" ? "en-US" : getRecognitionLanguage(from: sourceLanguage)
+                let recognitionLanguage = getRecognitionLanguage(from: sourceLanguage)
                 
                 // Use simple speech recognition with timeout
                 startSimpleSpeechRecognition(language: recognitionLanguage)
@@ -543,8 +542,8 @@ struct TextTranslatorView: View {
     private func addToFlashcards(deck: FlashcardDeck) {
         guard !inputText.isEmpty && !translatedText.isEmpty else { return }
         
-        // Determine actual source language if auto-detect was used
-        let actualSourceLanguage = sourceLanguage == "auto" ? "en" : sourceLanguage // Default to English if auto
+        // Use the selected source language
+        let actualSourceLanguage = sourceLanguage
         
         let flashcard = flashcardManager.createFlashcard(
             frontText: inputText.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -566,8 +565,8 @@ struct TextTranslatorView: View {
     private func createAndAddToNewDeck() {
         guard !inputText.isEmpty && !translatedText.isEmpty else { return }
         
-        // Determine actual source language if auto-detect was used
-        let actualSourceLanguage = sourceLanguage == "auto" ? "en" : sourceLanguage
+        // Use the selected source language
+        let actualSourceLanguage = sourceLanguage
         
         // Create new deck with a descriptive name
         let deckName = "Translation Cards (\(languageCodeToName(actualSourceLanguage)) → \(languageCodeToName(targetLanguage)))"
@@ -689,7 +688,6 @@ struct DeckSelectionView: View {
     
     private func languageName(_ code: String) -> String {
         switch code {
-        case "auto": return "language_auto".localized
         case "en": return "language_english".localized
         case "uk": return "language_ukrainian".localized
         case "zh": return "language_chinese_simplified".localized
@@ -805,7 +803,6 @@ struct LanguageSelector: View {
         case "es": return "🇪🇸"
         case "fr": return "🇫🇷"
         case "de": return "🇩🇪"
-        case "auto": return "🌐"
         default: return "🌐"
         }
     }

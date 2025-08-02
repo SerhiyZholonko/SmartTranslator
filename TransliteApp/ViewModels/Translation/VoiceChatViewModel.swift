@@ -9,7 +9,7 @@ final class VoiceChatViewModel: BaseViewModel {
     @Published var isTranslating = false
     @Published var recognizedText = ""
     @Published var translatedText = ""
-    @Published var sourceLanguage = "auto"
+    @Published var sourceLanguage = "en"
     @Published var targetLanguage = "en"
     @Published var showLanguagePicker = false
     @Published var isSelectingSourceLanguage = true
@@ -88,7 +88,7 @@ final class VoiceChatViewModel: BaseViewModel {
     }
     
     func swapLanguages() {
-        guard sourceLanguage != "auto" else { return }
+        // Allow swap for all languages
         
         let temp = sourceLanguage
         sourceLanguage = targetLanguage

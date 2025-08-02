@@ -57,7 +57,6 @@ struct FileTranslatorView: View {
                             FileLanguageSelector(
                                 selectedLanguage: $viewModel.sourceLanguage,
                                 languages: [
-                                    ("auto", "auto_detect".localized),
                                     ("en", "language_english".localized),
                                     ("uk", "language_ukrainian".localized),
                                     ("zh", "language_chinese_simplified".localized),
@@ -69,7 +68,7 @@ struct FileTranslatorView: View {
                             )
                             
                             Button(action: {
-                                guard viewModel.sourceLanguage != "auto" else { return }
+                                // Allow swap for all languages
                                 let temp = viewModel.sourceLanguage
                                 viewModel.sourceLanguage = viewModel.targetLanguage
                                 viewModel.targetLanguage = temp
@@ -78,7 +77,7 @@ struct FileTranslatorView: View {
                                     .font(.system(size: 20))
                                     .foregroundColor(AppColors.appAccent)
                             }
-                            .disabled(viewModel.sourceLanguage == "auto")
+                            .disabled(false)
                             
                             FileLanguageSelector(
                                 selectedLanguage: $viewModel.targetLanguage,
@@ -332,7 +331,7 @@ struct FileTranslatorView: View {
             }
         }
         .onAppear {
-            viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultSourceLanguage") ?? "auto", isSource: true)
+            viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultSourceLanguage") ?? "en", isSource: true)
             viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultTargetLanguage") ?? "en", isSource: false)
         }
         }
@@ -476,7 +475,6 @@ private struct FileLanguageSelector: View {
         case "es": return "🇪🇸"
         case "fr": return "🇫🇷"
         case "de": return "🇩🇪"
-        case "auto": return "🌐"
         default: return "🌐"
         }
     }
