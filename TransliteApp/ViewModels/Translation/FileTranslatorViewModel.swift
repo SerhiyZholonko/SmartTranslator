@@ -1,7 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import PDFKit
-import Vision
+@preconcurrency import Vision
 import UIKit
 
 @MainActor
@@ -610,7 +610,7 @@ final class FileTranslatorViewModel: BaseViewModel {
         let cleanTranslation = joinTranslatedChunksIntelligently(translatedChunks)
         
         // For PDF generation, we need to restore structure from original but with translated content
-        let structuredTranslation = restoreStructureToTranslation(
+        _ = restoreStructureToTranslation(
             originalStructured: originalStructuredText,
             cleanTranslation: cleanTranslation
         )
@@ -643,11 +643,11 @@ final class FileTranslatorViewModel: BaseViewModel {
     
     private func restoreStructureToTranslation(originalStructured: String, cleanTranslation: String) -> String {
         // Extract all content from original structure to create mapping
-        let originalContent = extractContentFromStructure(originalStructured)
+        _ = extractContentFromStructure(originalStructured)
         
         // Create a simple approach: replace original content chunks with translated chunks
         // by preserving the structure but substituting content
-        var result = originalStructured
+        _ = originalStructured
         
         // Split clean translation into paragraphs/sentences
         let translatedParagraphs = cleanTranslation.components(separatedBy: "\n\n")

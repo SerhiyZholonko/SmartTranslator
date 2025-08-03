@@ -190,7 +190,7 @@ struct SideMenuView: View {
         .onAppear {
             openMenu()
         }
-        .onChange(of: isShowing) { newValue in
+        .onChange(of: isShowing) { oldValue, newValue in
             if newValue {
                 openMenu()
             } else {
@@ -243,8 +243,14 @@ struct SideMenuView: View {
     
     // MARK: - Helper Functions
     private func rateApp() {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
+        if #available(iOS 18.0, *) {
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                AppStore.requestReview(in: scene)
+            }
+        } else {
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                SKStoreReviewController.requestReview(in: scene)
+            }
         }
     }
 }

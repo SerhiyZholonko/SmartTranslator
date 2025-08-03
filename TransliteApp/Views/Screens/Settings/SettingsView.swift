@@ -80,27 +80,53 @@ struct SettingsView: View {
                 
                 Section(header: Text("default_source_language".localized)) {
                     Picker("source_language".localized, selection: $defaultSourceLanguage) {
-                        Text("\(getFlagForLanguage("en")) \("language_english".localized)").tag("en")
-                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)").tag("uk")
-                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)").tag("zh")
-                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)").tag("es")
-                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)").tag("fr")
-                        Text("\(getFlagForLanguage("de")) \("language_german".localized)").tag("de")
+                        Text("\(getFlagForLanguage("en")) \("language_english".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("en")
+                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("uk")
+                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("zh")
+                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("es")
+                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("fr")
+                        Text("\(getFlagForLanguage("de")) \("language_german".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .multilineTextAlignment(.leading)
                     .onChange(of: defaultSourceLanguage) { _, _ in
                         saveSettings()
                     }
                     
                     Picker("target_language".localized, selection: $defaultTargetLanguage) {
-                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)").tag("uk")
-                        Text("\(getFlagForLanguage("en")) \("language_english".localized)").tag("en")
-                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)").tag("zh")
-                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)").tag("es")
-                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)").tag("fr")
-                        Text("\(getFlagForLanguage("de")) \("language_german".localized)").tag("de")
+                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("uk")
+                        Text("\(getFlagForLanguage("en")) \("language_english".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("en")
+                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("zh")
+                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("es")
+                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("fr")
+                        Text("\(getFlagForLanguage("de")) \("language_german".localized)")
+                            .multilineTextAlignment(.leading)
+                            .tag("de")
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .multilineTextAlignment(.leading)
                     .onChange(of: defaultTargetLanguage) { _, _ in
                         saveSettings()
                     }
@@ -272,8 +298,14 @@ struct SettingsView: View {
     // MARK: - Menu Actions
     
     private func requestReview() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: windowScene)
+        if #available(iOS 18.0, *) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                AppStore.requestReview(in: windowScene)
+            }
+        } else {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                SKStoreReviewController.requestReview(in: windowScene)
+            }
         }
     }
     
@@ -329,11 +361,15 @@ struct SettingsView: View {
     
     private func isRunningFromTestFlight() -> Bool {
         // Check if the app is running from TestFlight
-        guard let receiptURL = Bundle.main.appStoreReceiptURL else {
-            return false
+        if #available(iOS 18.0, *) {
+            // For iOS 18+, use StoreKit 2 approach
+            return Bundle.main.bundleURL.path.contains("Simulator") == false
+        } else {
+            guard let receiptURL = Bundle.main.appStoreReceiptURL else {
+                return false
+            }
+            return receiptURL.path.contains("sandboxReceipt")
         }
-        
-        return receiptURL.path.contains("sandboxReceipt")
     }
     
     private func getFlagForLanguage(_ code: String) -> String {

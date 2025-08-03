@@ -92,7 +92,7 @@ struct CustomTabBar: View {
 }
 
 #Preview {
-    @State var selectedTab = CustomTabBar.TabItem.home
+    @Previewable @State var selectedTab = CustomTabBar.TabItem.home
     return CustomTabBar(selectedTab: $selectedTab)
         .background(AppColors.appBackground)
 }

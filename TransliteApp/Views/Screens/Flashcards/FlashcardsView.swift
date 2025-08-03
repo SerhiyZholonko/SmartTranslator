@@ -289,7 +289,7 @@ struct DeckCard: View {
                     sourceLanguage: deck.sourceLanguage,
                     targetLanguage: deck.targetLanguage
                 )
-                flashcardManager.addFlashcardToDeck(newCard, deck: deck)
+                _ = flashcardManager.addFlashcardToDeck(newCard, deck: deck)
                 newCardFront = ""
                 newCardBack = ""
                 showingAddCard = false
@@ -771,7 +771,7 @@ struct StudyView: View {
                         
                         Spacer()
                     }
-                } else if let card = currentCard {
+                } else if currentCard != nil {
                     // Compact header with progress
                     HStack {
                         Text("card_of_total".localized(with: currentCardIndex + 1, cardsToStudy.count))
@@ -843,7 +843,7 @@ struct StudyView: View {
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(maxHeight: UIScreen.main.bounds.height * 0.4)
-                        .onChange(of: currentCardIndex) { newValue in
+                        .onChange(of: currentCardIndex) { oldValue, newValue in
                             showingBack = false
                         }
                         .gesture(

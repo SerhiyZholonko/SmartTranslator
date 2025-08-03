@@ -80,7 +80,9 @@ final class TextTranslatorViewModel: BaseViewModel {
         // Reset typing timer - user is still typing
         typingTimer?.invalidate()
         typingTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-            self?.onTypingFinished()
+            Task { @MainActor in
+                self?.onTypingFinished()
+            }
         }
     }
     
@@ -258,9 +260,11 @@ final class TextTranslatorViewModel: BaseViewModel {
         
         // Schedule save after 5 seconds of inactivity (only if not typing)
         historyTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] _ in
-            // Double-check user is not typing when timer fires
-            if self?.isUserTyping == false {
-                self?.saveDelayedHistory()
+            Task { @MainActor in
+                // Double-check user is not typing when timer fires
+                if self?.isUserTyping == false {
+                    self?.saveDelayedHistory()
+                }
             }
         }
     }
@@ -347,9 +351,10 @@ final class TextTranslatorViewModel: BaseViewModel {
         
         // Save any pending history before deinit
         if let item = pendingHistoryItem {
-            // Call synchronously since we're in deinit
-            Task { @MainActor in
-                self.historyManager.addTranslation(
+            // Save immediately with direct reference to avoid self capture in Task
+            let manager = historyManager
+            Task.detached { @MainActor in
+                manager.addTranslation(
                     sourceText: item.sourceText,
                     translatedText: item.translatedText,
                     sourceLanguage: item.sourceLanguage,

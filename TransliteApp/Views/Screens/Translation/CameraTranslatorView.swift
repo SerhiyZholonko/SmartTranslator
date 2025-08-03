@@ -273,7 +273,7 @@ struct LanguagePicker: View {
     let includeAuto: Bool
     
     var languages: [(String, String)] {
-        var list = [
+        let list = [
             ("en", "language_english".localized),
             ("uk", "language_ukrainian".localized),
             ("zh", "language_chinese_simplified".localized),
@@ -302,7 +302,7 @@ struct LanguagePicker: View {
                     }
                 }
             } label: {
-                HStack(spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))
@@ -391,7 +391,7 @@ class CameraManager: NSObject, ObservableObject {
     
     private func setupCameraSync() async {
         return await withCheckedContinuation { continuation in
-            DispatchQueue.global(qos: .userInitiated).async {
+            Task { @MainActor in
                 do {
                     print("📷 Configuring camera session...")
                     self.session.beginConfiguration()
@@ -443,18 +443,14 @@ class CameraManager: NSObject, ObservableObject {
                         print("✅ Camera session started")
                     }
                     
-                    DispatchQueue.main.async {
-                        self.isSetup = true
-                        print("✅ Camera setup completed")
-                    }
+                    self.isSetup = true
+                    print("✅ Camera setup completed")
                     
                 } catch {
                     print("❌ Camera setup error: \(error)")
                     self.session.commitConfiguration()
                     
-                    DispatchQueue.main.async {
-                        self.showPermissionAlert = true
-                    }
+                    self.showPermissionAlert = true
                 }
                 
                 continuation.resume()
@@ -486,7 +482,7 @@ class CameraManager: NSObject, ObservableObject {
 }
 
 extension CameraManager: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+    nonisolated func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         print("📷 Photo capture completed")
         
         if let error = error {

@@ -194,7 +194,7 @@ struct TextTranslatorView: View {
                                 .padding(8)
                                 .background(AppColors.inputBackground)
                                 .cornerRadius(12)
-                                .onChange(of: inputText) { _ in
+                                .onChange(of: inputText) { oldValue, newValue in
                                     if inputText.count > 5000 {
                                         inputText = String(inputText.prefix(5000))
                                     }
@@ -861,7 +861,7 @@ struct LanguageSelector: View {
                     }
                 }
             } label: {
-                HStack(spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))

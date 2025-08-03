@@ -219,18 +219,21 @@ final class VoiceChatViewModel: BaseViewModel {
         stopAudioLevelMonitoring()
         
         audioLevelTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self, self.isRecording else { return }
-            
-            let inputNode = self.audioEngine.inputNode
-            let bus = 0
-            
-            // Check if tap is already installed to prevent multiple installations
-            guard inputNode.numberOfInputs > 0 else { return }
-            
-            inputNode.installTap(onBus: bus, bufferSize: 2048, format: inputNode.inputFormat(forBus: bus)) { buffer, _ in
-                let level = self.getAudioLevel(from: buffer)
-                DispatchQueue.main.async {
-                    self.audioLevel = CGFloat(level)
+            Task { @MainActor in
+                guard let self = self, self.isRecording else { return }
+                
+                let inputNode = self.audioEngine.inputNode
+                let bus = 0
+                
+                // Check if tap is already installed to prevent multiple installations
+                guard inputNode.numberOfInputs > 0 else { return }
+                
+                inputNode.installTap(onBus: bus, bufferSize: 2048, format: inputNode.inputFormat(forBus: bus)) { [weak self] buffer, _ in
+                    Task { @MainActor in
+                        guard let self = self else { return }
+                        let level = self.getAudioLevel(from: buffer)
+                        self.audioLevel = CGFloat(level)
+                    }
                 }
             }
         }

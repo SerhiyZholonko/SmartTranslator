@@ -158,53 +158,46 @@ struct VoiceChatView: View {
         print("🎤 Starting recording for side: \(side)")
         
         Task {
-            do {
-                // Check permissions first
-                print("🔐 Checking permissions...")
-                let micGranted = await permissionsManager.requestMicrophonePermission()
-                let speechGranted = await permissionsManager.requestSpeechRecognitionPermission()
-                
-                print("🔐 Microphone granted: \(micGranted), Speech granted: \(speechGranted)")
-                
-                guard micGranted && speechGranted else {
-                    print("❌ Permissions denied")
-                    await MainActor.run {
-                        showPermissionAlert = true
-                    }
-                    return
-                }
-                
+            // Check permissions first
+            print("🔐 Checking permissions...")
+            let micGranted = await permissionsManager.requestMicrophonePermission()
+            let speechGranted = await permissionsManager.requestSpeechRecognitionPermission()
+            
+            print("🔐 Microphone granted: \(micGranted), Speech granted: \(speechGranted)")
+            
+            guard micGranted && speechGranted else {
+                print("❌ Permissions denied")
                 await MainActor.run {
-                    if isRecording {
-                        print("🛑 Stopping existing recording")
-                        stopRecording()
-                    } else {
-                        print("▶️ Starting new recording")
-                        currentRecordingSide = side
-                        isRecording = true
-                        startAudioAnimation()
-                        
-                        let language = side == .left ? sourceLanguage : targetLanguage
-                        print("🌍 Recording language: \(language)")
-                        
-                        speechRecognizer.startRecording(language: language) { text in
-                            Task { @MainActor in
-                                print("📝 Recognition result: \(text ?? "nil")")
-                                // Handle recognized text
-                                if let text = text, !text.isEmpty {
-                                    print("➕ Adding original text: '\(text)' for side: \(side)")
-                                    addConversation(text: text, side: side, isTranslation: false)
-                                    translateAndSpeak(text: text, from: language, to: side == .left ? targetLanguage : sourceLanguage, originalSide: side)
-                                }
-                                isRecording = false
+                    showPermissionAlert = true
+                }
+                return
+            }
+            
+            await MainActor.run {
+                if isRecording {
+                    print("🛑 Stopping existing recording")
+                    stopRecording()
+                } else {
+                    print("▶️ Starting new recording")
+                    currentRecordingSide = side
+                    isRecording = true
+                    startAudioAnimation()
+                    
+                    let language = side == .left ? sourceLanguage : targetLanguage
+                    print("🌍 Recording language: \(language)")
+                    
+                    speechRecognizer.startRecording(language: language) { text in
+                        Task { @MainActor in
+                            print("📝 Recognition result: \(text ?? "nil")")
+                            // Handle recognized text
+                            if let text = text, !text.isEmpty {
+                                print("➕ Adding original text: '\(text)' for side: \(side)")
+                                addConversation(text: text, side: side, isTranslation: false)
+                                translateAndSpeak(text: text, from: language, to: side == .left ? targetLanguage : sourceLanguage, originalSide: side)
                             }
+                            isRecording = false
                         }
                     }
-                }
-            } catch {
-                print("💥 Error in startRecording: \(error)")
-                await MainActor.run {
-                    isRecording = false
                 }
             }
         }
@@ -373,7 +366,7 @@ struct VoiceButton: View {
                 Button("🇫🇷 \("language_french".localized)") { language = "fr-FR" }
                 Button("🇩🇪 \("language_german".localized)") { language = "de-DE" }
             } label: {
-                HStack(spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(getFlag(for: language))
                     Text(getLanguageName(for: language))
                         .lineLimit(1)
@@ -583,9 +576,11 @@ class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDelegate {
         // Start recognition task with better error handling
         print("🚀 Starting recognition task...")
         // Timer to capture partial results if no final result comes
-        let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+        let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
             print("⏰ Speech recognition timeout - capturing partial result")
-            self.stopRecording()
+            Task { @MainActor in
+                self?.stopRecording()
+            }
         }
         
         var lastPartialText = ""
@@ -615,9 +610,11 @@ class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDelegate {
                     // If we have good partial text and no final result after 2 seconds
                     if !text.isEmpty && text.count > 3 {
                         timeoutTimer.invalidate()
-                        let newTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+                        let newTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { [weak self] _ in
                             print("⏰ Using partial result: '\(lastPartialText)'")
-                            self.stopRecording()
+                            Task { @MainActor in
+                                self?.stopRecording()
+                            }
                             completion(lastPartialText.isEmpty ? nil : lastPartialText)
                         }
                         // Store timer reference to invalidate if needed
@@ -651,16 +648,10 @@ class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDelegate {
         }
         
         // Install new tap
-        do {
-            inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
-                self?.recognitionRequest?.append(buffer)
-            }
-            print("✅ Audio tap installed")
-        } catch {
-            print("❌ Error installing audio tap: \(error)")
-            completion(nil)
-            return
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
+            self?.recognitionRequest?.append(buffer)
         }
+        print("✅ Audio tap installed")
         
         // Prepare and start audio engine
         print("🚀 Preparing audio engine...")

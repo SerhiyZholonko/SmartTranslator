@@ -234,7 +234,7 @@ struct FileTranslatorView: View {
                                             .background(AppColors.appAccent)
                                             .cornerRadius(12)
                                         }
-                                        .onChange(of: selectedItem) { newItem in
+                                        .onChange(of: selectedItem) { oldItem, newItem in
                                             Task {
                                                 if let data = try? await newItem?.loadTransferable(type: Data.self),
                                                    let image = UIImage(data: data) {
@@ -449,7 +449,7 @@ private struct FileLanguageSelector: View {
                     }
                 }
             } label: {
-                HStack(spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(getFlag(for: selectedLanguage))
                     Text(languages.first(where: { $0.0 == selectedLanguage })?.1 ?? "")
                         .font(.system(size: 14))

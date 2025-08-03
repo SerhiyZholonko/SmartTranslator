@@ -12,7 +12,7 @@ struct AppColors {
     static let primaryText = Color("PrimaryText")
     static let secondaryText = Color("SecondaryText")
     static let tertiaryText = Color("TertiaryText")
-    static let placeholderText = Color("PlaceholderText")
+    static let placeholderText = Color("AppTextPlaceholder")
     
     // MARK: - Accent Colors
     static let appAccent = Color("AppAccent")
