@@ -14,8 +14,15 @@ struct AppColors {
     static let tertiaryText = Color("TertiaryText")
     static let placeholderText = Color("AppTextPlaceholder")
     
-    // MARK: - Accent Colors
+    // MARK: - Dynamic Accent Colors
+    static func dynamicAccent(for theme: ColorTheme) -> Color {
+        Color(theme.accentColorName)
+    }
+    
+    // MARK: - Static Accent Colors (default blue)
     static let appAccent = Color("AppAccent")
+    
+    // MARK: - Static Colors
     static let secondaryAccent = Color("SecondaryAccent")
     static let successColor = Color("SuccessColor")
     static let warningColor = Color("WarningColor")
@@ -66,5 +73,21 @@ extension LinearGradient {
             startPoint: .top,
             endPoint: .bottom
         )
+    }
+}
+
+// MARK: - Dynamic Color View Modifier
+struct DynamicAccentColorModifier: ViewModifier {
+    @ObservedObject private var themeManager = ThemeManager.shared
+    
+    func body(content: Content) -> some View {
+        content
+            .accentColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
+    }
+}
+
+extension View {
+    func dynamicAccentColor() -> some View {
+        modifier(DynamicAccentColorModifier())
     }
 }

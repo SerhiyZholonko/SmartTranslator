@@ -19,7 +19,7 @@ struct LaunchScreenView: View {
             LinearGradient(
                 gradient: Gradient(colors: [
                     AppColors.appBackground,
-                    AppColors.appAccent.opacity(0.1)
+                    AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1)
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -35,7 +35,7 @@ struct LaunchScreenView: View {
                     ZStack {
                         // Background pulse
                         Circle()
-                            .fill(AppColors.appAccent.opacity(0.1))
+                            .fill(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
                             .frame(width: 200, height: 200)
                             .scaleEffect(pulseScale)
                             .opacity(isAnimating ? 0.6 : 0.0)
@@ -44,7 +44,7 @@ struct LaunchScreenView: View {
                         ForEach(0..<3) { index in
                             Circle()
                                 .stroke(
-                                    AppColors.appAccent.opacity(0.3),
+                                    AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.3),
                                     lineWidth: 1
                                 )
                                 .frame(
@@ -63,7 +63,7 @@ struct LaunchScreenView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 100, height: 100)
                                 .shadow(
-                                    color: AppColors.appAccent.opacity(0.4),
+                                    color: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.4),
                                     radius: 15,
                                     x: 0,
                                     y: 0
@@ -73,7 +73,7 @@ struct LaunchScreenView: View {
                             ForEach(0..<6) { index in
                                 Image(systemName: "arrow.triangle.2.circlepath")
                                     .font(.system(size: 12, weight: .medium))
-                                    .foregroundColor(AppColors.appAccent)
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                     .rotationEffect(.degrees(Double(index) * 60))
                                     .offset(
                                         x: cos(Double(index) * .pi / 3) * 60,
@@ -82,7 +82,7 @@ struct LaunchScreenView: View {
                                     .opacity(isAnimating ? 0.9 : 0.0)
                                     .rotationEffect(.degrees(rotationAngle * 0.5))
                                     .shadow(
-                                        color: AppColors.appAccent.opacity(0.3),
+                                        color: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.3),
                                         radius: 2,
                                         x: 0,
                                         y: 0
@@ -125,7 +125,7 @@ struct LaunchScreenView: View {
                     HStack(spacing: 8) {
                         ForEach(0..<3) { index in
                             Circle()
-                                .fill(AppColors.appAccent)
+                                .fill(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 .frame(width: 8, height: 8)
                                 .scaleEffect(pulseScale)
                                 .opacity(isAnimating ? 0.8 : 0.3)

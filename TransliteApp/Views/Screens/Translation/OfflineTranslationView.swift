@@ -91,7 +91,7 @@ struct OfflineTranslationView: View {
                             Text(name)
                             Spacer()
                             Image(systemName: "globe")
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         }
                     }
                 }

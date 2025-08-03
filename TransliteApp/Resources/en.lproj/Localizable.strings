@@ -313,6 +313,12 @@
 "theme_dark" = "Dark";
 "theme_description" = "System theme automatically adjusts based on your device settings. Light and Dark themes provide consistent appearance regardless of system settings.";
 "current_theme_info" = "Current theme";
+"color_theme" = "Color Theme";
+"theme_blue" = "Blue";
+"theme_ocean" = "Ocean";
+"theme_forest" = "Forest";
+"theme_sunset" = "Sunset";
+"theme_purple" = "Purple";
 "default_source_language" = "Default Source Language";
 "default_target_language" = "Default Target Language";
 "auto_detect_language" = "Auto-detect language";

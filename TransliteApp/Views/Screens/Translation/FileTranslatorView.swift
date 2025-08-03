@@ -19,7 +19,7 @@ struct FileTranslatorView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     
                     Spacer()
@@ -43,7 +43,7 @@ struct FileTranslatorView: View {
                     }) {
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     .opacity(viewModel.selectedFileURL == nil ? 0 : 1)
                 }
@@ -75,7 +75,7 @@ struct FileTranslatorView: View {
                             }) {
                                 Image(systemName: "arrow.left.arrow.right")
                                     .font(.system(size: 20))
-                                    .foregroundColor(AppColors.appAccent)
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             }
                             .disabled(false)
                             
@@ -101,7 +101,7 @@ struct FileTranslatorView: View {
                                 VStack(spacing: 12) {
                                     Image(systemName: "doc.fill")
                                         .font(.system(size: 60))
-                                        .foregroundColor(AppColors.appAccent)
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                     
                                     Text(viewModel.originalFileName.isEmpty ? fileURL.lastPathComponent : viewModel.originalFileName)
                                         .font(.system(size: 16, weight: .medium))
@@ -130,7 +130,7 @@ struct FileTranslatorView: View {
                                         if viewModel.processingProgress > 0 {
                                             VStack(spacing: 4) {
                                                 ProgressView(value: viewModel.processingProgress)
-                                                    .progressViewStyle(LinearProgressViewStyle(tint: AppColors.appAccent))
+                                                    .progressViewStyle(LinearProgressViewStyle(tint: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)))
                                                     .frame(maxWidth: 250)
                                                 
                                                 Text("\(Int(viewModel.processingProgress * 100))%")
@@ -174,7 +174,7 @@ struct FileTranslatorView: View {
                                             .foregroundColor(AppColors.buttonText)
                                             .padding()
                                             .frame(maxWidth: .infinity)
-                                            .background(AppColors.appAccent)
+                                            .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                             .cornerRadius(12)
                                         }
                                         
@@ -187,13 +187,13 @@ struct FileTranslatorView: View {
                                                 Text("load_another_file".localized)
                                             }
                                             .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(AppColors.appAccent)
+                                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                             .padding()
                                             .frame(maxWidth: .infinity)
                                             .background(Color.clear)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(AppColors.appAccent, lineWidth: 2)
+                                                    .stroke(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme), lineWidth: 2)
                                             )
                                         }
                                     }
@@ -208,7 +208,7 @@ struct FileTranslatorView: View {
                                 VStack(spacing: 20) {
                                     Image(systemName: "doc.text.magnifyingglass")
                                         .font(.system(size: 60))
-                                        .foregroundColor(AppColors.appAccent.opacity(0.6))
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.6))
                                     
                                     Text("select_file_to_translate".localized)
                                         .font(.system(size: 16))
@@ -231,7 +231,7 @@ struct FileTranslatorView: View {
                                                     .foregroundColor(AppColors.buttonText)
                                             }
                                             .frame(width: 100, height: 80)
-                                            .background(AppColors.appAccent)
+                                            .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                             .cornerRadius(12)
                                         }
                                         .onChange(of: selectedItem) { oldItem, newItem in

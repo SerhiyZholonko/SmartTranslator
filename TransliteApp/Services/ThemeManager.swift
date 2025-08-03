@@ -1,6 +1,45 @@
 import SwiftUI
 import Combine
 
+// MARK: - Color Theme
+enum ColorTheme: String, CaseIterable {
+    case blue = "Blue"
+    case ocean = "Ocean"
+    case forest = "Forest"
+    case sunset = "Sunset"
+    case purple = "Purple"
+    
+    var localizedName: String {
+        switch self {
+        case .blue:
+            return "theme_blue".localized
+        case .ocean:
+            return "theme_ocean".localized
+        case .forest:
+            return "theme_forest".localized
+        case .sunset:
+            return "theme_sunset".localized
+        case .purple:
+            return "theme_purple".localized
+        }
+    }
+    
+    var accentColorName: String {
+        switch self {
+        case .blue:
+            return "AppAccent" // Default blue theme
+        case .ocean:
+            return "OceanAppAccent"
+        case .forest:
+            return "ForestAppAccent"
+        case .sunset:
+            return "SunsetAppAccent"
+        case .purple:
+            return "PurpleAppAccent"
+        }
+    }
+}
+
 // MARK: - Theme Preference
 enum ThemePreference: String, CaseIterable {
     case system = "System"
@@ -30,12 +69,20 @@ final class ThemeManager: ObservableObject {
         }
     }
     
+    @Published var currentColorTheme: ColorTheme = .blue {
+        didSet {
+            UserDefaults.standard.set(currentColorTheme.rawValue, forKey: "selectedColorTheme")
+            objectWillChange.send()
+        }
+    }
+    
     @Published var isDarkMode: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
     private init() {
         loadThemePreference()
+        loadColorThemePreference()
         setupThemeObserver()
     }
     
@@ -43,6 +90,13 @@ final class ThemeManager: ObservableObject {
         if let savedTheme = UserDefaults.standard.string(forKey: "selectedTheme"),
            let theme = ThemePreference(rawValue: savedTheme) {
             currentTheme = theme
+        }
+    }
+    
+    private func loadColorThemePreference() {
+        if let savedColorTheme = UserDefaults.standard.string(forKey: "selectedColorTheme"),
+           let colorTheme = ColorTheme(rawValue: savedColorTheme) {
+            currentColorTheme = colorTheme
         }
     }
     
@@ -77,6 +131,10 @@ final class ThemeManager: ObservableObject {
         
         // Apply theme to all windows
         applyThemeToAllWindows()
+    }
+    
+    func setColorTheme(_ colorTheme: ColorTheme) {
+        currentColorTheme = colorTheme
     }
     
     private func applyThemeToAllWindows() {

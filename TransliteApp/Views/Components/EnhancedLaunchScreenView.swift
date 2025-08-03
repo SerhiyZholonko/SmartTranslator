@@ -20,9 +20,9 @@ struct EnhancedLaunchScreenView: View {
             // Dynamic gradient background
             RadialGradient(
                 gradient: Gradient(colors: [
-                    AppColors.appAccent.opacity(0.3),
+                    AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.3),
                     AppColors.appBackground,
-                    AppColors.appAccent.opacity(0.1)
+                    AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1)
                 ]),
                 center: .center,
                 startRadius: 50,
@@ -35,7 +35,7 @@ struct EnhancedLaunchScreenView: View {
             if showParticles {
                 ForEach(0..<8, id: \.self) { index in
                     Circle()
-                        .fill(AppColors.appAccent.opacity(0.6))
+                        .fill(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.6))
                         .frame(width: 4, height: 4)
                         .offset(
                             x: cos(Double(index) * .pi / 4) * particleOffset[index] * 2,
@@ -58,8 +58,8 @@ struct EnhancedLaunchScreenView: View {
                             .fill(
                                 RadialGradient(
                                     gradient: Gradient(colors: [
-                                        AppColors.appAccent.opacity(0.4),
-                                        AppColors.appAccent.opacity(0.0)
+                                        AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.4),
+                                        AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.0)
                                     ]),
                                     center: .center,
                                     startRadius: 0,
@@ -76,9 +76,9 @@ struct EnhancedLaunchScreenView: View {
                                 .stroke(
                                     LinearGradient(
                                         gradient: Gradient(colors: [
-                                            AppColors.appAccent.opacity(0.6),
-                                            AppColors.appAccent.opacity(0.1),
-                                            AppColors.appAccent.opacity(0.6)
+                                            AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.6),
+                                            AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1),
+                                            AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.6)
                                         ]),
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
@@ -101,7 +101,7 @@ struct EnhancedLaunchScreenView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 120, height: 120)
                                 .shadow(
-                                    color: AppColors.appAccent.opacity(0.5),
+                                    color: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.5),
                                     radius: 20,
                                     x: 0,
                                     y: 0
@@ -112,7 +112,7 @@ struct EnhancedLaunchScreenView: View {
                                         .stroke(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
-                                                    AppColors.appAccent.opacity(0.6),
+                                                    AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.6),
                                                     Color.clear
                                                 ]),
                                                 startPoint: .topLeading,
@@ -131,8 +131,8 @@ struct EnhancedLaunchScreenView: View {
                                     .foregroundStyle(
                                         LinearGradient(
                                             gradient: Gradient(colors: [
-                                                AppColors.appAccent,
-                                                AppColors.appAccent.opacity(0.7)
+                                                AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme),
+                                                AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.7)
                                             ]),
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
@@ -147,7 +147,7 @@ struct EnhancedLaunchScreenView: View {
                                     .scaleEffect(pulseScale * 0.8)
                                     .rotationEffect(.degrees(rotationAngle * 0.7))
                                     .shadow(
-                                        color: AppColors.appAccent.opacity(0.3),
+                                        color: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.3),
                                         radius: 4,
                                         x: 0,
                                         y: 0
@@ -163,7 +163,7 @@ struct EnhancedLaunchScreenView: View {
                                         LinearGradient(
                                             gradient: Gradient(colors: [
                                                 AppColors.primaryText,
-                                                AppColors.appAccent
+                                                AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)
                                             ]),
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
@@ -198,7 +198,7 @@ struct EnhancedLaunchScreenView: View {
                                 LinearGradient(
                                     gradient: Gradient(colors: [
                                         AppColors.primaryText,
-                                        AppColors.appAccent
+                                        AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)
                                     ]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -232,11 +232,11 @@ struct EnhancedLaunchScreenView: View {
                                 Spacer()
                                 Text("\(Int(loadingProgress * 100))%")
                                     .font(.system(size: 12, weight: .medium))
-                                    .foregroundColor(AppColors.appAccent)
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             }
                             
                             ProgressView(value: loadingProgress)
-                                .progressViewStyle(LinearProgressViewStyle(tint: AppColors.appAccent))
+                                .progressViewStyle(LinearProgressViewStyle(tint: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)))
                                 .scaleEffect(y: 1.5)
                         }
                         .padding(.horizontal, 40)
@@ -247,7 +247,7 @@ struct EnhancedLaunchScreenView: View {
                     HStack(spacing: 12) {
                         ForEach(0..<3) { index in
                             Circle()
-                                .fill(AppColors.appAccent)
+                                .fill(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 .frame(width: 10, height: 10)
                                 .scaleEffect(pulseScale)
                                 .opacity(isAnimating ? 0.8 : 0.3)

@@ -3,6 +3,7 @@ import SwiftUI
 struct CustomTabBar: View {
     @Binding var selectedTab: TabItem
     @Namespace private var animation
+    @ObservedObject private var themeManager = ThemeManager.shared
     
     enum TabItem: CaseIterable {
         case home
@@ -51,14 +52,14 @@ struct CustomTabBar: View {
                     VStack(spacing: 4) {
                         Image(systemName: tab.iconName)
                             .font(.system(size: tab == .flashcards ? 28 : 24, weight: .medium))
-                            .foregroundColor(selectedTab == tab ? AppColors.appAccent : AppColors.secondaryText)
+                            .foregroundColor(selectedTab == tab ? AppColors.dynamicAccent(for: themeManager.currentColorTheme) : AppColors.secondaryText)
                             .scaleEffect(selectedTab == tab ? 1.1 : 1.0)
                             .animation(.spring(response: 0.6, dampingFraction: 0.8), value: selectedTab)
                         
                         Text(tab.title)
                             .font(.caption2)
                             .fontWeight(selectedTab == tab ? .semibold : .regular)
-                            .foregroundColor(selectedTab == tab ? AppColors.appAccent : AppColors.secondaryText)
+                            .foregroundColor(selectedTab == tab ? AppColors.dynamicAccent(for: themeManager.currentColorTheme) : AppColors.secondaryText)
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)
                     }
@@ -68,7 +69,7 @@ struct CustomTabBar: View {
                         Group {
                             if selectedTab == tab {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(AppColors.appAccent.opacity(0.1))
+                                    .fill(AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.1))
                                     .matchedGeometryEffect(id: "tabBackground", in: animation)
                             } else {
                                 Color.clear

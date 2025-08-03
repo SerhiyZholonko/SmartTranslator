@@ -56,7 +56,7 @@ struct CameraTranslatorView: View {
                 
                 // Scanning area indicator
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(AppColors.successColor, lineWidth: 3)
+                    .stroke(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme), lineWidth: 3)
                     .frame(width: 300, height: 200)
                     .overlay(
                         Text("point_camera_at_text".localized)
@@ -83,7 +83,7 @@ struct CameraTranslatorView: View {
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(AppColors.buttonText)
                             .padding()
-                            .background(AppColors.successColor)
+                            .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             .cornerRadius(12)
                     }
                     .padding()
@@ -103,7 +103,7 @@ struct CameraTranslatorView: View {
                         )
                         
                         Image(systemName: "arrow.right")
-                            .foregroundColor(AppColors.buttonText)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         
                         LanguagePicker(
                             selectedLanguage: $targetLanguage,
@@ -117,11 +117,11 @@ struct CameraTranslatorView: View {
                     Button(action: captureAndTranslate) {
                         ZStack {
                             Circle()
-                                .fill(AppColors.cardBackground)
+                                .fill(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 .frame(width: 70, height: 70)
                             
                             Circle()
-                                .stroke(AppColors.cardBackground, lineWidth: 5)
+                                .stroke(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme), lineWidth: 5)
                                 .frame(width: 80, height: 80)
                             
                             if isProcessing {
@@ -130,7 +130,7 @@ struct CameraTranslatorView: View {
                             } else {
                                 Image(systemName: "camera.fill")
                                     .font(.system(size: 30))
-                                    .foregroundColor(AppColors.primaryText)
+                                    .foregroundColor(AppColors.buttonText)
                             }
                         }
                     }

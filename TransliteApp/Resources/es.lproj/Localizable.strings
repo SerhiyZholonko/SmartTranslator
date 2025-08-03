@@ -300,6 +300,12 @@
 "theme_system" = "Sistema";
 "theme_light" = "Claro";
 "theme_dark" = "Oscuro";
+"color_theme" = "Tema de color";
+"theme_blue" = "Azul";
+"theme_ocean" = "Océano";
+"theme_forest" = "Bosque";
+"theme_sunset" = "Atardecer";
+"theme_purple" = "Púrpura";
 "default_source_language" = "Idioma de origen predeterminado";
 "default_target_language" = "Idioma de destino predeterminado";
 "auto_detect_language" = "Detectar idioma automáticamente";

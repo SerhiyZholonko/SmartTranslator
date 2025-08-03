@@ -71,14 +71,16 @@ struct FlashcardsView: View {
                         HStack {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title2)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             
                             Text("create_new_deck".localized)
                                 .font(.headline)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             
                             Spacer()
                         }
                         .padding()
-                        .background(AppColors.appAccent.opacity(0.1))
+                        .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
                         .cornerRadius(12)
                     }
                     .padding(.horizontal)
@@ -254,8 +256,8 @@ struct DeckCard: View {
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(AppColors.appAccent.opacity(0.1))
-                    .foregroundColor(AppColors.appAccent)
+                    .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     .cornerRadius(8)
                 }
                 
@@ -342,12 +344,13 @@ struct StatItem: View {
     let icon: String
     let title: String
     let value: String
+    @ObservedObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .font(.caption)
-                .foregroundColor(AppColors.appAccent)
+                .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
             
             Text(value)
                 .font(.caption)
@@ -431,7 +434,7 @@ struct AddCardView: View {
                     
                     HStack {
                         Image(systemName: "info.circle")
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         Text("cards_must_use_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
@@ -454,7 +457,7 @@ struct AddCardView: View {
                                 Text("translate_button".localized)
                             }
                             .font(.caption)
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         }
                         .disabled(isTranslating)
                     }
@@ -478,7 +481,7 @@ struct AddCardView: View {
                                     translationAlternatives.removeAll()
                                 }
                                 .font(.caption)
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
@@ -499,7 +502,7 @@ struct AddCardView: View {
                 Section {
                     HStack {
                         Image(systemName: "lightbulb")
-                            .foregroundColor(AppColors.warningColor)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         Text("tip_translate_button".localized)
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
@@ -761,8 +764,8 @@ struct StudyView: View {
                                 }
                                 .padding()
                                 .contentShape(Rectangle())
-                                .background(AppColors.appAccent.opacity(0.2))
-                                .foregroundColor(AppColors.appAccent)
+                                .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.2))
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 .cornerRadius(8)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -787,7 +790,7 @@ struct StudyView: View {
                         Button(action: { playCurrentCard() }) {
                             Image(systemName: isPlayingAudio ? "speaker.wave.2.fill" : "speaker.wave.2")
                                 .font(.system(size: 16))
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         }
                         .disabled(isPlayingAudio)
                         
@@ -808,7 +811,7 @@ struct StudyView: View {
                             Button(action: navigateToPrevious) {
                                 Image(systemName: "chevron.left.circle.fill")
                                     .font(.system(size: 40))
-                                    .foregroundColor(currentCardIndex > 0 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
+                                    .foregroundColor(currentCardIndex > 0 ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.secondaryText.opacity(0.3))
                             }
                             .disabled(currentCardIndex == 0)
                             
@@ -817,7 +820,7 @@ struct StudyView: View {
                             Button(action: navigateToNext) {
                                 Image(systemName: "chevron.right.circle.fill")
                                     .font(.system(size: 40))
-                                    .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? AppColors.appAccent : AppColors.secondaryText.opacity(0.3))
+                                    .foregroundColor(currentCardIndex < cardsToStudy.count - 1 ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.secondaryText.opacity(0.3))
                             }
                             .disabled(currentCardIndex >= cardsToStudy.count - 1)
                         }
@@ -944,12 +947,13 @@ struct StudyView: View {
                                     Text("close".localized)
                                         .font(.body)
                                         .fontWeight(.medium)
+                                       
                                     Spacer()
                                 }
                                 .padding()
                                 .contentShape(Rectangle())
-                                .background(AppColors.appAccent.opacity(0.2))
-                                .foregroundColor(AppColors.appAccent)
+                                .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.2))
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 .cornerRadius(8)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -966,6 +970,7 @@ struct StudyView: View {
                 Button("close".localized) {
                     dismiss()
                 }
+                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
             }
         }
         .onAppear {
@@ -1030,7 +1035,7 @@ struct StudyView: View {
         case .again: return AppColors.errorColor
         case .hard: return AppColors.warningColor
         case .good: return AppColors.successColor
-        case .easy: return AppColors.appAccent
+        case .easy: return AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)
         }
     }
     
@@ -1116,7 +1121,7 @@ struct FlashcardView: View {
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(AppColors.appAccent.opacity(0.2))
+                        .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.2))
                         .cornerRadius(4)
                     
                     Spacer()
@@ -1166,14 +1171,14 @@ struct FlashcardView: View {
                 if !showingBack && dragOffset.width > 50 {
                     Image(systemName: "arrow.left.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(AppColors.appAccent.opacity(0.8))
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.8))
                         .padding(.leading, 20)
                 }
                 Spacer()
                 if !showingBack && dragOffset.width < -50 {
                     Image(systemName: "arrow.right.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(AppColors.appAccent.opacity(0.8))
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.8))
                         .padding(.trailing, 20)
                 }
             }
@@ -1235,7 +1240,7 @@ struct StudyCompleteView: View {
             .font(.headline)
             .foregroundColor(AppColors.cardBackground)
             .padding()
-            .background(AppColors.appAccent)
+            .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
             .cornerRadius(10)
         }
         .padding()

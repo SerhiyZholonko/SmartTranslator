@@ -28,8 +28,8 @@ enum FeatureType: String, CaseIterable {
         return self == .textTranslator
     }
     
-    var iconBackgroundColor: Color {
-        return Color(red: 0.4, green: 0.5, blue: 1.0)
+    @MainActor var iconBackgroundColor: Color {
+        return AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)
     }
     
     var requiresPremium: Bool {
