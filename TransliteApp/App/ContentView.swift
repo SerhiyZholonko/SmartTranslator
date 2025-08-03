@@ -67,6 +67,7 @@ struct ContentView: View {
             }
         }
         .themeAware()
+        .dynamicAccentColor()
         }
     }
 }

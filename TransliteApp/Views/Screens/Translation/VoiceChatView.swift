@@ -40,7 +40,7 @@ struct VoiceChatView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     
                     Spacer()
@@ -54,7 +54,7 @@ struct VoiceChatView: View {
                     Button(action: { clearConversations() }) {
                         Image(systemName: "trash")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     .opacity(conversations.isEmpty ? 0 : 1)
                 }
@@ -123,7 +123,7 @@ struct VoiceChatView: View {
                         .font(.system(size: 24))
                         .foregroundColor(AppColors.buttonText)
                         .frame(width: 50, height: 50)
-                        .background(AppColors.appAccent)
+                        .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         .clipShape(Circle())
                 }
                 
@@ -349,7 +349,7 @@ struct VoiceButton: View {
             Button(action: action) {
                 ZStack {
                     Circle()
-                        .fill(isRecording ? AppColors.errorColor : (side == .left ? AppColors.appAccent : AppColors.successColor))
+                        .fill(isRecording ? AppColors.errorColor : (side == .left ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.successColor))
                         .frame(width: 80, height: 80)
                     
                     Image(systemName: isRecording ? "stop.fill" : "mic.fill")
@@ -425,7 +425,7 @@ struct ConversationBubble: View {
                     .foregroundColor(AppColors.buttonText)
                     .padding()
                     .background(
-                        conversation.side == .left ? AppColors.appAccent : AppColors.successColor
+                        conversation.side == .left ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.successColor
                     )
                     .cornerRadius(20)
                 
@@ -748,7 +748,7 @@ struct SpeakingAnimationView: View {
                 SpeakingBar(
                     height: 10 + (audioLevels[index] * 30),
                     isAnimating: animatingBars.contains(index),
-                    color: recordingSide == .left ? AppColors.appAccent : AppColors.successColor
+                    color: recordingSide == .left ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.successColor
                 )
             }
         }

@@ -18,8 +18,8 @@ struct SideMenuView: View {
                     ZStack(alignment: .bottom) {
                         LinearGradient(
                             gradient: Gradient(colors: [
-                                AppColors.appAccent,
-                                AppColors.appAccent.opacity(0.5)
+                                AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme),
+                                AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.5)
                             ]),
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -97,7 +97,7 @@ struct SideMenuView: View {
                         MenuItemView(
                             icon: "clock.arrow.circlepath",
                             title: "menu_history".localized,
-                            iconColor: AppColors.appAccent,
+                            iconColor: AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme),
                             action: {
                                 showHistory = true
                             }
@@ -343,7 +343,7 @@ struct ShareView: View {
             VStack(spacing: 30) {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 80))
-                    .foregroundColor(AppColors.appAccent)
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 
                 Text("share_app_title".localized)
                     .font(.title)
@@ -432,7 +432,7 @@ struct ShareButton: View {
             HStack(spacing: 15) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
-                    .foregroundColor(AppColors.appAccent)
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     .frame(width: 30)
                 
                 Text(title)
@@ -462,7 +462,7 @@ struct ContactView: View {
             VStack(spacing: 30) {
                 Image(systemName: "message.fill")
                     .font(.system(size: 80))
-                    .foregroundColor(AppColors.appAccent)
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 
                 Text("menu_contact_us".localized)
                     .font(.title)
@@ -543,7 +543,7 @@ struct ContactButton: View {
             HStack(spacing: 15) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
-                    .foregroundColor(AppColors.appAccent)
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     .frame(width: 30)
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -613,7 +613,7 @@ struct PrivacyPolicyView: View {
                         Button("view_full_privacy_policy".localized) {
                             openFullPrivacyPolicy()
                         }
-                        .foregroundColor(AppColors.appAccent)
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         
                         Text("last_updated_date".localized)
                             .font(.caption)

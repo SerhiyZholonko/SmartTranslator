@@ -4,6 +4,7 @@ struct GlobeView: View {
     @State private var rotationAngle: Double = 0
     @State private var starsOpacity: Double = 0
     @State private var globeScale: CGFloat = 0.8
+    @ObservedObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         ZStack {
@@ -26,8 +27,8 @@ struct GlobeView: View {
                 .fill(
                     RadialGradient(
                         gradient: Gradient(colors: [
-                            AppColors.appAccent.opacity(0.3),
-                            AppColors.appAccent.opacity(0.1),
+                            AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.3),
+                            AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.1),
                             Color.clear
                         ]),
                         center: .center,
@@ -38,25 +39,37 @@ struct GlobeView: View {
                 .frame(width: 400, height: 400)
                 .scaleEffect(globeScale)
                 .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: globeScale)
+                .animation(.easeInOut(duration: 0.8), value: themeManager.currentColorTheme)
             
-            // Main planet with rotation
+            // Main planet with rotation and dynamic coloring
             Image("Planet")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 280, height: 280)
+                .colorMultiply(AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.7))
+                .overlay(
+                    // Add a subtle glow overlay
+                    Image("Planet")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 280, height: 280)
+                        .blendMode(.softLight)
+                        .opacity(0.8)
+                )
                 .rotationEffect(.degrees(rotationAngle))
                 .mask(
                     Rectangle()
                         .frame(width: 400, height: 200)
                         .offset(y: -60)
                 )
-                .shadow(color: AppColors.shadow.opacity(0.2), radius: 20, x: 0, y: 10)
+                .shadow(color: AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.3), radius: 20, x: 0, y: 10)
                 .scaleEffect(globeScale)
+                .animation(.easeInOut(duration: 0.8), value: themeManager.currentColorTheme)
             
             // Floating particles
             ForEach(0..<8, id: \.self) { index in
                 Circle()
-                    .fill(AppColors.appAccent.opacity(0.6))
+                    .fill(AppColors.dynamicAccent(for: themeManager.currentColorTheme).opacity(0.6))
                     .frame(width: 3, height: 3)
                     .position(
                         x: 200 + cos(Double(index) * 0.785 + rotationAngle * 0.01) * 120,

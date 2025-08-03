@@ -5,6 +5,7 @@ struct FeatureCard: View {
     let action: () -> Void
     @State private var isPressed = false
     @State private var hasAppeared = false
+    @ObservedObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         Button(action: action) {

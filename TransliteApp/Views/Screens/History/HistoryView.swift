@@ -168,7 +168,7 @@ struct HistoryItemRow: View {
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 2)
-                        .background(AppColors.appAccent.opacity(0.2))
+                        .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.2))
                         .cornerRadius(4)
                     
                     Image(systemName: "arrow.right")
@@ -225,7 +225,7 @@ struct HistoryItemRow: View {
                         if !item.alternatives.isEmpty {
                             Label("\(item.alternatives.count)", systemImage: "text.badge.plus")
                                 .font(.caption2)
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                         }
                         
                         if !item.corrections.isEmpty {
@@ -280,7 +280,7 @@ struct HistoryDetailView: View {
                             Text(languageName(item.sourceLanguage))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 4)
-                                .background(AppColors.appAccent.opacity(0.2))
+                                .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.2))
                                 .cornerRadius(8)
                             
                             Image(systemName: "arrow.right")
@@ -342,7 +342,7 @@ struct HistoryDetailView: View {
                             
                             Button(action: copyTranslation) {
                                 Image(systemName: "doc.on.doc.fill")
-                                    .foregroundColor(AppColors.appAccent)
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             }
                         }
                         
@@ -370,11 +370,11 @@ struct HistoryDetailView: View {
                                     Button(action: { copyText(alternative) }) {
                                         Image(systemName: "doc.on.doc")
                                             .font(.caption)
-                                            .foregroundColor(AppColors.appAccent)
+                                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                     }
                                 }
                                 .padding()
-                                .background(AppColors.appAccent.opacity(0.1))
+                                .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
                                 .cornerRadius(8)
                             }
                         }
@@ -408,6 +408,7 @@ struct HistoryDetailView: View {
                     Button("done".localized) {
                         dismiss()
                     }
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 }
             }
             .sheet(isPresented: $showingDeckSelector) {
@@ -593,6 +594,7 @@ struct StatisticsView: View {
                     Button("done".localized) {
                         dismiss()
                     }
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 }
             }
         }
@@ -658,7 +660,7 @@ struct DeckSelectorView: View {
                     Section {
                         HStack {
                             Image(systemName: "info.circle")
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                             Text("no_decks_found_for_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))
                                 .font(.caption)
                                 .foregroundColor(AppColors.secondaryText)

@@ -127,7 +127,7 @@ struct TextTranslatorView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     
                     Spacer()
@@ -161,7 +161,7 @@ struct TextTranslatorView: View {
                     Button(action: { swapLanguages() }) {
                         Image(systemName: "arrow.left.arrow.right")
                             .font(.system(size: 20))
-                            .foregroundColor(AppColors.appAccent)
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     }
                     .disabled(false)
                     
@@ -230,13 +230,13 @@ struct TextTranslatorView: View {
                                 // Voice input button
                                 Button(action: toggleVoiceInput) {
                                     Image(systemName: isRecording ? "mic.fill" : "mic")
-                                        .foregroundColor(isRecording ? AppColors.errorColor : AppColors.appAccent)
+                                        .foregroundColor(isRecording ? AppColors.errorColor : AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                         .font(.system(size: 20))
                                 }
                                 
                                 Button(action: pasteFromClipboard) {
                                     Image(systemName: "doc.on.clipboard")
-                                        .foregroundColor(AppColors.appAccent)
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                 }
                             }
                         }
@@ -261,7 +261,7 @@ struct TextTranslatorView: View {
                                             if !flashcardSaved {
                                                 Text("add_to_flashcards".localized)
                                                     .font(.caption)
-                                                    .foregroundColor(AppColors.warningColor)
+                                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                             }
                                         }
                                     }
@@ -269,7 +269,7 @@ struct TextTranslatorView: View {
                                     
                                     Button(action: copyTranslation) {
                                         Image(systemName: "doc.on.doc")
-                                            .foregroundColor(AppColors.appAccent)
+                                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                     }
                                 }
                                 
@@ -752,7 +752,7 @@ struct DeckSelectionView: View {
                     .foregroundColor(AppColors.buttonText)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(AppColors.appAccent)
+                    .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     .cornerRadius(12)
                 }
                 .padding(.horizontal)
@@ -815,12 +815,12 @@ struct DeckSelectionCard: View {
                 HStack {
                     Text("cards_count_simple".localized(with: deck.flashcardIds.count))
                         .font(.caption)
-                        .foregroundColor(AppColors.appAccent)
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     
                     Spacer()
                     
                     Image(systemName: "arrow.right.circle")
-                        .foregroundColor(AppColors.appAccent)
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 }
             }
             .padding()

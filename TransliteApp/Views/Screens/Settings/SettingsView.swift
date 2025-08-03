@@ -4,6 +4,7 @@ import StoreKit
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject private var localizationManager = LocalizationManager.shared
+    @ObservedObject private var themeManager = ThemeManager.shared
     @State private var defaultSourceLanguage = "en"
     @State private var defaultTargetLanguage = "uk"
     @State private var enableSmartCache = true
@@ -48,7 +49,7 @@ struct SettingsView: View {
                     if selectedTranslationService == .apple {
                         HStack {
                             Image(systemName: "info.circle")
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
                             Text("apple_translation_ios_requirement".localized)
                                 .font(.caption)
                                 .foregroundColor(AppColors.secondaryText)
@@ -71,7 +72,7 @@ struct SettingsView: View {
                     NavigationLink(destination: ThemeSettingsView()) {
                         HStack {
                             Image(systemName: "paintbrush.fill")
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
                             Text("app_theme".localized)
                                 .foregroundColor(AppColors.primaryText)
                         }
@@ -205,7 +206,7 @@ struct SettingsView: View {
                     Button(action: requestReview) {
                         HStack {
                             Image(systemName: "star.fill")
-                                .foregroundColor(AppColors.warningColor)
+                                .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
                             Text("menu_rate_us".localized)
                                 .foregroundColor(AppColors.primaryText)
                             Spacer()
@@ -216,7 +217,7 @@ struct SettingsView: View {
                     Button(action: shareApp) {
                         HStack {
                             Image(systemName: "square.and.arrow.up")
-                                .foregroundColor(AppColors.appAccent)
+                                .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
                             Text("menu_share_app".localized)
                                 .foregroundColor(AppColors.primaryText)
                             Spacer()
@@ -228,7 +229,7 @@ struct SettingsView: View {
                     Button("reset_to_defaults".localized) {
                         resetToDefaults()
                     }
-                    .foregroundColor(AppColors.appAccent)
+                    .foregroundColor(AppColors.dynamicAccent(for: themeManager.currentColorTheme))
                 }
                 
                 // Padding for TabBar
@@ -383,8 +384,6 @@ struct SettingsView: View {
         default: return "🌐"
         }
     }
-    
-    
 }
 
 #Preview {
