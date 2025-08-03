@@ -29,6 +29,15 @@ final class TextTranslatorViewModel: BaseViewModel {
     private var translationTask: Task<Void, Never>?
     private let debounceDelay: TimeInterval = 0.5
     
+    // Delayed history saving
+    private var historyTimer: Timer?
+    private var pendingHistoryItem: (sourceText: String, translatedText: String, sourceLanguage: String, targetLanguage: String)?
+    
+    // Typing activity tracking
+    private var isUserTyping = false
+    private var typingTimer: Timer?
+    private var lastTextChangeTime = Date()
+    
     override init() {
         super.init()
         setupBindings()
@@ -37,9 +46,16 @@ final class TextTranslatorViewModel: BaseViewModel {
     
     // MARK: - Setup
     private func setupBindings() {
-        // Auto-translate when source text changes
+        // Track text changes to detect typing activity
         $sourceText
-            .debounce(for: .seconds(debounceDelay), scheduler: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.onTextChanged()
+            }
+            .store(in: &cancellables)
+        
+        // Auto-translate when source text changes (with longer debounce)
+        $sourceText
+            .debounce(for: .seconds(1.0), scheduler: DispatchQueue.main) // Increased to 1 second
             .removeDuplicates()
             .sink { [weak self] text in
                 guard !text.isEmpty else {
@@ -51,9 +67,42 @@ final class TextTranslatorViewModel: BaseViewModel {
             .store(in: &cancellables)
     }
     
+    // MARK: - Typing Activity Tracking
+    private func onTextChanged() {
+        lastTextChangeTime = Date()
+        
+        // Mark as typing
+        if !isUserTyping {
+            isUserTyping = true
+            cancelPendingHistorySave() // Cancel any pending saves while typing
+        }
+        
+        // Reset typing timer - user is still typing
+        typingTimer?.invalidate()
+        typingTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            self?.onTypingFinished()
+        }
+    }
+    
+    private func onTypingFinished() {
+        isUserTyping = false
+        typingTimer?.invalidate()
+        typingTimer = nil
+        
+        // Now that typing is finished, try to schedule history save if there's a translation
+        if !translatedText.isEmpty && !sourceText.isEmpty {
+            scheduleHistorySave()
+        }
+    }
+    
     // MARK: - Public Methods
     func translate() {
         guard !sourceText.isEmpty else { return }
+        
+        // Don't cancel history save if not typing (e.g., manual translate call)
+        if isUserTyping {
+            cancelPendingHistorySave()
+        }
         
         translationTask?.cancel()
         translationTask = Task { [weak self] in
@@ -86,8 +135,8 @@ final class TextTranslatorViewModel: BaseViewModel {
                     self.showTranslationOptions = false
                 }
                 
-                // Save to history
-                self.saveToHistory()
+                // Schedule delayed history save
+                self.scheduleHistorySave()
                 
             } catch {
                 self.handleError(error)
@@ -115,6 +164,7 @@ final class TextTranslatorViewModel: BaseViewModel {
     }
     
     func clearAll() {
+        cancelPendingHistorySave()
         sourceText = ""
         translatedText = ""
         translationOptions = []
@@ -173,11 +223,77 @@ final class TextTranslatorViewModel: BaseViewModel {
         showTranslationOptions = false
     }
     
+    // Public method to save any pending history (call when view disappears)
+    func saveAnyPendingHistoryPublic() {
+        saveAnyPendingHistory()
+    }
+    
     // MARK: - Private Methods
     private func clearTranslation() {
         translatedText = ""
         translationOptions = []
         showTranslationOptions = false
+    }
+    
+    // MARK: - Delayed History Saving
+    
+    private func scheduleHistorySave() {
+        guard !sourceText.isEmpty && !translatedText.isEmpty else { return }
+        
+        // Don't schedule save if user is still typing
+        if isUserTyping {
+            return
+        }
+        
+        // Cancel previous timer (prevents saving previous translation)
+        historyTimer?.invalidate()
+        
+        // Store pending item
+        pendingHistoryItem = (
+            sourceText: sourceText,
+            translatedText: translatedText,
+            sourceLanguage: sourceLanguage,
+            targetLanguage: targetLanguage
+        )
+        
+        // Schedule save after 5 seconds of inactivity (only if not typing)
+        historyTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] _ in
+            // Double-check user is not typing when timer fires
+            if self?.isUserTyping == false {
+                self?.saveDelayedHistory()
+            }
+        }
+    }
+    
+    private func cancelPendingHistorySave() {
+        historyTimer?.invalidate()
+        historyTimer = nil
+        pendingHistoryItem = nil
+    }
+    
+    private func saveAnyPendingHistory() {
+        historyTimer?.invalidate()
+        if let item = pendingHistoryItem {
+            historyManager.addTranslation(
+                sourceText: item.sourceText,
+                translatedText: item.translatedText,
+                sourceLanguage: item.sourceLanguage,
+                targetLanguage: item.targetLanguage
+            )
+        }
+        pendingHistoryItem = nil
+    }
+    
+    private func saveDelayedHistory() {
+        if let item = pendingHistoryItem {
+            historyManager.addTranslation(
+                sourceText: item.sourceText,
+                translatedText: item.translatedText,
+                sourceLanguage: item.sourceLanguage,
+                targetLanguage: item.targetLanguage
+            )
+        }
+        pendingHistoryItem = nil
     }
     
     private func saveToHistory() {
@@ -206,6 +322,13 @@ final class TextTranslatorViewModel: BaseViewModel {
     }
     
     func cleanup() {
+        // Save any pending history before cleanup
+        saveAnyPendingHistory()
+        
+        // Cancel typing and history timers
+        typingTimer?.invalidate()
+        typingTimer = nil
+        
         // Cancel any ongoing translation
         translationTask?.cancel()
         translationTask = nil
@@ -216,12 +339,28 @@ final class TextTranslatorViewModel: BaseViewModel {
         // Clear states
         isTranslating = false
         isSpeaking = false
+        isUserTyping = false
     }
     
     deinit {
         print("🗑️ TextTranslatorViewModel deinit called")
         
-        // Cancel translation task (safe to call from any thread)
+        // Save any pending history before deinit
+        if let item = pendingHistoryItem {
+            // Call synchronously since we're in deinit
+            Task { @MainActor in
+                self.historyManager.addTranslation(
+                    sourceText: item.sourceText,
+                    translatedText: item.translatedText,
+                    sourceLanguage: item.sourceLanguage,
+                    targetLanguage: item.targetLanguage
+                )
+            }
+        }
+        
+        // Cancel timers and translation task (safe to call from any thread)
+        historyTimer?.invalidate()
+        typingTimer?.invalidate()
         translationTask?.cancel()
         
         // Stop speech synthesis (safe to call from any thread)

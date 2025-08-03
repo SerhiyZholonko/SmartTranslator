@@ -42,22 +42,17 @@ class AppleTranslationService: ObservableObject {
     }
     
     private func checkAvailabilityAsync() async {
-        do {
-            let availability = LanguageAvailability()
-            let supportedLanguages = await availability.supportedLanguages
-            
-            await MainActor.run {
-                if !supportedLanguages.isEmpty {
-                    self.availableLanguages = Set(supportedLanguages)
-                    self.downloadedLanguages = Set(supportedLanguages)
-                    print("✅ Apple Translation: Found \(supportedLanguages.count) languages")
-                } else {
-                    print("⚠️ Apple Translation: No languages found via LanguageAvailability, using defaults")
-                }
+        let availability = LanguageAvailability()
+        let supportedLanguages = await availability.supportedLanguages
+        
+        await MainActor.run {
+            if !supportedLanguages.isEmpty {
+                self.availableLanguages = Set(supportedLanguages)
+                self.downloadedLanguages = Set(supportedLanguages)
+                print("✅ Apple Translation: Found \(supportedLanguages.count) languages")
+            } else {
+                print("⚠️ Apple Translation: No languages found via LanguageAvailability, using defaults")
             }
-        } catch {
-            print("❌ Apple Translation availability check failed: \(error)")
-            // Keep defaults set in init
         }
     }
     

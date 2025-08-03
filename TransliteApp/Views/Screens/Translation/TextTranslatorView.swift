@@ -25,6 +25,12 @@ struct TextTranslatorView: View {
     @State private var flashcardSaved = false
     @State private var translationTimer: Timer?
     
+    // Delayed history saving
+    @State private var historyTimer: Timer?
+    @State private var pendingHistoryItem: TranslationHistoryItem?
+    @State private var isUserTyping = false
+    @State private var typingTimer: Timer?
+    
     var languages: [(String, String)] {
         [
             ("en", "language_english".localized),
@@ -34,6 +40,82 @@ struct TextTranslatorView: View {
             ("fr", "language_french".localized),
             ("de", "language_german".localized)
         ]
+    }
+    
+    // MARK: - Typing Activity Tracking
+    
+    private func onTextChanged() {
+        // Mark as typing and cancel any pending history saves
+        if !isUserTyping {
+            isUserTyping = true
+            cancelPendingHistorySave()
+        }
+        
+        // Reset typing timer - user is still typing
+        typingTimer?.invalidate()
+        typingTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+            onTypingFinished()
+        }
+    }
+    
+    private func onTypingFinished() {
+        isUserTyping = false
+        typingTimer?.invalidate()
+        typingTimer = nil
+        
+        // Now that typing is finished, try to schedule history save if there's a translation
+        if !translatedText.isEmpty && !inputText.isEmpty {
+            scheduleHistorySave()
+        }
+    }
+    
+    // MARK: - Delayed History Saving
+    
+    private func scheduleHistorySave() {
+        guard !inputText.isEmpty && !translatedText.isEmpty else { return }
+        
+        // Don't schedule save if user is still typing
+        if isUserTyping {
+            return
+        }
+        
+        // Cancel previous timer
+        historyTimer?.invalidate()
+        
+        // Create pending history item
+        pendingHistoryItem = TranslationHistoryItem(
+            sourceText: inputText,
+            translatedText: translatedText,
+            sourceLanguage: sourceLanguage,
+            targetLanguage: targetLanguage
+        )
+        
+        // Schedule save after 5 seconds of inactivity
+        historyTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
+            saveDelayedHistory()
+        }
+    }
+    
+    private func cancelPendingHistorySave() {
+        historyTimer?.invalidate()
+        historyTimer = nil
+        pendingHistoryItem = nil
+    }
+    
+    private func saveDelayedHistory() {
+        // Double-check user is not typing when timer fires
+        guard !isUserTyping, let item = pendingHistoryItem else { return }
+        
+        historyManager.addTranslation(item)
+        pendingHistoryItem = nil
+    }
+    
+    private func saveAnyPendingHistory() {
+        historyTimer?.invalidate()
+        if let item = pendingHistoryItem {
+            historyManager.addTranslation(item)
+        }
+        pendingHistoryItem = nil
     }
     
     var body: some View {
@@ -116,6 +198,10 @@ struct TextTranslatorView: View {
                                     if inputText.count > 5000 {
                                         inputText = String(inputText.prefix(5000))
                                     }
+                                    
+                                    // Track typing activity
+                                    onTextChanged()
+                                    
                                     // Auto-translate after short delay
                                     if !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                         autoTranslateAfterDelay()
@@ -124,6 +210,7 @@ struct TextTranslatorView: View {
                                         translatedText = ""
                                         alternatives = []
                                         flashcardSaved = false
+                                        cancelPendingHistorySave()
                                     }
                                 }
                             
@@ -131,6 +218,7 @@ struct TextTranslatorView: View {
                                 Button(action: { 
                                     inputText = ""
                                     translationTimer?.invalidate()
+                                    cancelPendingHistorySave()
                                 }) {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundColor(AppColors.secondaryText)
@@ -247,6 +335,9 @@ struct TextTranslatorView: View {
         .onAppear {
             loadLanguageSettings()
         }
+        .onDisappear {
+            saveAnyPendingHistory()
+        }
         }
     }
     
@@ -278,15 +369,8 @@ struct TextTranslatorView: View {
                 await MainActor.run {
                     translatedText = result
                     
-                    // Save to history
-                    let historyItem = TranslationHistoryItem(
-                        sourceText: inputText,
-                        translatedText: result,
-                        sourceLanguage: sourceLanguage,
-                        targetLanguage: targetLanguage
-                    )
-                    historyManager.addTranslation(historyItem)
-                    
+                    // Schedule delayed history save
+                    scheduleHistorySave()
                 }
             } catch {
                 await MainActor.run {
@@ -806,6 +890,7 @@ struct LanguageSelector: View {
         default: return "🌐"
         }
     }
+    
 }
 
 #Preview {
