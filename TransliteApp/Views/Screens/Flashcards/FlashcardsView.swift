@@ -516,12 +516,14 @@ struct AddCardView: View {
                     Button("cancel".localized) {
                         dismiss()
                     }
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("add".localized) {
                         onAdd()
                     }
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                     .disabled(frontText.isEmpty || backText.isEmpty)
                 }
             }

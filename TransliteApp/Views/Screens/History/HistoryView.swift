@@ -93,6 +93,12 @@ struct HistoryView: View {
                                 }
                         }
                         .onDelete(perform: deleteItems)
+                        
+                        // Add spacer to ensure last item is visible above tab bar
+                        Color.clear
+                            .frame(height: 100)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
                     }
                     .scrollContentBackground(.hidden)
                     .background(AppColors.appBackground)
