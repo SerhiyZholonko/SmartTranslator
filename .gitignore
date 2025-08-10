@@ -60,5 +60,23 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# API Keys and Configuration
+# Never commit API keys, tokens, or sensitive configuration
+*.keys
+*.env
+.env*
+api_keys.json
+config.json
+secrets.plist
+GroqApiKeys.plist
+ApiKeys.plist
+
+# Local development files
+dev_config.swift
+local_config.swift
+*_local.swift
+
+# Claude AI specific
 CLAUDE.md
 .claude

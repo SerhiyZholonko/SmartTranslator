@@ -434,3 +434,36 @@
 "privacy_contact_description" = "Якщо у вас є питання щодо цієї політики конфіденційності, будь ласка, зв'яжіться з нами за адресою privacy@voicetranslate.com";
 "view_full_privacy_policy" = "Переглянути повну політику конфіденційності";
 "last_updated_date" = "Останнє оновлення: грудень 2024";
+
+// MARK: - Groq AI Settings
+"ai_enhanced_multiple_variants_available" = "ШІ Активний: Доступні кілька варіантів перекладу";
+"ai_enhanced_translations" = "ШІ Покращені Переклади";
+"ai_translation_settings" = "Налаштування ШІ Перекладача";
+"ai_service_status" = "Статус ШІ Сервісу";
+"configure_ai_service" = "Налаштувати ШІ Сервіс";
+"manage_ai_settings" = "Керування ШІ Налаштуваннями";
+"add_groq_api_key_description" = "Додайте ваш Groq API ключ для вмикання покращених ШІ-перекладів з кількома варіантами";
+"configure_ai_for_multiple_variants" = "Натисніть, щоб налаштувати ШІ для кількох варіантів перекладу";
+"add_api_key" = "Додати API ключ";
+"remove_all_keys" = "Видалити всі ключі";
+"reset_daily_usage" = "Скинути денне використання";
+"instructions" = "Інструкції";
+"groq_key_instructions" = "1. Відвідайте console.groq.com\n2. Зареєструйте безкоштовний акаунт\n3. Перейдіть до розділу API Keys\n4. Створіть новий ключ\n5. Скопіюйте та вставте його сюди";
+"open_groq_console" = "Відкрити Groq Console";
+"paste_groq_api_key" = "Вставте ваш Groq API ключ тут";
+
+// MARK: - Translation Categories
+"primary_translation" = "Основний";
+"alternative_translation" = "Альтернативний";
+"contextual_translation" = "Контекстний";
+"formal_translation" = "Офіційний";
+"informal_translation" = "Неформальний";
+"technical_translation" = "Технічний";
+"literary_translation" = "Літературний";
+"synonym_translation" = "Синонім";
+"colloquial_translation" = "Розмовний";
+"archaic_translation" = "Застарілий";
+
+// MARK: - Service Descriptions
+"fast_reliable_translation" = "Швидкий та надійний переклад";
+"privacy_focused_translation" = "Переклад з фокусом на приватність";

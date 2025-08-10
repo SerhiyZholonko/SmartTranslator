@@ -3,6 +3,7 @@ import Foundation
 enum TranslationService: String, CaseIterable {
     case google = "Google Translate"
     case apple = "Apple Translation"
+    case groqAI = "AI Enhanced (Groq)"
     
     var id: String { self.rawValue }
     
@@ -16,6 +17,8 @@ enum TranslationService: String, CaseIterable {
             return "globe"
         case .apple:
             return "apple.logo"
+        case .groqAI:
+            return "brain.head.profile"
         }
     }
     
@@ -27,6 +30,32 @@ enum TranslationService: String, CaseIterable {
             let available = AppleTranslationServiceWrapper.shared.isAvailable
             print("🔍 Apple Translation isAvailable check: \(available)")
             return available
+        case .groqAI:
+            // For sync context, assume available - will be checked async later
+            return true
+        }
+    }
+    
+    @MainActor
+    func checkAvailability() async -> Bool {
+        switch self {
+        case .google:
+            return true
+        case .apple:
+            return AppleTranslationServiceWrapper.shared.isAvailable
+        case .groqAI:
+            return GroqTranslationService.shared.isAvailable
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .google:
+            return "fast_reliable_translation".localized
+        case .apple:
+            return "privacy_focused_translation".localized
+        case .groqAI:
+            return "ai_enhanced_multiple_variants".localized
         }
     }
 }

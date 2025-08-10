@@ -437,3 +437,36 @@
 "privacy_contact_description" = "If you have questions about this privacy policy, please contact us at privacy@voicetranslate.com";
 "view_full_privacy_policy" = "View Full Privacy Policy";
 "last_updated_date" = "Last updated: December 2024";
+
+// MARK: - Groq AI Settings
+"ai_enhanced_multiple_variants_available" = "AI Enhanced: Multiple translation variants available";
+"ai_enhanced_translations" = "AI Enhanced Translations";
+"ai_translation_settings" = "AI Translation Settings";
+"ai_service_status" = "AI Service Status";
+"configure_ai_service" = "Configure AI Service";
+"manage_ai_settings" = "Manage AI Settings";
+"add_groq_api_key_description" = "Add your Groq API key to enable AI-enhanced translations with multiple variants";
+"configure_ai_for_multiple_variants" = "Tap to configure AI service for multiple translation variants";
+"add_api_key" = "Add API Key";
+"remove_all_keys" = "Remove All Keys";
+"reset_daily_usage" = "Reset Daily Usage";
+"instructions" = "Instructions";
+"groq_key_instructions" = "1. Visit console.groq.com\n2. Sign up for free account\n3. Go to API Keys section\n4. Create new key\n5. Copy and paste it here";
+"open_groq_console" = "Open Groq Console";
+"paste_groq_api_key" = "Paste your Groq API key here";
+
+// MARK: - Translation Categories
+"primary_translation" = "Primary";
+"alternative_translation" = "Alternative";
+"contextual_translation" = "Contextual";
+"formal_translation" = "Formal";
+"informal_translation" = "Informal";
+"technical_translation" = "Technical";
+"literary_translation" = "Literary";
+"synonym_translation" = "Synonym";
+"colloquial_translation" = "Colloquial";
+"archaic_translation" = "Archaic";
+
+// MARK: - Service Descriptions
+"fast_reliable_translation" = "Fast and reliable translation";
+"privacy_focused_translation" = "Privacy-focused translation";

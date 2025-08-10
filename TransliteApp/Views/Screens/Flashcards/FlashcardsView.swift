@@ -376,6 +376,9 @@ struct AddCardView: View {
     @State private var translationAlternatives: [String] = []
     @State private var showingAlternatives = false
     @StateObject private var translator = GoogleTranslateParser()
+    @StateObject private var translationManager = TranslationManager.shared
+    @State private var translationOptions: [GoogleTranslateParser.TranslationOption] = []
+    @State private var showingGroqSettings = false
     
     var languages: [(String, String)] {
         [
@@ -439,6 +442,198 @@ struct AddCardView: View {
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                     }
+                    
+                    // Enhanced translation service info with AI indicator
+                    VStack(spacing: 8) {
+                        HStack {
+                            // Service icon with enhanced AI styling
+                            ZStack {
+                                if translationManager.currentService == .groqAI {
+                                    // AI service background glow
+                                    Circle()
+                                        .fill(LinearGradient(
+                                            colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ))
+                                        .frame(width: 28, height: 28)
+                                    
+                                    Image(systemName: "brain.head.profile")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.white)
+                                } else {
+                                    Image(systemName: translationManager.currentService.systemImageName)
+                                        .font(.system(size: 14))
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                }
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack(spacing: 4) {
+                                    Text(translationManager.currentServiceName)
+                                        .font(.caption2)
+                                        .fontWeight(.medium)
+                                    
+                                    // AI badge
+                                    if translationManager.currentService == .groqAI {
+                                        Text("AI")
+                                            .font(.system(size: 8, weight: .bold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 4)
+                                            .padding(.vertical, 1)
+                                            .background(
+                                                LinearGradient(
+                                                    colors: [Color.purple, Color.blue],
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                            .cornerRadius(3)
+                                    }
+                                }
+                                
+                                if translationManager.currentService == .groqAI {
+                                    Text(translationManager.groqService.statusMessage)
+                                        .font(.caption2)
+                                        .foregroundColor(translationManager.groqService.isAvailable ? .green : AppColors.secondaryText)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            // Enhanced Service switcher button
+                            Button(action: {
+                                switchToNextAvailableService()
+                            }) {
+                                HStack(spacing: 6) {
+                                    if translationManager.currentService == .groqAI {
+                                        Circle()
+                                            .fill(translationManager.groqService.isAvailable ? Color.green : Color.orange)
+                                            .frame(width: 6, height: 6)
+                                    }
+                                    
+                                    VStack(alignment: .trailing, spacing: 1) {
+                                        Text("Switch")
+                                            .font(.system(size: 8, weight: .medium))
+                                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                        
+                                        let nextService = getNextService()
+                                        Text(getServiceShortName(nextService))
+                                            .font(.system(size: 7))
+                                            .foregroundColor(AppColors.secondaryText)
+                                    }
+                                    
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                }
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
+                                .cornerRadius(8)
+                            }
+                        }
+                        
+                        // AI service banner (only when AI is active)
+                        if translationManager.currentService == .groqAI && translationManager.groqService.isAvailable {
+                            HStack {
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.yellow)
+                                
+                                Text("ai_enhanced_multiple_variants_available".localized)
+                                    .font(.caption2)
+                                    .foregroundColor(AppColors.primaryText)
+                                
+                                Spacer()
+                                
+                                Text("✨")
+                                    .font(.system(size: 12))
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color.purple.opacity(0.2), Color.blue.opacity(0.2)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(6)
+                        } else if translationManager.currentService != .groqAI && translationManager.getAvailableServices().contains(.groqAI) {
+                            // Show prominent banner to switch to AI service
+                            Button(action: {
+                                translationManager.setTranslationService(.groqAI)
+                            }) {
+                                HStack {
+                                    ZStack {
+                                        Circle()
+                                            .fill(LinearGradient(
+                                                colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ))
+                                            .frame(width: 20, height: 20)
+                                        
+                                        Image(systemName: "brain.head.profile")
+                                            .font(.system(size: 10, weight: .semibold))
+                                            .foregroundColor(.white)
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Switch to AI Enhanced")
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.white)
+                                        Text("Get multiple translation variants")
+                                            .font(.caption2)
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: "arrow.right.circle.fill")
+                                        .font(.system(size: 16))
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.purple, Color.blue],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(10)
+                            }
+                        } else if !translationManager.getAvailableServices().contains(.groqAI) {
+                            // Show hint to configure AI service
+                            Button(action: {
+                                showingGroqSettings = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "brain.head.profile")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.gray)
+                                    
+                                    Text("configure_ai_for_multiple_variants".localized)
+                                        .font(.caption2)
+                                        .foregroundColor(AppColors.secondaryText)
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: "arrow.right.circle")
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(6)
+                            }
+                        }
+                    }
                 }
                 
                 // Front Text Section
@@ -446,18 +641,59 @@ struct AddCardView: View {
                     Text("front_side_with_language".localized(with: languageName(sourceLanguage)))
                     Spacer()
                     if !frontText.isEmpty && sourceLanguage != targetLanguage {
+                        // Enhanced translate button with AI indicator
                         Button(action: translateText) {
-                            HStack {
+                            HStack(spacing: 4) {
                                 if isTranslating {
-                                    ProgressView()
-                                        .scaleEffect(0.8)
+                                    if translationManager.currentService == .groqAI {
+                                        // AI loading animation
+                                        ZStack {
+                                            Circle()
+                                                .fill(LinearGradient(
+                                                    colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ))
+                                                .frame(width: 20, height: 20)
+                                            ProgressView()
+                                                .scaleEffect(0.6)
+                                                .tint(.white)
+                                        }
+                                    } else {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                    }
                                 } else {
-                                    Image(systemName: "arrow.right.circle.fill")
+                                    if translationManager.currentService == .groqAI {
+                                        ZStack {
+                                            Circle()
+                                                .fill(LinearGradient(
+                                                    colors: [Color.purple, Color.blue],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ))
+                                                .frame(width: 20, height: 20)
+                                            Image(systemName: "brain.head.profile")
+                                                .font(.system(size: 10, weight: .bold))
+                                                .foregroundColor(.white)
+                                        }
+                                    } else {
+                                        Image(systemName: "arrow.right.circle.fill")
+                                    }
                                 }
-                                Text("translate_button".localized)
+                                
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text("translate_button".localized)
+                                        .font(.caption)
+                                    if translationManager.currentService == .groqAI && !isTranslating {
+                                        Text("AI")
+                                            .font(.system(size: 8, weight: .bold))
+                                            .foregroundColor(.purple)
+                                    }
+                                }
                             }
-                            .font(.caption)
-                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                            .foregroundColor(frontText.isEmpty ? AppColors.secondaryText : 
+                                           (translationManager.currentService == .groqAI ? .purple : AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme)))
                         }
                         .disabled(isTranslating)
                     }
@@ -466,8 +702,69 @@ struct AddCardView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
-                // Translation Results Section
-                if !translationAlternatives.isEmpty {
+                // AI Enhanced Translation Results Section
+                if !translationOptions.isEmpty && translationOptions.count > 1 {
+                    Section(header: HStack {
+                        if translationManager.currentService == .groqAI {
+                            Image(systemName: "brain.head.profile")
+                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                            Text("ai_enhanced_translations".localized)
+                        } else {
+                            Text("translation_options".localized)
+                        }
+                        Spacer()
+                        if translationManager.currentService == .groqAI {
+                            Text(translationManager.groqService.statusMessage)
+                                .font(.caption2)
+                                .foregroundColor(AppColors.secondaryText)
+                        }
+                    }) {
+                        ForEach(Array(translationOptions.enumerated()), id: \.offset) { index, option in
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    // Category badge
+                                    Text(getCategoryDisplayName(option.category))
+                                        .font(.system(size: 9, weight: .medium))
+                                        .foregroundColor(getCategoryColor(option.category))
+                                        .padding(.horizontal, 4)
+                                        .padding(.vertical, 2)
+                                        .background(getCategoryColor(option.category).opacity(0.1))
+                                        .cornerRadius(3)
+                                    
+                                    if let confidence = option.confidence {
+                                        Text("\(Int(confidence * 100))%")
+                                            .font(.system(size: 9))
+                                            .foregroundColor(AppColors.secondaryText)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Button("use".localized) {
+                                        backText = option.text
+                                        translationOptions.removeAll()
+                                        translationAlternatives.removeAll()
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                }
+                                
+                                Text(option.text)
+                                    .font(.system(size: 14))
+                                    .lineLimit(nil)
+                                    .foregroundColor(AppColors.primaryText)
+                            }
+                            .padding(.vertical, 2)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                backText = option.text
+                                translationOptions.removeAll()
+                                translationAlternatives.removeAll()
+                            }
+                        }
+                    }
+                }
+                // Fallback to simple alternatives
+                else if !translationAlternatives.isEmpty {
                     Section(header: Text("translation_options".localized)) {
                         ForEach(Array(translationAlternatives.enumerated()), id: \.offset) { index, translation in
                             HStack {
@@ -527,6 +824,9 @@ struct AddCardView: View {
                     .disabled(frontText.isEmpty || backText.isEmpty)
                 }
             }
+            .sheet(isPresented: $showingGroqSettings) {
+                GroqSettingsView()
+            }
         }
         }
     }
@@ -538,33 +838,113 @@ struct AddCardView: View {
         backText = tempText
     }
     
+    private func switchToNextAvailableService() {
+        let availableServices = translationManager.getAvailableServices()
+        guard availableServices.count > 1 else { return }
+        
+        let currentService = translationManager.currentService
+        if let currentIndex = availableServices.firstIndex(of: currentService) {
+            let nextIndex = (currentIndex + 1) % availableServices.count
+            let nextService = availableServices[nextIndex]
+            translationManager.setTranslationService(nextService)
+            print("🔄 Switched from \(currentService.displayName) to \(nextService.displayName)")
+        } else {
+            // Fallback to first available service
+            translationManager.setTranslationService(availableServices.first!)
+        }
+    }
+    
+    private func getNextService() -> TranslationService {
+        let availableServices = translationManager.getAvailableServices()
+        guard availableServices.count > 1 else { return translationManager.currentService }
+        
+        let currentService = translationManager.currentService
+        if let currentIndex = availableServices.firstIndex(of: currentService) {
+            let nextIndex = (currentIndex + 1) % availableServices.count
+            return availableServices[nextIndex]
+        }
+        return availableServices.first ?? .google
+    }
+    
+    private func getServiceShortName(_ service: TranslationService) -> String {
+        switch service {
+        case .google:
+            return "Google"
+        case .apple:
+            return "Apple"
+        case .groqAI:
+            return "AI"
+        }
+    }
+    
+    // MARK: - Translation Category Helpers
+    
+    private func getCategoryDisplayName(_ category: GoogleTranslateParser.TranslationCategory) -> String {
+        switch category {
+        case .primary:
+            return "primary_translation".localized
+        case .alternative:
+            return "alternative_translation".localized
+        case .synonym:
+            return "synonym_translation".localized
+        case .formal:
+            return "formal_translation".localized
+        case .informal:
+            return "informal_translation".localized
+        case .technical:
+            return "technical_translation".localized
+        case .colloquial:
+            return "colloquial_translation".localized
+        case .archaic:
+            return "archaic_translation".localized
+        }
+    }
+    
+    private func getCategoryColor(_ category: GoogleTranslateParser.TranslationCategory) -> Color {
+        switch category {
+        case .primary:
+            return AppColors.appAccent
+        case .alternative:
+            return .orange
+        case .synonym:
+            return .green
+        case .formal:
+            return .blue
+        case .informal:
+            return .mint
+        case .technical:
+            return .red
+        case .colloquial:
+            return .yellow
+        case .archaic:
+            return .gray
+        }
+    }
+    
     private func translateText() {
         guard !frontText.isEmpty, sourceLanguage != targetLanguage else { return }
         
         isTranslating = true
         translationAlternatives.removeAll()
+        translationOptions.removeAll()
         
         Task {
             do {
-                // Get main translation
-                let mainTranslation = try await translator.translate(
+                // Try to get enhanced translation options first (AI or Google with options)
+                let options = try await translationManager.translateWithOptions(
                     text: frontText,
                     from: sourceLanguage,
                     to: targetLanguage
                 )
                 
                 await MainActor.run {
-                    var alternatives = [mainTranslation]
+                    translationOptions = options
                     
-                    // Add main translation as first option
-                    if !mainTranslation.isEmpty {
-                        backText = mainTranslation
+                    if let primaryTranslation = options.first {
+                        backText = primaryTranslation.text
                         
-                        // Generate some alternative phrasings if possible
-                        let variations = generateAlternatives(for: mainTranslation)
-                        alternatives.append(contentsOf: variations)
-                        
-                        translationAlternatives = Array(Set(alternatives)).filter { !$0.isEmpty }
+                        // Also extract simple alternatives for backward compatibility
+                        translationAlternatives = Array(options.dropFirst().prefix(3).map { $0.text })
                     }
                     
                     isTranslating = false
