@@ -435,22 +435,27 @@
 "view_full_privacy_policy" = "Переглянути повну політику конфіденційності";
 "last_updated_date" = "Останнє оновлення: грудень 2024";
 
-// MARK: - Groq AI Settings
+// MARK: - AI Settings
 "ai_enhanced_multiple_variants_available" = "ШІ Активний: Доступні кілька варіантів перекладу";
+"ai_enhanced_active" = "ШІ Покращений: Активний";
+"api_keys_configured" = "API ключі налаштовані";
+"ai_enhanced_not_configured" = "ШІ Покращений: Не налаштований";
+"no_api_keys_configured" = "Немає налаштованих API ключів";
 "ai_enhanced_translations" = "ШІ Покращені Переклади";
 "ai_translation_settings" = "Налаштування ШІ Перекладача";
 "ai_service_status" = "Статус ШІ Сервісу";
 "configure_ai_service" = "Налаштувати ШІ Сервіс";
 "manage_ai_settings" = "Керування ШІ Налаштуваннями";
-"add_groq_api_key_description" = "Додайте ваш Groq API ключ для вмикання покращених ШІ-перекладів з кількома варіантами";
+"add_ai_api_key_description" = "Додайте ваш ШІ API ключ для вмикання покращених перекладів з кількома варіантами";
 "configure_ai_for_multiple_variants" = "Натисніть, щоб налаштувати ШІ для кількох варіантів перекладу";
 "add_api_key" = "Додати API ключ";
 "remove_all_keys" = "Видалити всі ключі";
 "reset_daily_usage" = "Скинути денне використання";
 "instructions" = "Інструкції";
-"groq_key_instructions" = "1. Відвідайте console.groq.com\n2. Зареєструйте безкоштовний акаунт\n3. Перейдіть до розділу API Keys\n4. Створіть новий ключ\n5. Скопіюйте та вставте його сюди";
-"open_groq_console" = "Відкрити Groq Console";
-"paste_groq_api_key" = "Вставте ваш Groq API ключ тут";
+"ai_key_instructions" = "1. Відвідайте консоль ШІ сервісу\n2. Зареєструйте безкоштовний акаунт\n3. Перейдіть до розділу API Keys\n4. Створіть новий ключ\n5. Скопіюйте та вставте його сюди";
+"open_ai_console" = "Відкрити ШІ Консоль";
+"paste_ai_api_key" = "Вставте ваш ШІ API ключ тут";
+"how_to_get_ai_key" = "Як отримати ШІ ключ";
 
 // MARK: - Translation Categories
 "primary_translation" = "Основний";
@@ -464,6 +469,36 @@
 "colloquial_translation" = "Розмовний";
 "archaic_translation" = "Застарілий";
 
+// MARK: - Translation Services
+"google_translate" = "Google Translate";
+"apple_translation" = "Apple Translation";
+"ai_enhanced" = "ШІ Покращений";
+"switch_to_ai_enhanced" = "Перейти на ШІ Покращений";
+"get_multiple_translation_variants" = "Отримайте кілька варіантів перекладу";
+"token_usage" = "Використання токенів";
+"switch_service" = "Перемкнути";
+"google_short" = "Google";
+"apple_short" = "Apple";
+"ai_short" = "ШІ";
+"ai_enhanced_multiple_variants_available" = "ШІ Активний: Доступні кілька варіантів перекладу";
+"ai_enhanced_active" = "ШІ Покращений: Активний";
+"api_keys_configured" = "API ключі налаштовані";
+"ai_enhanced_not_configured" = "ШІ Покращений: Не налаштований";
+"no_api_keys_configured" = "Немає налаштованих API ключів";
+
 // MARK: - Service Descriptions
 "fast_reliable_translation" = "Швидкий та надійний переклад";
 "privacy_focused_translation" = "Переклад з фокусом на приватність";
+"ai_enhanced_multiple_variants" = "ШІ покращений з кількома варіантами";
+
+// MARK: - Token Usage Statistics
+"daily_requests_usage" = "Запити за день";
+"daily_tokens_usage" = "Токени за день";
+"hourly_rate_usage" = "Швидкість (на годину)";
+"usage_statistics" = "Статистика використання";
+
+// MARK: - Translation Mode
+"regular_translation" = "Звичайний переклад";
+"ai_translation" = "ШІ переклад";
+"translation_mode" = "Режим перекладу";
+"user_daily_limit" = "Денний ліміт користувача";

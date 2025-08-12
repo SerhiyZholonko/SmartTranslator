@@ -161,17 +161,17 @@ class GroqTranslationService: ObservableObject {
         defer { isLoading = false }
         
         do {
-            // Record usage before making the request
-            recordUsage()
-            
-            let response = try await callGroqTranslationAPI(
+            let (response, tokensUsed, usedApiKey) = try await callGroqTranslationAPI(
                 text: text,
                 from: sourceLanguage,
                 to: targetLanguage
             )
             
+            // Record usage with token information and API key
+            recordUsage(tokensUsed: tokensUsed, apiKey: usedApiKey)
+            
             let options = parseTranslationResponse(response)
-            print("✅ GroqTranslationService: Generated \(options.count) enhanced translations")
+            print("✅ GroqTranslationService: Generated \(options.count) enhanced translations using \(tokensUsed) tokens")
             
             return options
             
@@ -185,7 +185,7 @@ class GroqTranslationService: ObservableObject {
         text: String,
         from sourceLanguage: String,
         to targetLanguage: String
-    ) async throws -> String {
+    ) async throws -> (response: String, tokensUsed: Int, usedApiKey: String) {
         
         guard let url = URL(string: baseURL) else {
             throw GroqTranslationError.invalidURL
@@ -200,7 +200,7 @@ class GroqTranslationService: ObservableObject {
             }
             
             do {
-                let response = try await performTranslationRequest(
+                let (response, tokensUsed) = try await performTranslationRequest(
                     url: url,
                     apiKey: currentKey,
                     text: text,
@@ -209,7 +209,7 @@ class GroqTranslationService: ObservableObject {
                 )
                 
                 markKeyAsActive(currentKey)
-                return response
+                return (response, tokensUsed, currentKey)
                 
             } catch GroqTranslationError.rateLimitExceeded {
                 markKeyAsRateLimited(currentKey)
@@ -234,7 +234,7 @@ class GroqTranslationService: ObservableObject {
         text: String,
         from sourceLanguage: String,
         to targetLanguage: String
-    ) async throws -> String {
+    ) async throws -> (response: String, tokensUsed: Int) {
         
         let sourceLangName = getLanguageName(sourceLanguage)
         let targetLangName = getLanguageName(targetLanguage)
@@ -314,7 +314,10 @@ class GroqTranslationService: ObservableObject {
             throw GroqTranslationError.noResponse
         }
         
-        return firstChoice.message.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        let tokensUsed = groqResponse.usage?.totalTokens ?? 0
+        let translationResponse = firstChoice.message.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        return (translationResponse, tokensUsed)
     }
     
     private func parseTranslationResponse(_ response: String) -> [GoogleTranslateParser.TranslationOption] {
@@ -467,15 +470,28 @@ class GroqTranslationService: ObservableObject {
         let keys = apiKeys
         guard !keys.isEmpty else { return nil }
         
-        // Find active key
+        // Find active key that hasn't exceeded its token limit
         for i in 0..<keys.count {
             let keyIndex = (currentKeyIndex + i) % keys.count
             let key = keys[keyIndex]
             let status = keyStatus[key] ?? .unknown
+            let canUseKey = usageTracker.canUseKey(key)
             
-            if status == .active || status == .unknown {
+            if (status == .active || status == .unknown) && canUseKey {
                 currentKeyIndex = keyIndex
                 return key
+            }
+        }
+        
+        // If all keys exceeded their limits, use the one with least usage
+        let sortedKeys = keys.sorted { key1, key2 in
+            usageTracker.getKeyUsage(key1) < usageTracker.getKeyUsage(key2)
+        }
+        
+        if let leastUsedKey = sortedKeys.first {
+            if let index = keys.firstIndex(of: leastUsedKey) {
+                currentKeyIndex = index
+                return leastUsedKey
             }
         }
         
@@ -501,8 +517,8 @@ class GroqTranslationService: ObservableObject {
     
     // MARK: - Usage Tracking
     
-    private func recordUsage() {
-        usageTracker.recordUsage()
+    private func recordUsage(tokensUsed: Int = 0, apiKey: String? = nil) {
+        usageTracker.recordUsage(tokensUsed: tokensUsed, apiKey: apiKey)
         saveUsageTracker()
         
         // Update availability status  
@@ -536,21 +552,68 @@ class GroqTranslationService: ObservableObject {
         if isLoading {
             return "⚙️ AI перекладає..."
         } else if !keys.isEmpty && !tracker.canUseToday {
-            return "❌ Ліміт вичерпано (\(tracker.remainingDailyUsage)/10)"
+            let requestsPercent = String(format: "%.1f", tracker.usagePercentage)
+            let tokensPercent = String(format: "%.1f", tracker.tokenUsagePercentage)
+            return "❌ Ліміт вичерпано (Запити: \(requestsPercent)%, Токени: \(tokensPercent)%)"
         } else if keys.isEmpty {
             return "⚠️ Немає API ключів"
         } else if available {
-            return "✨ AI доступний (\(tracker.remainingDailyUsage)/10 залишилось)"
+            let requestsPercent = String(format: "%.1f", tracker.usagePercentage)
+            let tokensPercent = String(format: "%.1f", tracker.tokenUsagePercentage)
+            return "✨ AI доступний (\(tracker.dailyUsage)/14400 запитів [\(requestsPercent)%], \(tracker.dailyTokensUsed)/25000 токенів [\(tokensPercent)%])"
         } else {
             return "🔍 Перевіряємо доступність..."
         }
     }
     
     func resetDailyUsage() {
-        usageTracker.dailyUsage = 0
-        usageTracker.lastResetDate = Date()
+        usageTracker.resetDaily()
         saveUsageTracker()
         checkAvailability()
+    }
+    
+    // MARK: - Public Token Statistics
+    
+    var dailyTokensUsed: Int {
+        return usageTracker.dailyTokensUsed
+    }
+    
+    var remainingDailyTokens: Int {
+        return usageTracker.remainingDailyTokens
+    }
+    
+    var tokenUsagePercentage: Double {
+        return usageTracker.tokenUsagePercentage
+    }
+    
+    var requestUsagePercentage: Double {
+        return usageTracker.usagePercentage
+    }
+    
+    var dailyRequestsUsed: Int {
+        return usageTracker.dailyUsage
+    }
+    
+    // MARK: - Per-Key Statistics
+    
+    func getKeyUsage(_ apiKey: String) -> Int {
+        return usageTracker.getKeyUsage(apiKey)
+    }
+    
+    func getKeyUsagePercentage(_ apiKey: String) -> Double {
+        return usageTracker.getKeyUsagePercentage(apiKey)
+    }
+    
+    func canUseKey(_ apiKey: String) -> Bool {
+        return usageTracker.canUseKey(apiKey)
+    }
+    
+    var currentHourlyRate: Int {
+        return usageTracker.currentHourlyRate
+    }
+    
+    var detailedUsageStats: String {
+        return usageTracker.detailedStats
     }
 }
 

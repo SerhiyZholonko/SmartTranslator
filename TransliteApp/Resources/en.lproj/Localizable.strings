@@ -438,22 +438,23 @@
 "view_full_privacy_policy" = "View Full Privacy Policy";
 "last_updated_date" = "Last updated: December 2024";
 
-// MARK: - Groq AI Settings
+// MARK: - AI Settings
 "ai_enhanced_multiple_variants_available" = "AI Enhanced: Multiple translation variants available";
 "ai_enhanced_translations" = "AI Enhanced Translations";
 "ai_translation_settings" = "AI Translation Settings";
 "ai_service_status" = "AI Service Status";
 "configure_ai_service" = "Configure AI Service";
 "manage_ai_settings" = "Manage AI Settings";
-"add_groq_api_key_description" = "Add your Groq API key to enable AI-enhanced translations with multiple variants";
+"add_ai_api_key_description" = "Add your AI API key to enable enhanced translations with multiple variants";
 "configure_ai_for_multiple_variants" = "Tap to configure AI service for multiple translation variants";
 "add_api_key" = "Add API Key";
 "remove_all_keys" = "Remove All Keys";
 "reset_daily_usage" = "Reset Daily Usage";
 "instructions" = "Instructions";
-"groq_key_instructions" = "1. Visit console.groq.com\n2. Sign up for free account\n3. Go to API Keys section\n4. Create new key\n5. Copy and paste it here";
-"open_groq_console" = "Open Groq Console";
-"paste_groq_api_key" = "Paste your Groq API key here";
+"ai_key_instructions" = "1. Visit the AI service console\n2. Sign up for free account\n3. Go to API Keys section\n4. Create new key\n5. Copy and paste it here";
+"open_ai_console" = "Open AI Console";
+"paste_ai_api_key" = "Paste your AI API key here";
+"how_to_get_ai_key" = "How to get AI key";
 
 // MARK: - Translation Categories
 "primary_translation" = "Primary";
@@ -467,6 +468,37 @@
 "colloquial_translation" = "Colloquial";
 "archaic_translation" = "Archaic";
 
+// MARK: - Translation Services
+"google_translate" = "Google Translate";
+"apple_translation" = "Apple Translation";
+"ai_enhanced" = "AI Enhanced";
+"switch_to_ai_enhanced" = "Switch to AI Enhanced";
+"get_multiple_translation_variants" = "Get multiple translation variants";
+"token_usage" = "Token Usage";
+"switch_service" = "Switch";
+"google_short" = "Google";
+"apple_short" = "Apple";
+"ai_short" = "AI";
+"ai_enhanced_active" = "AI Enhanced: Active";
+"api_keys_configured" = "API keys configured";
+"ai_enhanced_not_configured" = "AI Enhanced: Not configured";
+"no_api_keys_configured" = "No API keys configured";
+"apple_short" = "Apple";
+"ai_short" = "AI";
+
 // MARK: - Service Descriptions
 "fast_reliable_translation" = "Fast and reliable translation";
 "privacy_focused_translation" = "Privacy-focused translation";
+"ai_enhanced_multiple_variants" = "AI enhanced with multiple variants";
+
+// MARK: - Token Usage Statistics
+"daily_requests_usage" = "Daily Requests";
+"daily_tokens_usage" = "Daily Tokens";
+"hourly_rate_usage" = "Hourly Rate";
+"usage_statistics" = "Usage Statistics";
+
+// MARK: - Translation Mode
+"regular_translation" = "Regular Translation";
+"ai_translation" = "AI Translation";
+"translation_mode" = "Translation Mode";
+"user_daily_limit" = "User Daily Limit";

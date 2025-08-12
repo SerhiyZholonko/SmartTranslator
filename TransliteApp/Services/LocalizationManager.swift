@@ -34,13 +34,32 @@ class LocalizationManager: ObservableObject {
     }
     
     func localizedString(for key: String) -> String {
-        guard let path = Bundle.main.path(forResource: currentLanguage, ofType: "lproj"),
+        // First try to get the system language if no manual language is set
+        let languageToUse = getEffectiveLanguage()
+        
+        guard let path = Bundle.main.path(forResource: languageToUse, ofType: "lproj"),
               let bundle = Bundle(path: path) else {
-            // Fallback to main bundle (English)
+            // Fallback to English
+            if let englishPath = Bundle.main.path(forResource: "en", ofType: "lproj"),
+               let englishBundle = Bundle(path: englishPath) {
+                return NSLocalizedString(key, bundle: englishBundle, comment: "")
+            }
             return NSLocalizedString(key, comment: "")
         }
         
         return NSLocalizedString(key, bundle: bundle, comment: "")
+    }
+    
+    private func getEffectiveLanguage() -> String {
+        // If user manually selected language, use it
+        if UserDefaults.standard.object(forKey: "AppLanguage") != nil {
+            return currentLanguage
+        }
+        
+        // Otherwise use system language
+        let systemLanguage = Locale.current.language.languageCode?.identifier ?? "en"
+        let supportedLanguages = ["en", "uk", "zh-Hans", "es", "fr", "de"]
+        return supportedLanguages.contains(systemLanguage) ? systemLanguage : "en"
     }
 }
 

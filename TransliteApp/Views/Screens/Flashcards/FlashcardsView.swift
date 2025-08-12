@@ -493,9 +493,46 @@ struct AddCardView: View {
                                 }
                                 
                                 if translationManager.currentService == .groqAI {
-                                    Text(translationManager.groqService.statusMessage)
-                                        .font(.caption2)
-                                        .foregroundColor(translationManager.groqService.isAvailable ? .green : AppColors.secondaryText)
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        HStack {
+                                            Text(LocalizationManager.shared.localizedString(for: "token_usage"))
+                                                .font(.caption2)
+                                                .foregroundColor(AppColors.secondaryText)
+                                            
+                                            Spacer()
+                                            
+                                            Text("\(String(format: "%.1f", translationManager.groqService.tokenUsagePercentage))%")
+                                                .font(.caption2)
+                                                .foregroundColor(translationManager.groqService.tokenUsagePercentage > 80 ? .red : .green)
+                                                .fontWeight(.medium)
+                                        }
+                                        
+                                        // Compact gradient progress bar
+                                        ZStack(alignment: .leading) {
+                                            // Background
+                                            Rectangle()
+                                                .fill(Color.gray.opacity(0.2))
+                                                .frame(height: 3)
+                                                .cornerRadius(1.5)
+                                            
+                                            // Gradient progress fill
+                                            Rectangle()
+                                                .fill(
+                                                    LinearGradient(
+                                                        colors: translationManager.groqService.tokenUsagePercentage > 80 ? 
+                                                            [.orange, .red] : 
+                                                            translationManager.groqService.tokenUsagePercentage > 50 ?
+                                                            [.green, .yellow] :
+                                                            [.blue, .green],
+                                                        startPoint: .leading,
+                                                        endPoint: .trailing
+                                                    )
+                                                )
+                                                .frame(width: max(0, CGFloat(translationManager.groqService.tokenUsagePercentage / 100.0) * 120), height: 3)
+                                                .cornerRadius(1.5)
+                                                .animation(.easeInOut(duration: 0.3), value: translationManager.groqService.tokenUsagePercentage)
+                                        }
+                                    }
                                 }
                             }
                             
@@ -513,7 +550,7 @@ struct AddCardView: View {
                                     }
                                     
                                     VStack(alignment: .trailing, spacing: 1) {
-                                        Text("Switch")
+                                        Text(LocalizationManager.shared.localizedString(for: "switch_service"))
                                             .font(.system(size: 8, weight: .medium))
                                             .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                                         
@@ -541,7 +578,7 @@ struct AddCardView: View {
                                     .font(.system(size: 12))
                                     .foregroundColor(.yellow)
                                 
-                                Text("ai_enhanced_multiple_variants_available".localized)
+                                Text(LocalizationManager.shared.localizedString(for: "ai_enhanced_multiple_variants_available"))
                                     .font(.caption2)
                                     .foregroundColor(AppColors.primaryText)
                                 
@@ -581,11 +618,11 @@ struct AddCardView: View {
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("Switch to AI Enhanced")
+                                        Text(LocalizationManager.shared.localizedString(for: "switch_to_ai_enhanced"))
                                             .font(.caption)
                                             .fontWeight(.medium)
                                             .foregroundColor(.white)
-                                        Text("Get multiple translation variants")
+                                        Text(LocalizationManager.shared.localizedString(for: "get_multiple_translation_variants"))
                                             .font(.caption2)
                                             .foregroundColor(.white.opacity(0.8))
                                     }
@@ -714,9 +751,34 @@ struct AddCardView: View {
                         }
                         Spacer()
                         if translationManager.currentService == .groqAI {
-                            Text(translationManager.groqService.statusMessage)
-                                .font(.caption2)
-                                .foregroundColor(AppColors.secondaryText)
+                            VStack(alignment: .trailing, spacing: 2) {
+                                Text("\(String(format: "%.1f", translationManager.groqService.tokenUsagePercentage))%")
+                                    .font(.caption2)
+                                    .foregroundColor(translationManager.groqService.tokenUsagePercentage > 80 ? .red : .green)
+                                    .fontWeight(.medium)
+                                
+                                // Mini gradient progress bar
+                                ZStack(alignment: .leading) {
+                                    Rectangle()
+                                        .fill(Color.gray.opacity(0.2))
+                                        .frame(width: 60, height: 2)
+                                        .cornerRadius(1)
+                                    
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: translationManager.groqService.tokenUsagePercentage > 80 ? 
+                                                    [.orange, .red] : 
+                                                    [.blue, .green],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                        .frame(width: max(0, CGFloat(translationManager.groqService.tokenUsagePercentage / 100.0) * 60), height: 2)
+                                        .cornerRadius(1)
+                                        .animation(.easeInOut(duration: 0.3), value: translationManager.groqService.tokenUsagePercentage)
+                                }
+                            }
                         }
                     }) {
                         ForEach(Array(translationOptions.enumerated()), id: \.offset) { index, option in
@@ -869,11 +931,11 @@ struct AddCardView: View {
     private func getServiceShortName(_ service: TranslationService) -> String {
         switch service {
         case .google:
-            return "Google"
+            return LocalizationManager.shared.localizedString(for: "google_short")
         case .apple:
-            return "Apple"
+            return LocalizationManager.shared.localizedString(for: "apple_short")
         case .groqAI:
-            return "AI"
+            return LocalizationManager.shared.localizedString(for: "ai_short")
         }
     }
     

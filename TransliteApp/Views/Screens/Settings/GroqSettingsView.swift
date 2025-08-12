@@ -30,48 +30,182 @@ struct GroqSettingsView: View {
                 }
                 
                 Section("ai_service_status".localized) {
-                    HStack {
-                        Image(systemName: groqService.isAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(groqService.isAvailable ? .green : .red)
-                        
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(groqService.statusMessage)
-                                .font(.caption)
-                                .foregroundColor(AppColors.primaryText)
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: groqService.isAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundColor(groqService.isAvailable ? .green : .red)
                             
-                            if groqService.hasApiKeys {
-                                Text("API keys configured")
-                                    .font(.caption2)
-                                    .foregroundColor(.green)
-                            } else {
-                                Text("No API keys configured")
-                                    .font(.caption2)
-                                    .foregroundColor(.red)
+                            VStack(alignment: .leading, spacing: 2) {
+                                if groqService.hasApiKeys {
+                                    Text(LocalizationManager.shared.localizedString(for: "ai_enhanced_active"))
+                                        .font(.caption)
+                                        .foregroundColor(.green)
+                                        .fontWeight(.medium)
+                                    Text(LocalizationManager.shared.localizedString(for: "api_keys_configured"))
+                                        .font(.caption2)
+                                        .foregroundColor(.green)
+                                } else {
+                                    Text(LocalizationManager.shared.localizedString(for: "ai_enhanced_not_configured"))
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                        .fontWeight(.medium)
+                                    Text(LocalizationManager.shared.localizedString(for: "no_api_keys_configured"))
+                                        .font(.caption2)
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            if groqService.isLoading {
+                                ProgressView()
+                                    .scaleEffect(0.8)
                             }
                         }
                         
-                        Spacer()
-                        
-                        if groqService.isLoading {
-                            ProgressView()
-                                .scaleEffect(0.8)
+                        // Gradient progress bar for token usage
+                        if groqService.hasApiKeys {
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text(LocalizationManager.shared.localizedString(for: "token_usage"))
+                                        .font(.caption2)
+                                        .foregroundColor(AppColors.secondaryText)
+                                    
+                                    Spacer()
+                                    
+                                    Text("\(String(format: "%.1f", groqService.tokenUsagePercentage))%")
+                                        .font(.caption2)
+                                        .foregroundColor(groqService.tokenUsagePercentage > 80 ? .red : AppColors.primaryText)
+                                        .fontWeight(.medium)
+                                }
+                                
+                                // Custom gradient progress bar
+                                ZStack(alignment: .leading) {
+                                    // Background
+                                    Rectangle()
+                                        .fill(Color.gray.opacity(0.2))
+                                        .frame(height: 6)
+                                        .cornerRadius(3)
+                                    
+                                    // Gradient progress fill
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: groqService.tokenUsagePercentage > 80 ? 
+                                                    [.orange, .red] : 
+                                                    groqService.tokenUsagePercentage > 50 ?
+                                                    [.green, .yellow] :
+                                                    [.blue, .green],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                        .frame(width: max(0, CGFloat(groqService.tokenUsagePercentage / 100.0) * (UIScreen.main.bounds.width - 80)), height: 6)
+                                        .cornerRadius(3)
+                                        .animation(.easeInOut(duration: 0.3), value: groqService.tokenUsagePercentage)
+                                }
+                            }
                         }
+                    }
+                }
+                
+                if groqService.hasApiKeys {
+                    Section("📊 " + "usage_statistics".localized) {
+                        VStack(spacing: 12) {
+                            // Requests usage
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("daily_requests_usage".localized)
+                                        .font(.caption)
+                                        .foregroundColor(AppColors.secondaryText)
+                                    Text("\(groqService.dailyRequestsUsed) / 14,400")
+                                        .font(.headline)
+                                        .foregroundColor(AppColors.primaryText)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text("\(String(format: "%.0f", groqService.requestUsagePercentage))%")
+                                        .font(.headline)
+                                        .foregroundColor(groqService.requestUsagePercentage > 80 ? .red : .green)
+                                    
+                                    ProgressView(value: groqService.requestUsagePercentage / 100.0)
+                                        .frame(width: 60)
+                                        .accentColor(groqService.requestUsagePercentage > 80 ? .red : .green)
+                                }
+                            }
+                            
+                            Divider()
+                            
+                            // Tokens usage
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("daily_tokens_usage".localized)
+                                        .font(.caption)
+                                        .foregroundColor(AppColors.secondaryText)
+                                    Text("\(groqService.dailyTokensUsed) / 25,000")
+                                        .font(.headline)
+                                        .foregroundColor(AppColors.primaryText)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text("\(String(format: "%.1f", groqService.tokenUsagePercentage))%")
+                                        .font(.headline)
+                                        .foregroundColor(groqService.tokenUsagePercentage > 80 ? .red : .green)
+                                    
+                                    ProgressView(value: groqService.tokenUsagePercentage / 100.0)
+                                        .frame(width: 60)
+                                        .accentColor(groqService.tokenUsagePercentage > 80 ? .red : .green)
+                                }
+                            }
+                            
+                            Divider()
+                            
+                            // Hourly rate
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("hourly_rate_usage".localized)
+                                        .font(.caption)
+                                        .foregroundColor(AppColors.secondaryText)
+                                    Text("\(groqService.currentHourlyRate) / 600")
+                                        .font(.headline)
+                                        .foregroundColor(AppColors.primaryText)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    let hourlyPercent = Double(groqService.currentHourlyRate) / 600.0 * 100.0
+                                    Text("\(String(format: "%.1f", hourlyPercent))%")
+                                        .font(.headline)
+                                        .foregroundColor(hourlyPercent > 80 ? .red : .green)
+                                    
+                                    ProgressView(value: hourlyPercent / 100.0)
+                                        .frame(width: 60)
+                                        .accentColor(hourlyPercent > 80 ? .red : .green)
+                                }
+                            }
+                        }
+                        .padding(.vertical, 4)
                     }
                 }
                 
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("add_groq_api_key_description".localized)
+                        Text("add_ai_api_key_description".localized)
                             .font(.caption)
                             .foregroundColor(AppColors.secondaryText)
                         
-                        TextField("paste_groq_api_key".localized, text: $apiKeyInput)
+                        TextField("paste_ai_api_key".localized, text: $apiKeyInput)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .autocorrectionDisabled()
                             .autocapitalization(.none)
                         
                         HStack {
-                            Button("how_to_get_groq_key".localized) {
+                            Button("how_to_get_ai_key".localized) {
                                 showingInstructions = true
                             }
                             .font(.caption)
@@ -79,7 +213,7 @@ struct GroqSettingsView: View {
                             
                             Spacer()
                             
-                            Button("open_groq_console".localized) {
+                            Button("open_ai_console".localized) {
                                 if let url = URL(string: "https://console.groq.com/keys") {
                                     UIApplication.shared.open(url)
                                 }
@@ -175,12 +309,12 @@ struct InstructionsView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("how_to_get_groq_key".localized)
+                    Text("how_to_get_ai_key".localized)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(AppColors.primaryText)
                     
-                    Text("groq_key_instructions".localized)
+                    Text("ai_key_instructions".localized)
                         .font(.body)
                         .foregroundColor(AppColors.primaryText)
                         .fixedSize(horizontal: false, vertical: true)
@@ -192,7 +326,7 @@ struct InstructionsView: View {
                     }) {
                         HStack {
                             Image(systemName: "safari")
-                            Text("open_groq_console".localized)
+                            Text("open_ai_console".localized)
                         }
                         .frame(maxWidth: .infinity)
                         .padding()

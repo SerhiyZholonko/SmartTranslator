@@ -422,3 +422,20 @@
 "privacy_contact_description" = "如果您对此隐私政策有疑问，请通过 privacy@voicetranslate.com 联系我们";
 "view_full_privacy_policy" = "查看完整隐私政策";
 "last_updated_date" = "最后更新：2024年12月";
+
+// MARK: - Translation Services
+"google_translate" = "Google 翻译";
+"apple_translation" = "Apple 翻译";
+"ai_enhanced" = "AI 增强";
+"switch_to_ai_enhanced" = "切换到 AI 增强";
+"get_multiple_translation_variants" = "获取多种翻译变体";
+"token_usage" = "令牌使用情况";
+"switch_service" = "切换";
+"google_short" = "Google";
+"apple_short" = "Apple";
+"ai_short" = "AI";
+"ai_enhanced_multiple_variants_available" = "AI 增强：提供多种翻译变体";
+"ai_enhanced_active" = "AI 增强：活跃";
+"api_keys_configured" = "API 密钥已配置";
+"ai_enhanced_not_configured" = "AI 增强：未配置";
+"no_api_keys_configured" = "没有配置 API 密钥";

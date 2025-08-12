@@ -418,3 +418,20 @@
 "privacy_contact_description" = "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@voicetranslate.com";
 "view_full_privacy_policy" = "Voir la Politique de Confidentialité Complète";
 "last_updated_date" = "Dernière mise à jour : décembre 2024";
+
+// MARK: - Translation Services
+"google_translate" = "Google Translate";
+"apple_translation" = "Apple Translation";
+"ai_enhanced" = "IA Améliorée";
+"switch_to_ai_enhanced" = "Passer à l'IA Améliorée";
+"get_multiple_translation_variants" = "Obtenez plusieurs variantes de traduction";
+"token_usage" = "Utilisation des jetons";
+"switch_service" = "Changer";
+"google_short" = "Google";
+"apple_short" = "Apple";
+"ai_short" = "IA";
+"ai_enhanced_multiple_variants_available" = "IA Améliorée : Plusieurs variantes de traduction disponibles";
+"ai_enhanced_active" = "IA Améliorée : Active";
+"api_keys_configured" = "Clés API configurées";
+"ai_enhanced_not_configured" = "IA Améliorée : Non configurée";
+"no_api_keys_configured" = "Aucune clé API configurée";

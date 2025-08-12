@@ -7,6 +7,7 @@ enum TranslationError: LocalizedError {
     case noTranslationAvailable
     case textTooLong
     case unsupportedLanguage
+    case dailyLimitExceeded
     
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum TranslationError: LocalizedError {
             return "Text is too long to translate"
         case .unsupportedLanguage:
             return "Language not supported"
+        case .dailyLimitExceeded:
+            return "Daily translation limit exceeded"
         }
     }
 }
