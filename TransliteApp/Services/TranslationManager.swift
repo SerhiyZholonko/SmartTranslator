@@ -5,7 +5,7 @@ class TranslationManager: ObservableObject {
     static let shared = TranslationManager()
     
     @Published private var selectedService: TranslationService
-    @Published var selectedMode: TranslationMode
+    // AI mode removed - AI only used for flashcards, not regular translation
     @Published var isTranslating = false
     @Published var userUsageTracker = UserUsageTracker()
     
@@ -27,7 +27,7 @@ class TranslationManager: ObservableObject {
     
     private init() {
         selectedService = UserDefaults.standard.selectedTranslationService
-        selectedMode = UserDefaults.standard.selectedTranslationMode
+        // selectedMode removed - AI only for flashcards
         groqTranslator = GroqTranslationService.shared
         
         // Load user usage tracker
@@ -92,11 +92,30 @@ class TranslationManager: ObservableObject {
             
             return result
         } catch {
-            // Try fallback services based on current mode and selection
-            switch selectedMode {
-            case .regular:
-                // In regular mode, fallback based on selected service
-                switch selectedService {
+            // Try fallback services based on selected service (AI mode removed)
+            switch selectedService {
+                case .google:
+                    print("Google Translation failed, falling back to Apple: \(error)")
+                    do {
+                        return try await appleTranslator.translate(
+                            text: text,
+                            from: sourceLanguage,
+                            to: targetLanguage
+                        )
+                    } catch {
+                        print("Apple Translation failed, trying offline: \(error)")
+                        let offlineResult = BasicOfflineTranslation.shared.translate(
+                            text: text,
+                            from: sourceLanguage,
+                            to: targetLanguage
+                        )
+                        
+                        if let result = offlineResult, !result.isEmpty {
+                            return result
+                        } else {
+                            throw error
+                        }
+                    }
                 case .apple:
                     print("Apple Translation failed, falling back to Google: \(error)")
                     return try await googleTranslator.translate(
@@ -104,39 +123,24 @@ class TranslationManager: ObservableObject {
                         from: sourceLanguage,
                         to: targetLanguage
                     )
-                case .google, .groqAI:
-                    // For Google failures (or Groq in regular mode), try offline translation
-                    print("Translation failed, trying offline: \(error)")
-                    let offlineResult = BasicOfflineTranslation.shared.translate(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                    
-                    if let result = offlineResult, !result.isEmpty {
-                        return result
-                    } else {
-                        throw error
+                case .groqAI:
+                    // For Groq in regular mode, try Apple first, then Google
+                    print("Groq Translation failed, falling back to Apple: \(error)")
+                    do {
+                        return try await appleTranslator.translate(
+                            text: text,
+                            from: sourceLanguage,
+                            to: targetLanguage
+                        )
+                    } catch {
+                        print("Apple Translation failed, falling back to Google: \(error)")
+                        return try await googleTranslator.translate(
+                            text: text,
+                            from: sourceLanguage,
+                            to: targetLanguage
+                        )
                     }
                 }
-            case .ai:
-                // In AI mode, fallback to selected regular service
-                print("AI Translation failed, falling back to selected service: \(error)")
-                switch selectedService {
-                case .apple:
-                    return try await appleTranslator.translate(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                case .google, .groqAI:
-                    return try await googleTranslator.translate(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                }
-            }
         }
     }
     
@@ -145,41 +149,12 @@ class TranslationManager: ObservableObject {
         from sourceLanguage: String = "en",
         to targetLanguage: String
     ) async throws -> [GoogleTranslateParser.TranslationOption] {
-        // Enhanced translation with multiple options - consider both mode and service
-        switch selectedMode {
-        case .regular:
-            // In regular mode, use selected service
-            return try await translateWithSelectedService(
-                text: text,
-                from: sourceLanguage,
-                to: targetLanguage
-            )
-        case .ai:
-            // In AI mode, prefer Groq AI regardless of selected service
-            if groqTranslator.isAvailable {
-                do {
-                    return try await groqTranslator.getEnhancedTranslations(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                } catch {
-                    print("Groq AI failed, falling back to selected service: \(error)")
-                    return try await translateWithSelectedService(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                }
-            } else {
-                // AI not available, use selected service
-                return try await translateWithSelectedService(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-            }
-        }
+        // Use selected service only (AI removed from regular translation)
+        return try await translateWithSelectedService(
+            text: text,
+            from: sourceLanguage,
+            to: targetLanguage
+        )
     }
     
     // MARK: - Service Information
@@ -246,127 +221,65 @@ class TranslationManager: ObservableObject {
         from sourceLanguage: String,
         to targetLanguage: String
     ) async throws -> String {
-        // Respect user's service selection, but consider translation mode
-        switch selectedMode {
-        case .regular:
-            // In regular mode, use the selected service (Google/Apple) 
-            switch selectedService {
-            case .google:
-                return try await googleTranslator.translate(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-            case .apple:
-                return try await appleTranslator.translate(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-            case .groqAI:
-                // Even if Groq is selected as service, use Google in regular mode
-                return try await googleTranslator.translate(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-            }
-        case .ai:
-            // In AI mode, try to use AI regardless of selected service
-            if groqTranslator.isAvailable {
-                let options = try await groqTranslator.getEnhancedTranslations(
-                    text: text,
-                    from: sourceLanguage,
-                    to: targetLanguage
-                )
-                return options.first?.text ?? ""
-            } else {
-                // Fallback to selected service if AI not available
-                switch selectedService {
-                case .google, .groqAI:
-                    return try await googleTranslator.translate(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                case .apple:
-                    return try await appleTranslator.translate(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                }
-            }
+        // Use selected service only (AI removed from regular translation)
+        switch selectedService {
+        case .google:
+            return try await googleTranslator.translate(
+                text: text,
+                from: sourceLanguage,
+                to: targetLanguage
+            )
+        case .apple:
+            return try await appleTranslator.translate(
+                text: text,
+                from: sourceLanguage,
+                to: targetLanguage
+            )
+        case .groqAI:
+            // If Groq is selected, use Google instead (AI only for flashcards)
+            return try await googleTranslator.translate(
+                text: text,
+                from: sourceLanguage,
+                to: targetLanguage
+            )
         }
     }
     
-    // MARK: - Translation Mode Management
+    // MARK: - Translation Methods (AI mode removed)
     
-    func setTranslationMode(_ mode: TranslationMode) {
-        selectedMode = mode
-        UserDefaults.standard.selectedTranslationMode = mode
-    }
-    
-    func translateWithMode(
+    // AI Translation for Flashcards only
+    func translateForFlashcard(
         text: String,
         from sourceLanguage: String = "en",
         to targetLanguage: String
     ) async throws -> [GoogleTranslateParser.TranslationOption] {
-        // Check user daily limit
-        guard userUsageTracker.canTranslateToday else {
-            throw TranslationError.dailyLimitExceeded
-        }
-        
-        await MainActor.run {
-            isTranslating = true
-        }
-        
-        defer {
-            Task { @MainActor in
-                isTranslating = false
-            }
-        }
-        
-        do {
-            let result: [GoogleTranslateParser.TranslationOption]
-            
-            switch selectedMode {
-            case .regular:
-                // Use user-selected translation service (from Settings)
-                result = try await translateWithSelectedService(
+        // Check if AI is available for flashcard generation
+        if groqTranslator.isAvailable {
+            do {
+                return try await groqTranslator.getEnhancedTranslations(
                     text: text,
                     from: sourceLanguage,
                     to: targetLanguage
                 )
-            case .ai:
-                // Use AI translation if available
-                if groqTranslator.isAvailable {
-                    result = try await groqTranslator.getEnhancedTranslations(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                } else {
-                    // Fallback to regular if AI not available
-                    result = try await googleTranslator.translateWithOptions(
-                        text: text,
-                        from: sourceLanguage,
-                        to: targetLanguage
-                    )
-                }
+            } catch {
+                print("AI Translation failed for flashcard, falling back to Google: \(error)")
+                // Fallback to Google for flashcard creation
+                return try await googleTranslator.translateWithOptions(
+                    text: text,
+                    from: sourceLanguage,
+                    to: targetLanguage
+                )
             }
-            
-            // Record successful translation
-            await MainActor.run {
-                userUsageTracker.recordTranslation()
-                saveUserUsageTracker()
-            }
-            
-            return result
-        } catch {
-            throw error
+        } else {
+            // AI not available, use Google for flashcard options
+            return try await googleTranslator.translateWithOptions(
+                text: text,
+                from: sourceLanguage,
+                to: targetLanguage
+            )
         }
     }
+    
     
     // MARK: - Service-Specific Translation
     
@@ -439,5 +352,15 @@ class TranslationManager: ObservableObject {
     
     var usageStatusMessage: String {
         return userUsageTracker.statusMessage
+    }
+    
+    // Check if user is approaching daily limit
+    var isApproachingLimit: Bool {
+        return userUsageTracker.remainingDailyTranslations <= 2 && userUsageTracker.remainingDailyTranslations > 0
+    }
+    
+    // Check if Groq AI is approaching limit
+    var isGroqApproachingLimit: Bool {
+        return groqTranslator.isApproachingLimit
     }
 }

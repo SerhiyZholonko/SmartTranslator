@@ -240,6 +240,13 @@
 "end_session" = "Завершити сесію";
 "how_well_did_you_know" = "Наскільки добре ви це знали?";
 "tap_to_reveal_answer" = "Натисніть, щоб показати відповідь";
+
+// Limit warnings
+"usage_warning" = "Попередження про використання";
+"approaching_daily_limit" = "⚠️ Залишилося %d перекладів до денного ліміту";
+"ai_approaching_limit" = "🤖 ШІ ліміт майже вичерпано: %d запитів, %d%% токенів використано";
+"understood" = "Зрозуміло";
+"switch_to_google" = "Переключити на Google";
 "no_cards_due_for_review" = "Зараз немає карток для повторення.";
 
 // Study Result Buttons
@@ -450,7 +457,6 @@
 "configure_ai_for_multiple_variants" = "Натисніть, щоб налаштувати ШІ для кількох варіантів перекладу";
 "add_api_key" = "Додати API ключ";
 "remove_all_keys" = "Видалити всі ключі";
-"reset_daily_usage" = "Скинути денне використання";
 "instructions" = "Інструкції";
 "ai_key_instructions" = "1. Відвідайте консоль ШІ сервісу\n2. Зареєструйте безкоштовний акаунт\n3. Перейдіть до розділу API Keys\n4. Створіть новий ключ\n5. Скопіюйте та вставте його сюди";
 "open_ai_console" = "Відкрити ШІ Консоль";

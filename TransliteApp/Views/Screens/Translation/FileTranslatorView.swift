@@ -8,7 +8,10 @@ struct FileTranslatorView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = FileTranslatorViewModel()
     @StateObject private var permissionsManager = PermissionsManager.shared
+    @StateObject private var translationManager = TranslationManager.shared
     @State private var selectedItem: PhotosPickerItem?
+    @State private var showLimitWarning = false
+    @State private var limitWarningMessage = ""
     
     var body: some View {
         LocalizedView {
@@ -28,9 +31,40 @@ struct FileTranslatorView: View {
                         Text("file_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
-                        Text(TranslationManager.shared.currentServiceName)
-                            .font(.system(size: 12))
+                        // Service picker menu
+                        Menu {
+                            ForEach(TranslationManager.shared.getAvailableServices(), id: \.self) { service in
+                                Button(action: {
+                                    TranslationManager.shared.setTranslationService(service)
+                                }) {
+                                    HStack {
+                                        Image(systemName: service.systemImageName)
+                                        Text(service.displayName)
+                                        Spacer()
+                                        if service == TranslationManager.shared.currentService {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.blue)
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: TranslationManager.shared.currentService.systemImageName)
+                                    .font(.caption)
+                                Text(TranslationManager.shared.currentServiceName)
+                                    .font(.caption)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption2)
+                            }
                             .foregroundColor(AppColors.secondaryText)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(AppColors.secondaryText.opacity(0.1))
+                            )
+                        }
                     }
                     
                     Spacer()
@@ -330,14 +364,45 @@ struct FileTranslatorView: View {
                 ShareSheet(activityItems: [pdfURL])
             }
         }
+        .alert("usage_warning".localized, isPresented: $showLimitWarning) {
+            Button("understood".localized, role: .cancel) { 
+                showLimitWarning = false 
+            }
+            if translationManager.currentService == .groqAI {
+                Button("switch_to_google".localized) {
+                    translationManager.setTranslationService(.google)
+                    showLimitWarning = false
+                }
+            }
+        } message: {
+            Text(limitWarningMessage)
+        }
         .onAppear {
             viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultSourceLanguage") ?? "en", isSource: true)
             viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultTargetLanguage") ?? "en", isSource: false)
+            checkLimitWarnings()
         }
         }
     }
     
     // MARK: - Helper Methods
+    private func checkLimitWarnings() {
+        // Check general user limit
+        if translationManager.isApproachingLimit {
+            let remaining = translationManager.remainingTranslations
+            limitWarningMessage = String(format: "approaching_daily_limit".localized, remaining)
+            showLimitWarning = true
+        }
+        // Check Groq AI specific limit
+        else if translationManager.currentService == .groqAI && translationManager.isGroqApproachingLimit {
+            let groqService = translationManager.groqService
+            let remainingRequests = groqService.remainingDailyRequests
+            let tokenUsage = groqService.tokenUsagePercentage
+            limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
+            showLimitWarning = true
+        }
+    }
+    
     private func getProcessingStageText() -> String {
         let progress = viewModel.processingProgress
         
@@ -466,7 +531,6 @@ private struct FileLanguageSelector: View {
             }
         }
     }
-    
     private func getFlag(for languageCode: String) -> String {
         switch languageCode {
         case "en": return "🇬🇧"

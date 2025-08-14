@@ -6,12 +6,15 @@ struct CameraTranslatorView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var camera = CameraManager()
     @StateObject private var permissionsManager = PermissionsManager.shared
+    @StateObject private var translationManager = TranslationManager.shared
     @State private var detectedText = ""
     @State private var translatedText = ""
     @State private var sourceLanguage = "en"
     @State private var targetLanguage = "en"
     @State private var isProcessing = false
     @State private var showTranslation = false
+    @State private var showLimitWarning = false
+    @State private var limitWarningMessage = ""
     
     var body: some View {
         LocalizedView {
@@ -189,8 +192,7 @@ struct CameraTranslatorView: View {
                 // Translate the text
                 Task {
                     do {
-                        let translator = GoogleTranslateParser()
-                        let translated = try await translator.translate(
+                        let translated = try await translationManager.translate(
                             text: text,
                             from: sourceLanguage,
                             to: targetLanguage

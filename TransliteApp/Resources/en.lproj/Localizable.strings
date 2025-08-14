@@ -243,6 +243,13 @@
 "end_session" = "End Session";
 "how_well_did_you_know" = "How well did you know this?";
 "tap_to_reveal_answer" = "Tap to reveal answer";
+
+// Limit warnings
+"usage_warning" = "Usage Warning";
+"approaching_daily_limit" = "⚠️ %d translations remaining until daily limit";
+"ai_approaching_limit" = "🤖 AI limit nearly reached: %d requests, %d%% tokens used";
+"understood" = "Understood";
+"switch_to_google" = "Switch to Google";
 "no_cards_due_for_review" = "No cards are due for review right now.";
 
 // Study Result Buttons
@@ -449,7 +456,6 @@
 "configure_ai_for_multiple_variants" = "Tap to configure AI service for multiple translation variants";
 "add_api_key" = "Add API Key";
 "remove_all_keys" = "Remove All Keys";
-"reset_daily_usage" = "Reset Daily Usage";
 "instructions" = "Instructions";
 "ai_key_instructions" = "1. Visit the AI service console\n2. Sign up for free account\n3. Go to API Keys section\n4. Create new key\n5. Copy and paste it here";
 "open_ai_console" = "Open AI Console";

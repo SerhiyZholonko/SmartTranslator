@@ -17,6 +17,8 @@ struct TextTranslatorView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var alternatives: [String] = []
+    @State private var showLimitWarning = false
+    @State private var limitWarningMessage = ""
     @State private var isRecording = false
     @State private var showPermissionAlert = false
     @State private var showFlashcardOptions = false
@@ -136,13 +138,44 @@ struct TextTranslatorView: View {
                         Text("text_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
-                        HStack(spacing: 4) {
-                            Image(systemName: translationManager.currentService.systemImageName)
-                                .font(.caption)
-                            Text(translationManager.currentServiceName)
-                                .font(.caption)
+                        // Service picker menu
+                        Menu {
+                            ForEach(translationManager.getAvailableServices(), id: \.self) { service in
+                                Button(action: {
+                                    translationManager.setTranslationService(service)
+                                    // Re-translate if we have text
+                                    if !inputText.isEmpty && !translatedText.isEmpty {
+                                        translate()
+                                    }
+                                }) {
+                                    HStack {
+                                        Image(systemName: service.systemImageName)
+                                        Text(service.displayName)
+                                        Spacer()
+                                        if service == translationManager.currentService {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.blue)
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: translationManager.currentService.systemImageName)
+                                    .font(.caption)
+                                Text(translationManager.currentServiceName)
+                                    .font(.caption)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption2)
+                            }
+                            .foregroundColor(AppColors.secondaryText)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(AppColors.secondaryText.opacity(0.1))
+                            )
                         }
-                        .foregroundColor(AppColors.secondaryText)
                     }
                     
                     Spacer()
@@ -310,6 +343,19 @@ struct TextTranslatorView: View {
         } message: {
             Text(errorMessage)
         }
+        .alert("usage_warning".localized, isPresented: $showLimitWarning) {
+            Button("understood".localized, role: .cancel) { 
+                showLimitWarning = false 
+            }
+            if translationManager.currentService == .groqAI {
+                Button("switch_to_google".localized) {
+                    translationManager.setTranslationService(.google)
+                    showLimitWarning = false
+                }
+            }
+        } message: {
+            Text(limitWarningMessage)
+        }
         .alert("microphone_access_needed".localized, isPresented: $showPermissionAlert) {
             Button("open_settings".localized, action: openSettings)
             Button("cancel".localized, role: .cancel) { }
@@ -354,6 +400,9 @@ struct TextTranslatorView: View {
     private func translate() {
         guard !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         
+        // Check if approaching limits before translation
+        checkLimitWarnings()
+        
         translatedText = ""
         alternatives = []
         flashcardSaved = false // Reset flashcard saved status
@@ -371,6 +420,9 @@ struct TextTranslatorView: View {
                     
                     // Schedule delayed history save
                     scheduleHistorySave()
+                    
+                    // Check limits after successful translation
+                    checkLimitWarnings()
                 }
             } catch {
                 await MainActor.run {
@@ -378,6 +430,23 @@ struct TextTranslatorView: View {
                     showError = true
                 }
             }
+        }
+    }
+    
+    private func checkLimitWarnings() {
+        // Check general user limit
+        if translationManager.isApproachingLimit {
+            let remaining = translationManager.remainingTranslations
+            limitWarningMessage = String(format: "approaching_daily_limit".localized, remaining)
+            showLimitWarning = true
+        }
+        // Check Groq AI specific limit
+        else if translationManager.currentService == .groqAI && translationManager.isGroqApproachingLimit {
+            let groqService = translationManager.groqService
+            let remainingRequests = groqService.remainingDailyRequests
+            let tokenUsage = groqService.tokenUsagePercentage
+            limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
+            showLimitWarning = true
         }
     }
     

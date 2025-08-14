@@ -239,11 +239,6 @@ struct GroqSettingsView: View {
                 
                 if groqService.hasApiKeys {
                     Section("manage_ai_settings".localized) {
-                        Button("reset_daily_usage".localized) {
-                            groqService.resetDailyUsage()
-                        }
-                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
-                        
                         Button("remove_all_keys".localized) {
                             UserDefaults.standard.removeObject(forKey: "groq_api_keys")
                             UserDefaults.standard.removeObject(forKey: "groq_api_key")

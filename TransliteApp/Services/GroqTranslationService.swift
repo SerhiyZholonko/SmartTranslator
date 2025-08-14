@@ -8,6 +8,22 @@ class GroqTranslationService: ObservableObject {
     @Published var isAvailable = false
     @Published var isLoading = false
     
+    // Check if approaching usage limit (within 20% of daily limit or 10 requests remaining)
+    var isApproachingLimit: Bool {
+        let remainingRequests = usageTracker.remainingDailyUsage
+        let remainingTokens = usageTracker.remainingDailyTokens
+        return remainingRequests <= 10 || remainingTokens <= 1000 || usageTracker.usagePercentage > 80
+    }
+    
+    // Public access to usage tracker properties
+    var remainingDailyRequests: Int {
+        return usageTracker.remainingDailyUsage
+    }
+    
+    var remainingDailyTokens: Int {
+        return usageTracker.remainingDailyTokens
+    }
+    
     private let baseURL = "https://api.groq.com/openai/v1/chat/completions"
     
     // API keys (можна налаштувати через Settings)
@@ -566,20 +582,11 @@ class GroqTranslationService: ObservableObject {
         }
     }
     
-    func resetDailyUsage() {
-        usageTracker.resetDaily()
-        saveUsageTracker()
-        checkAvailability()
-    }
     
     // MARK: - Public Token Statistics
     
     var dailyTokensUsed: Int {
         return usageTracker.dailyTokensUsed
-    }
-    
-    var remainingDailyTokens: Int {
-        return usageTracker.remainingDailyTokens
     }
     
     var tokenUsagePercentage: Double {

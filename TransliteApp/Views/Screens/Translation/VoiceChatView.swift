@@ -6,6 +6,8 @@ struct VoiceChatView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var speechRecognizer = SpeechRecognizer()
     @StateObject private var permissionsManager = PermissionsManager.shared
+    @StateObject private var translationManager = TranslationManager.shared
+    @StateObject private var flashcardManager = FlashcardManager.shared
     @State private var sourceLanguage = "en"
     @State private var targetLanguage = "uk"
     @State private var conversations: [VoiceConversation] = []
@@ -15,6 +17,9 @@ struct VoiceChatView: View {
     @State private var pendingTranslations: Set<String> = []
     @State private var audioLevels: [CGFloat] = [0.2, 0.3, 0.2, 0.4, 0.3]
     @State private var animationTimer: Timer?
+    @State private var showFlashcardOptions = false
+    @State private var selectedConversation: VoiceConversation?
+    @State private var showDeckSelection = false
     
     enum ConversationSide {
         case left, right
@@ -45,9 +50,46 @@ struct VoiceChatView: View {
                     
                     Spacer()
                     
-                    Text("voice_chat_title".localized)
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(AppColors.primaryText)
+                    VStack(spacing: 2) {
+                        Text("voice_chat_title".localized)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(AppColors.primaryText)
+                        
+                        // Service picker menu
+                        Menu {
+                            ForEach(translationManager.getAvailableServices(), id: \.self) { service in
+                                Button(action: {
+                                    translationManager.setTranslationService(service)
+                                }) {
+                                    HStack {
+                                        Image(systemName: service.systemImageName)
+                                        Text(service.displayName)
+                                        Spacer()
+                                        if service == translationManager.currentService {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.blue)
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: translationManager.currentService.systemImageName)
+                                    .font(.caption)
+                                Text(translationManager.currentServiceName)
+                                    .font(.caption)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption2)
+                            }
+                            .foregroundColor(AppColors.secondaryText)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(AppColors.secondaryText.opacity(0.1))
+                            )
+                        }
+                    }
                     
                     Spacer()
                     
@@ -80,7 +122,10 @@ struct VoiceChatView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(conversations) { conversation in
-                            ConversationBubble(conversation: conversation)
+                            ConversationBubble(conversation: conversation) { selectedConv in
+                                selectedConversation = selectedConv
+                                showFlashcardOptions = true
+                            }
                         }
                     }
                     .padding()
@@ -146,6 +191,20 @@ struct VoiceChatView: View {
             Button("cancel".localized, role: .cancel) { }
         } message: {
             Text("please_enable_microphone".localized)
+        }
+        .sheet(isPresented: $showFlashcardOptions) {
+            if let conversation = selectedConversation {
+                VoiceFlashcardSelectionView(
+                    originalText: conversation.originalText ?? "",
+                    translatedText: conversation.text,
+                    sourceLanguage: conversation.side == .left ? targetLanguage : sourceLanguage,
+                    targetLanguage: conversation.language,
+                    onSave: {
+                        showFlashcardOptions = false
+                        selectedConversation = nil
+                    }
+                )
+            }
         }
         .onAppear {
             requestPermissions()
@@ -229,7 +288,7 @@ struct VoiceChatView: View {
         }
     }
     
-    private func addConversation(text: String, side: ConversationSide, isTranslation: Bool = false) {
+    private func addConversation(text: String, side: ConversationSide, isTranslation: Bool = false, originalText: String? = nil) {
         // Create unique key for this text+side combination
         let conversationKey = "\(text)-\(side)"
         
@@ -256,7 +315,9 @@ struct VoiceChatView: View {
             text: text,
             side: side,
             language: side == .left ? sourceLanguage : targetLanguage,
-            timestamp: Date()
+            timestamp: Date(),
+            isTranslation: isTranslation,
+            originalText: originalText
         )
         
         print("✅ Adding conversation: '\(text)' for side: \(side), isTranslation: \(isTranslation)")
@@ -273,14 +334,13 @@ struct VoiceChatView: View {
     private func translateAndSpeak(text: String, from: String, to: String, originalSide: ConversationSide) {
         Task {
             do {
-                let translator = GoogleTranslateParser()
-                let translated = try await translator.translate(text: text, from: from, to: to)
+                let translated = try await translationManager.translate(text: text, from: from, to: to)
                 
                 await MainActor.run {
                     // Add translation on opposite side
                     let translationSide: ConversationSide = originalSide == .left ? .right : .left
                     print("➕ Adding translation: '\(translated)' for side: \(translationSide)")
-                    addConversation(text: translated, side: translationSide, isTranslation: true)
+                    addConversation(text: translated, side: translationSide, isTranslation: true, originalText: text)
                     
                     // Speak the translation
                     let synthesizer = AVSpeechSynthesizer()
@@ -412,6 +472,7 @@ struct VoiceButton: View {
 
 struct ConversationBubble: View {
     let conversation: VoiceConversation
+    let onAddToFlashcard: (VoiceConversation) -> Void
     
     var body: some View {
         HStack {
@@ -420,14 +481,42 @@ struct ConversationBubble: View {
             }
             
             VStack(alignment: conversation.side == .left ? .leading : .trailing, spacing: 4) {
-                Text(conversation.text)
-                    .font(.system(size: 16))
-                    .foregroundColor(AppColors.buttonText)
-                    .padding()
-                    .background(
-                        conversation.side == .left ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.successColor
-                    )
-                    .cornerRadius(20)
+                HStack {
+                    if conversation.side == .right {
+                        // Кнопка додавання в картки для перекладів (зелені бульбашки)
+                        if conversation.isTranslation {
+                            Button(action: {
+                                onAddToFlashcard(conversation)
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                            }
+                        }
+                    }
+                    
+                    Text(conversation.text)
+                        .font(.system(size: 16))
+                        .foregroundColor(AppColors.buttonText)
+                        .padding()
+                        .background(
+                            conversation.side == .left ? AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme) : AppColors.successColor
+                        )
+                        .cornerRadius(20)
+                    
+                    if conversation.side == .left {
+                        // Кнопка додавання в картки для перекладів (сині бульбашки)
+                        if conversation.isTranslation {
+                            Button(action: {
+                                onAddToFlashcard(conversation)
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                            }
+                        }
+                    }
+                }
                 
                 Text(conversation.timestamp, style: .time)
                     .font(.system(size: 12))
@@ -447,6 +536,8 @@ struct VoiceConversation: Identifiable {
     let side: VoiceChatView.ConversationSide
     let language: String
     let timestamp: Date
+    let isTranslation: Bool
+    let originalText: String? // Оригінальний текст для перекладу
 }
 
 // Speech Recognizer
@@ -797,6 +888,170 @@ struct SpeakingBar: View {
                     Animation.easeOut(duration: 0.5),
                 value: isAnimating
             )
+    }
+}
+
+// View для вибору деку та збереження картки з голосового чату
+struct VoiceFlashcardSelectionView: View {
+    let originalText: String
+    let translatedText: String
+    let sourceLanguage: String
+    let targetLanguage: String
+    let onSave: () -> Void
+    
+    @StateObject private var flashcardManager = FlashcardManager.shared
+    @State private var selectedDeck: FlashcardDeck?
+    @State private var showCreateDeck = false
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                // Preview of flashcard
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("add_to_flashcards_title".localized)
+                        .font(.headline)
+                        .foregroundColor(AppColors.primaryText)
+                    
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Front (\(getLanguageName(sourceLanguage)))")
+                                .font(.caption)
+                                .foregroundColor(AppColors.secondaryText)
+                            Text(originalText)
+                                .font(.body)
+                                .foregroundColor(AppColors.primaryText)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "arrow.right")
+                            .foregroundColor(AppColors.secondaryText)
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .trailing) {
+                            Text("Back (\(getLanguageName(targetLanguage)))")
+                                .font(.caption)
+                                .foregroundColor(AppColors.secondaryText)
+                            Text(translatedText)
+                                .font(.body)
+                                .foregroundColor(AppColors.primaryText)
+                        }
+                    }
+                    .padding()
+                    .background(AppColors.cardBackground)
+                    .cornerRadius(12)
+                }
+                
+                // Deck selection
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("choose_deck_to_add".localized)
+                        .font(.headline)
+                        .foregroundColor(AppColors.primaryText)
+                    
+                    let compatibleDecks = getCompatibleDecks()
+                    
+                    if compatibleDecks.isEmpty {
+                        VStack(spacing: 12) {
+                            Text("no_compatible_decks".localized)
+                                .foregroundColor(AppColors.secondaryText)
+                            
+                            Button("create_deck_for_languages".localized(with: getLanguageName(sourceLanguage), getLanguageName(targetLanguage))) {
+                                showCreateDeck = true
+                            }
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                        }
+                    } else {
+                        LazyVStack(spacing: 8) {
+                            ForEach(compatibleDecks) { deck in
+                                Button(action: {
+                                    selectedDeck = deck
+                                    saveFlashcard()
+                                }) {
+                                    HStack {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(deck.name)
+                                                .font(.system(size: 16, weight: .medium))
+                                                .foregroundColor(AppColors.primaryText)
+                                            Text("cards_count_simple".localized(with: deck.flashcardIds.count))
+                                                .font(.caption)
+                                                .foregroundColor(AppColors.secondaryText)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(AppColors.secondaryText)
+                                    }
+                                    .padding()
+                                    .background(AppColors.cardBackground)
+                                    .cornerRadius(12)
+                                }
+                            }
+                        }
+                        
+                        Button("create_new_deck".localized) {
+                            showCreateDeck = true
+                        }
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                    }
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .navigationTitle("add_to_flashcards".localized)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("cancel".localized) {
+                        dismiss()
+                    }
+                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                }
+            }
+            .sheet(isPresented: $showCreateDeck) {
+                // Here would be create deck view - simplified for now
+                Text("Create deck feature coming soon")
+            }
+        }
+    }
+    
+    private func getCompatibleDecks() -> [FlashcardDeck] {
+        return flashcardManager.decks.filter { deck in
+            deck.sourceLanguage == sourceLanguage && deck.targetLanguage == targetLanguage
+        }
+    }
+    
+    private func getLanguageName(_ code: String) -> String {
+        let languageNames: [String: String] = [
+            "en": "English",
+            "uk": "Ukrainian",
+            "es": "Spanish",
+            "fr": "French",
+            "de": "German",
+            "zh": "Chinese"
+        ]
+        return languageNames[code] ?? code.uppercased()
+    }
+    
+    private func saveFlashcard() {
+        guard let deck = selectedDeck else { return }
+        
+        let newCard = Flashcard(
+            frontText: originalText,
+            backText: translatedText,
+            sourceLanguage: sourceLanguage,
+            targetLanguage: targetLanguage,
+            category: "Voice Chat"
+        )
+        
+        _ = flashcardManager.addFlashcardToDeck(newCard, deck: deck)
+        onSave()
+        dismiss()
     }
 }
 

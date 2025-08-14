@@ -129,54 +129,7 @@ extension UserDefaults {
 
 // MARK: - Translation Mode (User Choice)
 
-enum TranslationMode: String, CaseIterable, Codable {
-    case regular = "regular"
-    case ai = "ai"
-    
-    var displayName: String {
-        switch self {
-        case .regular:
-            return "regular_translation".localized
-        case .ai:
-            return "ai_translation".localized
-        }
-    }
-    
-    var icon: String {
-        switch self {
-        case .regular:
-            return "globe"
-        case .ai:
-            return "brain.head.profile"
-        }
-    }
-    
-    var description: String {
-        switch self {
-        case .regular:
-            return "Fast and reliable translation"
-        case .ai:
-            return "AI-enhanced with multiple variants"
-        }
-    }
-}
+// AI mode removed - AI is only used for flashcard generation
+// Regular translation uses Apple/Google services
 
-// UserDefaults extension for translation mode
-extension UserDefaults {
-    private enum ModeKeys {
-        static let selectedTranslationMode = "selectedTranslationMode"
-    }
-    
-    var selectedTranslationMode: TranslationMode {
-        get {
-            if let rawValue = object(forKey: ModeKeys.selectedTranslationMode) as? String,
-               let mode = TranslationMode(rawValue: rawValue) {
-                return mode
-            }
-            return .regular // Default to regular translation
-        }
-        set {
-            set(newValue.rawValue, forKey: ModeKeys.selectedTranslationMode)
-        }
-    }
-}
+// TranslationMode removed - AI only used for flashcards

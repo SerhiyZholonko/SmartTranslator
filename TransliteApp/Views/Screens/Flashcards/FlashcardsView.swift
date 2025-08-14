@@ -992,8 +992,8 @@ struct AddCardView: View {
         
         Task {
             do {
-                // Try to get enhanced translation options first (AI or Google with options)
-                let options = try await translationManager.translateWithOptions(
+                // Try to get enhanced translation options for flashcard (AI preferred)
+                let options = try await translationManager.translateForFlashcard(
                     text: frontText,
                     from: sourceLanguage,
                     to: targetLanguage
@@ -1221,30 +1221,14 @@ struct StudyView: View {
                         Spacer()
                     }
                 } else if currentCard != nil {
-                    // Compact header with progress
-                    HStack {
+                    // Compact header with centered progress
+                    VStack(spacing: 8) {
                         Text("card_of_total".localized(with: currentCardIndex + 1, cardsToStudy.count))
                             .font(.caption2)
                             .foregroundColor(AppColors.secondaryText)
                         
                         ProgressView(value: Double(currentCardIndex), total: Double(cardsToStudy.count))
-                            .frame(maxWidth: 100)
-                        
-                        Spacer()
-                        
-                        // Audio button
-                        Button(action: { playCurrentCard() }) {
-                            Image(systemName: isPlayingAudio ? "speaker.wave.2.fill" : "speaker.wave.2")
-                                .font(.system(size: 16))
-                                .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
-                        }
-                        .disabled(isPlayingAudio)
-                        
-                        Button("end_session".localized) {
-                            endSession()
-                        }
-                        .font(.caption2)
-                        .foregroundColor(AppColors.errorColor)
+                            .frame(maxWidth: 200)
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 6)
@@ -1278,7 +1262,10 @@ struct StudyView: View {
                             FlashcardView(
                                 card: card,
                                 showingBack: .constant(index == currentCardIndex ? showingBack : false),
-                                dragOffset: .constant(.zero)
+                                dragOffset: .constant(.zero),
+                                deck: deck,
+                                onPlayAudio: { playCurrentCard() },
+                                isPlayingAudio: isPlayingAudio
                             )
                             .tag(index)
                             .onTapGesture {
@@ -1551,6 +1538,9 @@ struct FlashcardView: View {
     let card: Flashcard
     @Binding var showingBack: Bool
     @Binding var dragOffset: CGSize
+    let deck: FlashcardDeck
+    let onPlayAudio: () -> Void
+    let isPlayingAudio: Bool
     
     var body: some View {
         ZStack {
@@ -1571,6 +1561,17 @@ struct FlashcardView: View {
                         .cornerRadius(4)
                     
                     Spacer()
+                    
+                    // Audio button
+                    Button(action: onPlayAudio) {
+                        Image(systemName: isPlayingAudio ? "speaker.wave.2.fill" : "speaker.wave.2")
+                            .font(.system(size: 16))
+                            .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                            .padding(8)
+                            .background(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme).opacity(0.1))
+                            .clipShape(Circle())
+                    }
+                    .disabled(isPlayingAudio)
                     
                     // Difficulty indicator
                     Text(card.difficulty.displayName)
