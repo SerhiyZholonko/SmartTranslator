@@ -17,7 +17,6 @@ struct SettingsView: View {
     let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
     var body: some View {
         LocalizedView {
-        NavigationView {
             ZStack {
                 // Theme-aware background matching main screen
                 AppColors.appBackground
@@ -219,7 +218,6 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
 
             }
-        }
         }
         .alert("service_not_available".localized, isPresented: $showingServiceAlert) {
             Button("OK") { }

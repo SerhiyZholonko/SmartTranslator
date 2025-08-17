@@ -10,6 +10,7 @@ struct HistoryView: View {
     @State private var selectedItem: TranslationHistoryItem?
     @State private var showStatistics = false
     @State private var filterStarScale: CGFloat = 1.0
+    @State private var showClearConfirmation = false
     
     var filteredHistory: [TranslationHistoryItem] {
         let items = showFavoritesOnly ? historyManager.getFavorites() : historyManager.history
@@ -23,7 +24,6 @@ struct HistoryView: View {
     
     var body: some View {
         LocalizedView {
-        NavigationView {
             ZStack {
                 // Theme-aware background matching main screen
                 AppColors.appBackground
@@ -116,8 +116,16 @@ struct HistoryView: View {
 //                }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showStatistics = true }) {
-                        Image(systemName: "chart.bar.fill")
+                    HStack(spacing: 16) {
+                        Button(action: { showClearConfirmation = true }) {
+                            Image(systemName: "trash.fill")
+                                .foregroundColor(.red)
+                        }
+                        .disabled(filteredHistory.isEmpty)
+                        
+                        Button(action: { showStatistics = true }) {
+                            Image(systemName: "chart.bar.fill")
+                        }
                     }
                 }
             }
@@ -127,9 +135,16 @@ struct HistoryView: View {
             .sheet(isPresented: $showStatistics) {
                 StatisticsView()
             }
+            .alert("clear_history_title".localized, isPresented: $showClearConfirmation) {
+                Button("cancel".localized, role: .cancel) { }
+                Button("clear_history_confirm".localized, role: .destructive) {
+                    historyManager.clearHistory()
+                }
+            } message: {
+                Text("clear_history_message".localized)
             }
         }
-        }
+    }
     }
     
     func deleteItems(at offsets: IndexSet) {
@@ -277,7 +292,7 @@ struct HistoryDetailView: View {
     @State private var isFavorite: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     // Language pair and metadata
@@ -525,7 +540,7 @@ struct StatisticsView: View {
     @StateObject private var historyManager = TranslationHistoryManager.shared
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("overview".localized)) {
                     HStack {
@@ -620,7 +635,7 @@ struct DeckSelectorView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 if !matchingDecks.isEmpty {
                     Section(header: Text("compatible_decks_with_languages".localized(with: languageName(sourceLanguage), languageName(targetLanguage)))) {

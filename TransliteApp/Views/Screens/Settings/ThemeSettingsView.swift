@@ -4,7 +4,7 @@ struct ThemeSettingsView: View {
     @StateObject private var themeManager = ThemeManager.shared
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Theme-aware background matching main screen
                 AppColors.appBackground

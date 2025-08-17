@@ -173,7 +173,9 @@
 "search_history" = "Search history...";
 "no_history" = "No translation history";
 "clear_history" = "Clear History";
-"clear_history_confirm" = "Are you sure you want to clear all history?";
+"clear_history_title" = "Clear History";
+"clear_history_confirm" = "Clear";
+"clear_history_message" = "Are you sure you want to clear all translation history? This action cannot be undone.";
 "favorite" = "Favorite";
 "unfavorite" = "Unfavorite";
 "favorites_only" = "Favorites Only";

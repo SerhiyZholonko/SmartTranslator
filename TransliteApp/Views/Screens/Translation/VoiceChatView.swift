@@ -131,10 +131,16 @@ struct VoiceChatView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(conversations) { conversation in
-                            ConversationBubble(conversation: conversation) { selectedConv in
-                                selectedConversation = selectedConv
-                                showFlashcardOptions = true
-                            }
+                            ConversationBubble(
+                                conversation: conversation,
+                                onAddToFlashcard: { selectedConv in
+                                    selectedConversation = selectedConv
+                                    showFlashcardOptions = true
+                                },
+                                onDelete: { conversationToDelete in
+                                    deleteConversation(conversationToDelete)
+                                }
+                            )
                         }
                     }
                     .padding()
@@ -374,6 +380,12 @@ struct VoiceChatView: View {
         conversations.removeAll()
     }
     
+    private func deleteConversation(_ conversation: VoiceConversation) {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            conversations.removeAll { $0.id == conversation.id }
+        }
+    }
+    
     private func requestPermissions() {
         Task {
             let microphoneGranted = await permissionsManager.requestMicrophonePermission()
@@ -463,6 +475,7 @@ struct VoiceButton: View {
 struct ConversationBubble: View {
     let conversation: VoiceConversation
     let onAddToFlashcard: (VoiceConversation) -> Void
+    let onDelete: (VoiceConversation) -> Void
     
     var body: some View {
         HStack {
@@ -473,14 +486,26 @@ struct ConversationBubble: View {
             VStack(alignment: conversation.side == .left ? .leading : .trailing, spacing: 4) {
                 HStack {
                     if conversation.side == .right {
-                        // Кнопка додавання в картки для перекладів (зелені бульбашки)
-                        if conversation.isTranslation {
+                        // Кнопки для правого боку (зелені бульбашки)
+                        VStack(spacing: 4) {
+                            // Кнопка видалення
                             Button(action: {
-                                onAddToFlashcard(conversation)
+                                onDelete(conversation)
                             }) {
-                                Image(systemName: "plus.circle.fill")
+                                Image(systemName: "minus.circle.fill")
                                     .font(.system(size: 14))
-                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                    .foregroundColor(.red)
+                            }
+                            
+                            // Кнопка додавання в картки для перекладів
+                            if conversation.isTranslation {
+                                Button(action: {
+                                    onAddToFlashcard(conversation)
+                                }) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                }
                             }
                         }
                     }
@@ -495,14 +520,26 @@ struct ConversationBubble: View {
                         .cornerRadius(20)
                     
                     if conversation.side == .left {
-                        // Кнопка додавання в картки для перекладів (сині бульбашки)
-                        if conversation.isTranslation {
+                        // Кнопки для лівого боку (сині бульбашки)
+                        VStack(spacing: 4) {
+                            // Кнопка додавання в картки для перекладів
+                            if conversation.isTranslation {
+                                Button(action: {
+                                    onAddToFlashcard(conversation)
+                                }) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                }
+                            }
+                            
+                            // Кнопка видалення
                             Button(action: {
-                                onAddToFlashcard(conversation)
+                                onDelete(conversation)
                             }) {
-                                Image(systemName: "plus.circle.fill")
+                                Image(systemName: "minus.circle.fill")
                                     .font(.system(size: 14))
-                                    .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
+                                    .foregroundColor(.red)
                             }
                         }
                     }

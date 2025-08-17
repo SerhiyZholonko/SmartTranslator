@@ -170,7 +170,9 @@
 "search_history" = "Пошук в історії...";
 "no_history" = "Історія перекладів порожня";
 "clear_history" = "Очистити історію";
-"clear_history_confirm" = "Ви впевнені, що хочете очистити всю історію?";
+"clear_history_title" = "Очистити історію";
+"clear_history_confirm" = "Очистити";
+"clear_history_message" = "Ви впевнені, що хочете очистити всю історію перекладів? Цю дію неможливо відмінити.";
 "favorite" = "В обране";
 "unfavorite" = "Видалити з обраного";
 "favorites_only" = "Тільки обране";

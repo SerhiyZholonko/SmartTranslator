@@ -330,6 +330,13 @@
 "service_not_available" = "服务不可用";
 "apple_translation_update_message" = "Apple 翻译需要 iOS 17.4 或更高版本。请更新您的设备以使用此功能。";
 
+// MARK: - Color Themes
+"theme_blue" = "蓝色";
+"theme_ocean" = "海洋";
+"theme_forest" = "森林";
+"theme_sunset" = "日落";
+"theme_purple" = "紫色";
+
 // MARK: - Common Actions
 "cancel" = "取消";
 "done" = "完成";

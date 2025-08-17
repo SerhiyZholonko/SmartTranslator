@@ -186,8 +186,14 @@ class TranslationManager: ObservableObject {
     // MARK: - Service Management
     
     func setTranslationService(_ service: TranslationService) {
-        selectedService = service
-        UserDefaults.standard.selectedTranslationService = service
+        Task {
+            // Small delay to ensure we're outside of view update cycle
+            try? await Task.sleep(nanoseconds: 1_000_000) // 1ms
+            await MainActor.run {
+                selectedService = service
+                UserDefaults.standard.selectedTranslationService = service
+            }
+        }
     }
     
     func getAvailableServices() -> [TranslationService] {

@@ -8,7 +8,7 @@ struct GroqSettingsView: View {
     
     var body: some View {
         LocalizedView {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     HStack {
@@ -301,7 +301,7 @@ struct InstructionsView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("how_to_get_ai_key".localized)

@@ -13,7 +13,6 @@ struct FlashcardsView: View {
     
     var body: some View {
         LocalizedView {
-        NavigationView {
             ZStack {
                 // Theme-aware background matching main screen
                 AppColors.appBackground
@@ -97,7 +96,6 @@ struct FlashcardsView: View {
                 .padding(.vertical)
             }
             .navigationBarHidden(true)
-            }
             .sheet(isPresented: $showingCreateDeck) {
                 CreateDeckView(
                     deckName: $newDeckName,
@@ -117,8 +115,8 @@ struct FlashcardsView: View {
                 }
             }
         }
-        }
     }
+}
 }
 
 struct DeckCardWrapper: View {
@@ -132,7 +130,7 @@ struct DeckCardWrapper: View {
             showingStudyView = true
         }
         .fullScreenCover(isPresented: $showingStudyView) {
-            NavigationView {
+            NavigationStack {
                 StudyView(deck: deck)
             }
         }
@@ -1069,49 +1067,51 @@ struct CreateDeckView: View {
     @Binding var targetLang: String
     let onCreate: () -> Void
     
-    let languages = [
-        ("en", "English"),
-        ("uk", "Ukrainian"),
-        ("ru", "Russian"),
-        ("es", "Spanish"),
-        ("fr", "French"),
-        ("de", "German")
-    ]
+    var languages: [(String, String)] {
+        [
+            ("en", "language_english".localized),
+            ("uk", "language_ukrainian".localized),
+            ("ru", "language_russian".localized),
+            ("es", "language_spanish".localized),
+            ("fr", "language_french".localized),
+            ("de", "language_german".localized)
+        ]
+    }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
-                Section(header: Text("Deck Information")) {
-                    TextField("Deck Name", text: $deckName)
-                    TextField("Description (optional)", text: $deckDescription)
+                Section(header: Text("deck_information".localized)) {
+                    TextField("deck_name".localized, text: $deckName)
+                    TextField("description_optional".localized, text: $deckDescription)
                 }
                 
-                Section(header: Text("Languages")) {
-                    Picker("From", selection: $sourceLang) {
+                Section(header: Text("languages".localized)) {
+                    Picker("from".localized, selection: $sourceLang) {
                         ForEach(languages, id: \.0) { code, name in
                             Text(name).tag(code)
                         }
                     }
                     
-                    Picker("To", selection: $targetLang) {
+                    Picker("to".localized, selection: $targetLang) {
                         ForEach(languages, id: \.0) { code, name in
                             Text(name).tag(code)
                         }
                     }
                 }
             }
-            .navigationTitle("New Deck")
+            .navigationTitle("new_deck".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("cancel".localized) {
                         dismiss()
                     }
                     .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Create") {
+                    Button("create".localized) {
                         onCreate()
                     }
                     .foregroundColor(AppColors.dynamicAccent(for: ThemeManager.shared.currentColorTheme))

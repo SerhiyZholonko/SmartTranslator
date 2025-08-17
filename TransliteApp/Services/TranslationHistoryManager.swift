@@ -10,7 +10,7 @@ class TranslationHistoryManager: ObservableObject {
     
     private let historyKey = "translationHistory"
     private let statisticsKey = "translationStatistics"
-    private let maxHistoryItems = 100 // Reduced to avoid UserDefaults size limit
+    private let maxHistoryItems = 30 // Limit to 30 most recent translations
     private let historyFileName = "translation_history.json"
     private let statisticsFileName = "translation_statistics.json"
     
