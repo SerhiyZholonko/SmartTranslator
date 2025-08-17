@@ -31,9 +31,9 @@ struct FileTranslatorView: View {
                         Text("file_translator_title".localized)
                             .font(.system(size: 20, weight: .semibold))
                         
-                        // Service picker menu
+                        // Service picker menu (exclude AI for file translation)
                         Menu {
-                            ForEach(TranslationManager.shared.getAvailableServices(), id: \.self) { service in
+                            ForEach(getFileTranslationServices(), id: \.self) { service in
                                 Button(action: {
                                     TranslationManager.shared.setTranslationService(service)
                                 }) {
@@ -50,9 +50,9 @@ struct FileTranslatorView: View {
                             }
                         } label: {
                             HStack(spacing: 4) {
-                                Image(systemName: TranslationManager.shared.currentService.systemImageName)
+                                Image(systemName: getCurrentFileService().systemImageName)
                                     .font(.caption)
-                                Text(TranslationManager.shared.currentServiceName)
+                                Text(getCurrentFileService().displayName)
                                     .font(.caption)
                                 Image(systemName: "chevron.down")
                                     .font(.caption2)
@@ -90,14 +90,7 @@ struct FileTranslatorView: View {
                         HStack(spacing: 12) {
                             FileLanguageSelector(
                                 selectedLanguage: $viewModel.sourceLanguage,
-                                languages: [
-                                    ("en", "language_english".localized),
-                                    ("uk", "language_ukrainian".localized),
-                                    ("zh", "language_chinese_simplified".localized),
-                                    ("es", "language_spanish".localized),
-                                    ("fr", "language_french".localized),
-                                    ("de", "language_german".localized)
-                                ],
+                                languages: LanguageHelpers.getLanguagesForDisplayWithoutFlags(),
                                 title: "from".localized
                             )
                             
@@ -115,14 +108,7 @@ struct FileTranslatorView: View {
                             
                             FileLanguageSelector(
                                 selectedLanguage: $viewModel.targetLanguage,
-                                languages: [
-                                    ("en", "language_english".localized),
-                                    ("uk", "language_ukrainian".localized),
-                                    ("zh", "language_chinese_simplified".localized),
-                                    ("es", "language_spanish".localized),
-                                    ("fr", "language_french".localized),
-                                    ("de", "language_german".localized)
-                                ],
+                                languages: LanguageHelpers.getLanguagesForDisplayWithoutFlags(),
                                 title: "to".localized
                             )
                         }
@@ -380,27 +366,50 @@ struct FileTranslatorView: View {
         .onAppear {
             viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultSourceLanguage") ?? "en", isSource: true)
             viewModel.selectLanguage(UserDefaults.standard.string(forKey: "defaultTargetLanguage") ?? "en", isSource: false)
-            checkLimitWarnings()
         }
         }
     }
     
     // MARK: - Helper Methods
     private func checkLimitWarnings() {
-        // Check general user limit
-        if translationManager.isApproachingLimit {
-            let remaining = translationManager.remainingTranslations
-            limitWarningMessage = String(format: "approaching_daily_limit".localized, remaining)
-            showLimitWarning = true
+        // Only show warnings for Groq AI service and only after actual translation
+        guard translationManager.currentService == .groqAI else { return }
+        
+        // Check if Groq AI is approaching its specific limit
+        if translationManager.isGroqApproachingLimit {
+            // Check if we already showed AI limit warning today
+            if !hasShownWarningToday(type: "ai_limit") {
+                let groqService = translationManager.groqService
+                let remainingRequests = groqService.remainingDailyRequests
+                let tokenUsage = groqService.tokenUsagePercentage
+                limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
+                showLimitWarning = true
+                markWarningShownToday(type: "ai_limit")
+            }
         }
-        // Check Groq AI specific limit
-        else if translationManager.currentService == .groqAI && translationManager.isGroqApproachingLimit {
-            let groqService = translationManager.groqService
-            let remainingRequests = groqService.remainingDailyRequests
-            let tokenUsage = groqService.tokenUsagePercentage
-            limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
-            showLimitWarning = true
+        // Also check general user limit for Groq AI (only when actually reached, not approaching)
+        else if !translationManager.canTranslateToday {
+            // Check if we already showed daily limit warning today
+            if !hasShownWarningToday(type: "daily_limit") {
+                let remaining = translationManager.remainingTranslations
+                limitWarningMessage = String(format: "daily_limit_reached".localized, remaining)
+                showLimitWarning = true
+                markWarningShownToday(type: "daily_limit")
+            }
         }
+    }
+    
+    private func hasShownWarningToday(type: String) -> Bool {
+        let key = "lastWarningShown_\(type)"
+        guard let lastDate = UserDefaults.standard.object(forKey: key) as? Date else {
+            return false
+        }
+        return Calendar.current.isDate(lastDate, inSameDayAs: Date())
+    }
+    
+    private func markWarningShownToday(type: String) {
+        let key = "lastWarningShown_\(type)"
+        UserDefaults.standard.set(Date(), forKey: key)
     }
     
     private func getProcessingStageText() -> String {
@@ -418,6 +427,26 @@ struct FileTranslatorView: View {
         } else {
             return "generating_document".localized
         }
+    }
+    
+    // MARK: - File Translation Service Management
+    
+    private func getFileTranslationServices() -> [TranslationService] {
+        // Exclude Groq AI from file translation - only allow Google and Apple
+        return TranslationManager.shared.getAvailableServices().filter { service in
+            service != .groqAI
+        }
+    }
+    
+    private func getCurrentFileService() -> TranslationService {
+        let currentService = TranslationManager.shared.currentService
+        // If current service is Groq AI, switch to Google for file translation
+        if currentService == .groqAI {
+            // Switch to Google as default for file translation
+            TranslationManager.shared.setTranslationService(.google)
+            return .google
+        }
+        return currentService
     }
 }
 
@@ -532,15 +561,7 @@ private struct FileLanguageSelector: View {
         }
     }
     private func getFlag(for languageCode: String) -> String {
-        switch languageCode {
-        case "en": return "🇬🇧"
-        case "uk": return "🇺🇦"
-        case "zh": return "🇨🇳"
-        case "es": return "🇪🇸"
-        case "fr": return "🇫🇷"
-        case "de": return "🇩🇪"
-        default: return "🌐"
-        }
+        LanguageHelpers.getFlag(for: languageCode)
     }
 }
 

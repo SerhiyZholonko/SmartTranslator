@@ -138,6 +138,16 @@ struct CameraTranslatorView: View {
                         }
                     }
                     .disabled(isProcessing)
+                    
+                    // AI service usage progress bar
+                    if translationManager.currentService == .groqAI {
+                        AIUsageProgressView(
+                            tokenUsagePercentage: translationManager.groqService.tokenUsagePercentage,
+                            style: .overlay
+                        )
+                        .padding(.horizontal, 60)
+                        .padding(.top, 10)
+                    }
                 }
                 .padding(.bottom, 30)
             }
@@ -275,14 +285,7 @@ struct LanguagePicker: View {
     let includeAuto: Bool
     
     var languages: [(String, String)] {
-        let list = [
-            ("en", "language_english".localized),
-            ("uk", "language_ukrainian".localized),
-            ("zh", "language_chinese_simplified".localized),
-            ("es", "language_spanish".localized),
-            ("fr", "language_french".localized),
-            ("de", "language_german".localized)
-        ]
+        let list = LanguageHelpers.getLanguagesForDisplayWithoutFlags()
         
         if includeAuto {
             // Remove auto-detect option
@@ -323,15 +326,7 @@ struct LanguagePicker: View {
     }
     
     private func getFlag(for languageCode: String) -> String {
-        switch languageCode {
-        case "en": return "🇬🇧"
-        case "uk": return "🇺🇦"
-        case "zh": return "🇨🇳"
-        case "es": return "🇪🇸"
-        case "fr": return "🇫🇷"
-        case "de": return "🇩🇪"
-        default: return "🌐"
-        }
+        LanguageHelpers.getFlag(for: languageCode)
     }
 }
 

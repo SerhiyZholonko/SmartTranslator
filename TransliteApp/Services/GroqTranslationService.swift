@@ -257,27 +257,29 @@ class GroqTranslationService: ObservableObject {
         
         // Enhanced prompt для кращого розпізнавання неоднозначних слів
         let systemPrompt = """
-        You are a professional translator specializing in ambiguous words and context-sensitive translations.
+        You are a professional translator providing accurate, natural translations.
         
         Rules:
         1. Translate from \(sourceLangName) to \(targetLangName)
-        2. If the text contains ambiguous words (like "duck", "bank", "bark", "bat", "bear", etc.), provide ALL possible meanings
-        3. Provide 3-6 different translation variants covering different contexts
-        4. For ambiguous words, explain the context briefly in parentheses
-        5. Order from most common usage to specialized contexts
-        6. Each variant should be on a new line, numbered (1., 2., 3., etc.)
-        7. Format: [Translation] ([Context if ambiguous])
+        2. For short text (1-3 words): provide numbered alternatives if ambiguous
+        3. For longer text: provide one coherent, natural translation
+        4. For technical terms (UI/UX, software, design), use standard industry terminology
+        5. Maintain original formatting (line breaks, structure)
+        6. Use natural, fluent language that sounds like a native speaker
         
-        Examples for ambiguous words:
-        - "duck" → "качка (птах)" and "пригнутися (дія)"
-        - "bank" → "банк (фінанси)" and "берег (річки)"
-        - "bark" → "гавкати (собака)" and "кора (дерева)"
+        Context-specific translations:
+        - UI/Design terms: "фрейм" → "frame" (design frame/artboard)
+        - Technical terms: Use established English terminology
+        - Action phrases: Use natural verb forms (e.g. "Add" not "Adding" for UI actions)
+        - Software names: Keep original names (e.g. "Screenshot.rocks" stays "Screenshot.rocks")
         
-        Format:
-        1. [Most common translation] ([context if needed])
-        2. [Alternative meaning] ([different context])
-        3. [Formal/technical variant]
-        4. [Colloquial/informal variant]
+        Format for SHORT TEXT (1-3 words with ambiguity):
+        1. [Most natural translation]
+        2. [Alternative meaning if applicable]
+        3. [Technical variant if needed]
+        
+        Format for LONG TEXT:
+        Provide a single, coherent translation maintaining the original structure and flow.
         """
         
         let userPrompt = "Translate this text:\n\n\(text)"
@@ -341,36 +343,62 @@ class GroqTranslationService: ObservableObject {
         
         let lines = response.components(separatedBy: .newlines)
         var currentIndex = 0
+        var hasNumberedFormat = false
         
+        // First pass: check if response uses numbered format
         for line in lines {
             let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            // Check if line starts with a number (1., 2., etc.)
-            if let range = trimmedLine.range(of: #"^\d+\.\s*"#, options: .regularExpression) {
-                let fullTranslation = String(trimmedLine[range.upperBound...])
-                
-                if !fullTranslation.isEmpty {
-                    // Extract translation and context if present
-                    let (translation, context) = extractTranslationAndContext(fullTranslation)
-                    
-                    let category = getTranslationCategory(for: currentIndex, context: context)
-                    let confidence = getConfidenceScore(for: currentIndex)
-                    
-                    let option = GoogleTranslateParser.TranslationOption(
-                        text: translation,
-                        confidence: confidence,
-                        category: category,
-                        frequency: currentIndex < 2 ? "High" : "Medium",
-                        partOfSpeech: nil
-                    )
-                    
-                    options.append(option)
-                    currentIndex += 1
-                }
+            if trimmedLine.range(of: #"^\d+\.\s*"#, options: .regularExpression) != nil {
+                hasNumberedFormat = true
+                break
             }
         }
         
-        // If parsing failed, create one option from the whole response
+        if hasNumberedFormat {
+            // Parse numbered format (multiple translation options)
+            for line in lines {
+                let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                // Check if line starts with a number (1., 2., etc.)
+                if let range = trimmedLine.range(of: #"^\d+\.\s*"#, options: .regularExpression) {
+                    let fullTranslation = String(trimmedLine[range.upperBound...])
+                    
+                    if !fullTranslation.isEmpty {
+                        // Extract translation and context if present
+                        let (translation, context) = extractTranslationAndContext(fullTranslation)
+                        
+                        let category = getTranslationCategory(for: currentIndex, context: context)
+                        let confidence = getConfidenceScore(for: currentIndex)
+                        
+                        let option = GoogleTranslateParser.TranslationOption(
+                            text: translation,
+                            confidence: confidence,
+                            category: category,
+                            frequency: currentIndex < 2 ? "High" : "Medium",
+                            partOfSpeech: nil
+                        )
+                        
+                        options.append(option)
+                        currentIndex += 1
+                    }
+                }
+            }
+        } else {
+            // For long text or single translation, use the entire response
+            let cleanedResponse = response.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !cleanedResponse.isEmpty {
+                let option = GoogleTranslateParser.TranslationOption(
+                    text: cleanedResponse,
+                    confidence: 0.95,
+                    category: .primary,
+                    frequency: "High",
+                    partOfSpeech: nil
+                )
+                options.append(option)
+            }
+        }
+        
+        // Fallback: if still no options, create one from the whole response
         if options.isEmpty && !response.isEmpty {
             let option = GoogleTranslateParser.TranslationOption(
                 text: response,
@@ -537,6 +565,9 @@ class GroqTranslationService: ObservableObject {
         usageTracker.recordUsage(tokensUsed: tokensUsed, apiKey: apiKey)
         saveUsageTracker()
         
+        // Explicitly trigger UI update for @Published property
+        objectWillChange.send()
+        
         // Update availability status  
         checkAvailability()
     }
@@ -661,7 +692,7 @@ enum GroqTranslationError: LocalizedError {
         case .serviceUnavailable:
             return "ai_service_unavailable".localized
         case .dailyLimitExceeded:
-            return "Daily limit exceeded"
+            return "ai_daily_limit_exceeded".localized
         }
     }
 }

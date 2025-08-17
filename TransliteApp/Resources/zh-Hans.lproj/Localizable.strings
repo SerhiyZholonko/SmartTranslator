@@ -439,3 +439,9 @@
 "api_keys_configured" = "API 密钥已配置";
 "ai_enhanced_not_configured" = "AI 增强：未配置";
 "no_api_keys_configured" = "没有配置 API 密钥";
+
+// MARK: - AI Limit Messages
+"ai_daily_limit_exceeded" = "每日限额已超出";
+"google_daily_limit_exceeded" = "每日翻译限额已超出";
+"ai_limit_exhausted" = "❌ 每日限额已用完 (%d/%d)";
+"ai_available_translations" = "✅ 可用 %d / %d 次翻译";

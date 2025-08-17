@@ -89,6 +89,15 @@ struct VoiceChatView: View {
                                     .fill(AppColors.secondaryText.opacity(0.1))
                             )
                         }
+                        
+                        // AI service usage progress bar
+                        if translationManager.currentService == .groqAI {
+                            AIUsageProgressView(
+                                tokenUsagePercentage: translationManager.groqService.tokenUsagePercentage,
+                                style: .compact
+                            )
+                            .padding(.top, 2)
+                        }
                     }
                     
                     Spacer()
@@ -419,12 +428,9 @@ struct VoiceButton: View {
             }
             
             Menu {
-                Button("🇬🇧 \("language_english".localized)") { language = "en-US" }
-                Button("🇺🇦 \("language_ukrainian".localized)") { language = "uk-UA" }
-                Button("🇨🇳 \("language_chinese_simplified".localized)") { language = "zh-CN" }
-                Button("🇪🇸 \("language_spanish".localized)") { language = "es-ES" }
-                Button("🇫🇷 \("language_french".localized)") { language = "fr-FR" }
-                Button("🇩🇪 \("language_german".localized)") { language = "de-DE" }
+                ForEach(LanguageHelpers.getVoiceLanguagesForDisplayWithoutFlags(), id: \.0) { langCode, langDisplay in
+                    Button("\(LanguageHelpers.getFlag(for: langCode)) \(langDisplay)") { language = langCode }
+                }
             } label: {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(getFlag(for: language))
@@ -446,27 +452,11 @@ struct VoiceButton: View {
     }
     
     private func getFlag(for languageCode: String) -> String {
-        switch languageCode {
-        case "en-US", "en": return "🇬🇧"
-        case "uk-UA", "uk": return "🇺🇦"
-        case "zh-CN", "zh": return "🇨🇳"
-        case "es-ES", "es": return "🇪🇸"
-        case "fr-FR", "fr": return "🇫🇷"
-        case "de-DE", "de": return "🇩🇪"
-        default: return "🌐"
-        }
+        LanguageHelpers.getFlag(for: languageCode)
     }
     
     private func getLanguageName(for languageCode: String) -> String {
-        switch languageCode {
-        case "en-US", "en": return "language_english".localized
-        case "uk-UA", "uk": return "language_ukrainian".localized
-        case "zh-CN", "zh": return "language_chinese_simplified".localized
-        case "es-ES", "es": return "language_spanish".localized
-        case "fr-FR", "fr": return "language_french".localized
-        case "de-DE", "de": return "language_german".localized
-        default: return "unknown".localized
-        }
+        LanguageHelpers.getLocalizedName(for: languageCode)
     }
 }
 

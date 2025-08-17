@@ -435,3 +435,9 @@
 "api_keys_configured" = "API-Schlüssel konfiguriert";
 "ai_enhanced_not_configured" = "KI-Erweitert: Nicht konfiguriert";
 "no_api_keys_configured" = "Keine API-Schlüssel konfiguriert";
+
+// MARK: - AI Limit Messages
+"ai_daily_limit_exceeded" = "Tageslimit überschritten";
+"google_daily_limit_exceeded" = "Tägliches Übersetzungslimit überschritten";
+"ai_limit_exhausted" = "❌ Tageslimit erschöpft (%d/%d)";
+"ai_available_translations" = "✅ Verfügbar %d von %d Übersetzungen";

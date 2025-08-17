@@ -22,7 +22,7 @@ enum TranslationError: LocalizedError {
         case .unsupportedLanguage:
             return "Language not supported"
         case .dailyLimitExceeded:
-            return "Daily translation limit exceeded"
+            return "google_daily_limit_exceeded".localized
         }
     }
 }

@@ -81,24 +81,11 @@ struct SettingsView: View {
                 
                 Section(header: Text("default_source_language".localized)) {
                     Picker("source_language".localized, selection: $defaultSourceLanguage) {
-                        Text("\(getFlagForLanguage("en")) \("language_english".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("en")
-                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("uk")
-                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("zh")
-                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("es")
-                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("fr")
-                        Text("\(getFlagForLanguage("de")) \("language_german".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("de")
+                        ForEach(LanguageHelpers.supportedLanguages, id: \.code) { language in
+                            Text(LanguageHelpers.getDisplayString(for: language.code))
+                                .multilineTextAlignment(.leading)
+                                .tag(language.code)
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .multilineTextAlignment(.leading)
@@ -107,24 +94,11 @@ struct SettingsView: View {
                     }
                     
                     Picker("target_language".localized, selection: $defaultTargetLanguage) {
-                        Text("\(getFlagForLanguage("uk")) \("language_ukrainian".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("uk")
-                        Text("\(getFlagForLanguage("en")) \("language_english".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("en")
-                        Text("\(getFlagForLanguage("zh")) \("language_chinese_simplified".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("zh")
-                        Text("\(getFlagForLanguage("es")) \("language_spanish".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("es")
-                        Text("\(getFlagForLanguage("fr")) \("language_french".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("fr")
-                        Text("\(getFlagForLanguage("de")) \("language_german".localized)")
-                            .multilineTextAlignment(.leading)
-                            .tag("de")
+                        ForEach(LanguageHelpers.supportedLanguages, id: \.code) { language in
+                            Text(LanguageHelpers.getDisplayString(for: language.code))
+                                .multilineTextAlignment(.leading)
+                                .tag(language.code)
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .multilineTextAlignment(.leading)
@@ -373,17 +347,6 @@ struct SettingsView: View {
         }
     }
     
-    private func getFlagForLanguage(_ code: String) -> String {
-        switch code {
-        case "en": return "🇬🇧"
-        case "uk": return "🇺🇦"
-        case "zh": return "🇨🇳"
-        case "es": return "🇪🇸"
-        case "fr": return "🇫🇷"
-        case "de": return "🇩🇪"
-        default: return "🌐"
-        }
-    }
 }
 
 #Preview {

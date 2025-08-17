@@ -244,6 +244,7 @@
 // Limit warnings
 "usage_warning" = "Попередження про використання";
 "approaching_daily_limit" = "⚠️ Залишилося %d перекладів до денного ліміту";
+"daily_limit_reached" = "❌ Денний ліміт перекладів досягнуто (%d залишилося)";
 "ai_approaching_limit" = "🤖 ШІ ліміт майже вичерпано: %d запитів, %d%% токенів використано";
 "understood" = "Зрозуміло";
 "switch_to_google" = "Переключити на Google";
@@ -508,3 +509,9 @@
 "ai_translation" = "ШІ переклад";
 "translation_mode" = "Режим перекладу";
 "user_daily_limit" = "Денний ліміт користувача";
+
+// MARK: - AI Limit Messages
+"ai_daily_limit_exceeded" = "Денний ліміт вичерпано";
+"google_daily_limit_exceeded" = "Денний ліміт перекладів вичерпано";
+"ai_limit_exhausted" = "❌ Денний ліміт вичерпано (%d/%d)";
+"ai_available_translations" = "✅ Доступно %d з %d перекладів";

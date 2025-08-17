@@ -62,9 +62,12 @@ class TranslationManager: ObservableObject {
         from sourceLanguage: String = "en",
         to targetLanguage: String
     ) async throws -> String {
-        // Check user daily limit
-        guard userUsageTracker.canTranslateToday else {
-            throw TranslationError.dailyLimitExceeded
+        // Check user daily limit only for Groq AI (premium feature with limits)
+        // Google and Apple Translation should work freely
+        if selectedService == .groqAI {
+            guard userUsageTracker.canTranslateToday else {
+                throw TranslationError.dailyLimitExceeded
+            }
         }
         
         await MainActor.run {
@@ -84,10 +87,12 @@ class TranslationManager: ObservableObject {
                 to: targetLanguage
             )
             
-            // Record successful translation
-            await MainActor.run {
-                userUsageTracker.recordTranslation()
-                saveUserUsageTracker()
+            // Record successful translation only for Groq AI (limited service)
+            if selectedService == .groqAI {
+                await MainActor.run {
+                    userUsageTracker.recordTranslation()
+                    saveUserUsageTracker()
+                }
             }
             
             return result
@@ -236,12 +241,14 @@ class TranslationManager: ObservableObject {
                 to: targetLanguage
             )
         case .groqAI:
-            // If Groq is selected, use Google instead (AI only for flashcards)
-            return try await googleTranslator.translate(
+            // Use Groq AI when selected
+            let options = try await groqTranslator.getEnhancedTranslations(
                 text: text,
                 from: sourceLanguage,
                 to: targetLanguage
             )
+            // Return the first (best) translation option
+            return options.first?.text ?? text
         }
     }
     
@@ -310,9 +317,8 @@ class TranslationManager: ObservableObject {
                 partOfSpeech: nil
             )]
         case .groqAI:
-            // In regular mode, even if Groq is selected, use Google for consistency
-            // Groq should only be used when AI mode is explicitly selected
-            return try await googleTranslator.translateWithOptions(
+            // Use Groq AI to get enhanced translations with multiple options
+            return try await groqTranslator.getEnhancedTranslations(
                 text: text,
                 from: sourceLanguage,
                 to: targetLanguage

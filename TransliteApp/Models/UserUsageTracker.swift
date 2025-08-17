@@ -55,10 +55,10 @@ struct UserUsageTracker: Codable {
     // Get status message
     var statusMessage: String {
         if dailyTranslations >= dailyUserLimit {
-            return "❌ Денний ліміт вичерпано (\(dailyTranslations)/\(dailyUserLimit))"
+            return String(format: "ai_limit_exhausted".localized, dailyTranslations, dailyUserLimit)
         } else {
             let remaining = remainingDailyTranslations
-            return "✅ Доступно \(remaining) з \(dailyUserLimit) перекладів"
+            return String(format: "ai_available_translations".localized, remaining, dailyUserLimit)
         }
     }
 }

@@ -34,14 +34,7 @@ struct TextTranslatorView: View {
     @State private var typingTimer: Timer?
     
     var languages: [(String, String)] {
-        [
-            ("en", "language_english".localized),
-            ("uk", "language_ukrainian".localized),
-            ("zh", "language_chinese_simplified".localized),
-            ("es", "language_spanish".localized),
-            ("fr", "language_french".localized),
-            ("de", "language_german".localized)
-        ]
+        LanguageHelpers.getLanguagesForDisplayWithoutFlags()
     }
     
     // MARK: - Typing Activity Tracking
@@ -175,6 +168,15 @@ struct TextTranslatorView: View {
                                 RoundedRectangle(cornerRadius: 6)
                                     .fill(AppColors.secondaryText.opacity(0.1))
                             )
+                        }
+                        
+                        // AI service usage progress bar
+                        if translationManager.currentService == .groqAI {
+                            AIUsageProgressView(
+                                tokenUsagePercentage: translationManager.groqService.tokenUsagePercentage,
+                                style: .compact
+                            )
+                            .padding(.top, 2)
                         }
                     }
                     
@@ -400,9 +402,6 @@ struct TextTranslatorView: View {
     private func translate() {
         guard !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         
-        // Check if approaching limits before translation
-        checkLimitWarnings()
-        
         translatedText = ""
         alternatives = []
         flashcardSaved = false // Reset flashcard saved status
@@ -434,20 +433,44 @@ struct TextTranslatorView: View {
     }
     
     private func checkLimitWarnings() {
-        // Check general user limit
-        if translationManager.isApproachingLimit {
-            let remaining = translationManager.remainingTranslations
-            limitWarningMessage = String(format: "approaching_daily_limit".localized, remaining)
-            showLimitWarning = true
+        // Only show warnings for Groq AI service and only after actual translation
+        guard translationManager.currentService == .groqAI else { return }
+        
+        // Check if Groq AI is approaching its specific limit
+        if translationManager.isGroqApproachingLimit {
+            // Check if we already showed AI limit warning today
+            if !hasShownWarningToday(type: "ai_limit") {
+                let groqService = translationManager.groqService
+                let remainingRequests = groqService.remainingDailyRequests
+                let tokenUsage = groqService.tokenUsagePercentage
+                limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
+                showLimitWarning = true
+                markWarningShownToday(type: "ai_limit")
+            }
         }
-        // Check Groq AI specific limit
-        else if translationManager.currentService == .groqAI && translationManager.isGroqApproachingLimit {
-            let groqService = translationManager.groqService
-            let remainingRequests = groqService.remainingDailyRequests
-            let tokenUsage = groqService.tokenUsagePercentage
-            limitWarningMessage = String(format: "ai_approaching_limit".localized, remainingRequests, Int(tokenUsage))
-            showLimitWarning = true
+        // Also check general user limit for Groq AI (only when actually reached, not approaching)
+        else if !translationManager.canTranslateToday {
+            // Check if we already showed daily limit warning today
+            if !hasShownWarningToday(type: "daily_limit") {
+                let remaining = translationManager.remainingTranslations
+                limitWarningMessage = String(format: "daily_limit_reached".localized, remaining)
+                showLimitWarning = true
+                markWarningShownToday(type: "daily_limit")
+            }
         }
+    }
+    
+    private func hasShownWarningToday(type: String) -> Bool {
+        let key = "lastWarningShown_\(type)"
+        guard let lastDate = UserDefaults.standard.object(forKey: key) as? Date else {
+            return false
+        }
+        return Calendar.current.isDate(lastDate, inSameDayAs: Date())
+    }
+    
+    private func markWarningShownToday(type: String) {
+        let key = "lastWarningShown_\(type)"
+        UserDefaults.standard.set(Date(), forKey: key)
     }
     
     private func swapLanguages() {
@@ -949,15 +972,7 @@ struct LanguageSelector: View {
     }
     
     private func getFlag(for languageCode: String) -> String {
-        switch languageCode {
-        case "en": return "🇬🇧"
-        case "uk": return "🇺🇦"
-        case "zh": return "🇨🇳"
-        case "es": return "🇪🇸"
-        case "fr": return "🇫🇷"
-        case "de": return "🇩🇪"
-        default: return "🌐"
-        }
+        LanguageHelpers.getFlag(for: languageCode)
     }
     
 }

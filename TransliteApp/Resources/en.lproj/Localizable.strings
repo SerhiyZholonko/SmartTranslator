@@ -247,6 +247,7 @@
 // Limit warnings
 "usage_warning" = "Usage Warning";
 "approaching_daily_limit" = "⚠️ %d translations remaining until daily limit";
+"daily_limit_reached" = "❌ Daily translation limit reached (%d remaining)";
 "ai_approaching_limit" = "🤖 AI limit nearly reached: %d requests, %d%% tokens used";
 "understood" = "Understood";
 "switch_to_google" = "Switch to Google";
@@ -508,3 +509,9 @@
 "ai_translation" = "AI Translation";
 "translation_mode" = "Translation Mode";
 "user_daily_limit" = "User Daily Limit";
+
+// MARK: - AI Limit Messages
+"ai_daily_limit_exceeded" = "Daily limit exceeded";
+"google_daily_limit_exceeded" = "Daily translation limit exceeded";
+"ai_limit_exhausted" = "❌ Daily limit exhausted (%d/%d)";
+"ai_available_translations" = "✅ Available %d of %d translations";
