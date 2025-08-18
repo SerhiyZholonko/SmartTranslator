@@ -315,6 +315,7 @@
 
 // MARK: - Settings
 "settings_title" = "Settings";
+"app_preferences" = "Configure the app to your preferences";
 "general" = "General";
 "app_language" = "App Language";
 "app_theme" = "App Theme";

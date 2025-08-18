@@ -22,6 +22,23 @@ struct SettingsView: View {
                 AppColors.appBackground
                     .ignoresSafeArea()
                 
+            VStack(spacing: 0) {
+                // Header
+                VStack(spacing: 8) {
+                    Text("settings_title".localized)
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(AppColors.primaryText)
+                        .shadow(color: AppColors.shadow, radius: 1, x: 0, y: 1)
+                    
+                    Text("app_preferences".localized)
+                        .font(.subheadline)
+                        .foregroundColor(AppColors.secondaryText)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 16)
+                
             Form {
                 Section(header: Text("translation_service".localized)) {
                     Picker("Service", selection: $selectedTranslationService) {
@@ -214,9 +231,8 @@ struct SettingsView: View {
             }
             .scrollContentBackground(.hidden)
             .background(AppColors.appBackground)
-            .navigationTitle("settings_title".localized)
-            .navigationBarTitleDisplayMode(.inline)
-
+            
+            } // End of VStack
             }
         }
         .alert("service_not_available".localized, isPresented: $showingServiceAlert) {

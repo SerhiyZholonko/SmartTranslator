@@ -308,12 +308,16 @@ struct TextTranslatorView: View {
                                     }
                                 }
                                 
-                                Text(translatedText)
-                                    .font(.system(size: 16))
-                                    .padding()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(AppColors.translationBackground)
-                                    .cornerRadius(12)
+                                ScrollView {
+                                    Text(translatedText)
+                                        .font(.system(size: 16))
+                                        .padding()
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .textSelection(.enabled)
+                                }
+                                .frame(minHeight: 100, maxHeight: 300)
+                                .background(AppColors.translationBackground)
+                                .cornerRadius(12)
                                 
                                 // Alternatives
                                 if !alternatives.isEmpty {

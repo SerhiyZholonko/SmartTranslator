@@ -297,6 +297,7 @@
 
 // MARK: - Settings
 "settings_title" = "设置";
+"app_preferences" = "根据您的喜好配置应用程序";
 "general" = "通用";
 "app_language" = "应用语言";
 "app_theme" = "应用主题";

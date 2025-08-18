@@ -312,6 +312,7 @@
 
 // MARK: - Settings
 "settings_title" = "Налаштування";
+"app_preferences" = "Налаштуйте додаток під свої потреби";
 "general" = "Загальні";
 "app_language" = "Мова додатку";
 "app_theme" = "Тема додатку";

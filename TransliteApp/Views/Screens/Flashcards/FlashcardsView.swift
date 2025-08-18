@@ -20,23 +20,20 @@ struct FlashcardsView: View {
                 
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    // Header with Close Button
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("language_learning".localized)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            
-                            Text("study_flashcards_description".localized)
-                                .font(.subheadline)
-                                .foregroundColor(AppColors.secondaryText)
-                        }
+                    // Header
+                    VStack(spacing: 8) {
+                        Text("flashcards_title".localized)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(AppColors.primaryText)
+                            .shadow(color: AppColors.shadow, radius: 1, x: 0, y: 1)
                         
-                        Spacer()
-                        
-
+                        Text("study_flashcards_description".localized)
+                            .font(.subheadline)
+                            .foregroundColor(AppColors.secondaryText)
+                            .multilineTextAlignment(.center)
                     }
                     .padding(.horizontal)
+                    .padding(.top)
                     
                     // Debug: Reset button if problematic numbers detected
                     if flashcardManager.decks.contains(where: { 

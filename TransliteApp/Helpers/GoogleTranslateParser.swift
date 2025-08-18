@@ -32,7 +32,7 @@ class GoogleTranslateParser: ObservableObject {
     @Published var translations: [TranslationOption] = []
     
     private let baseURL = "https://translate.googleapis.com/translate_a/single"
-    private let maxTextLength = 4500 // Google's limit
+    private let maxTextLength = 5000 // Google's limit (increased for better performance)
     
     // Custom URLSession with longer timeouts
     private lazy var urlSession: URLSession = {
@@ -93,6 +93,10 @@ class GoogleTranslateParser: ObservableObject {
     func translate(text: String, from sourceLanguage: String = "en", to targetLanguage: String) async throws -> String {
         guard !text.isEmpty else { return "" }
         
+        print("🚀 Starting translation of \(text.count) characters")
+        print("📊 Max text length: \(maxTextLength)")
+        print("🔤 Text preview: \(text.prefix(100))...")
+        
         await MainActor.run {
             isTranslating = true
         }
@@ -105,10 +109,12 @@ class GoogleTranslateParser: ObservableObject {
         
         // Handle text that's too long by chunking
         if text.count > maxTextLength {
+            print("📦 Text is long (\(text.count) > \(maxTextLength)), using chunking")
             return try await translateLongText(text: text, from: sourceLanguage, to: targetLanguage)
+        } else {
+            print("📝 Text is short (\(text.count) <= \(maxTextLength)), single translation")
+            return try await performSingleTranslation(text: text, from: sourceLanguage, to: targetLanguage)
         }
-        
-        return try await performSingleTranslation(text: text, from: sourceLanguage, to: targetLanguage)
     }
     
     /// Enhanced method - returns multiple translation options
@@ -165,7 +171,15 @@ class GoogleTranslateParser: ObservableObject {
     // MARK: - Private Translation Methods
     
     private func performSingleTranslation(text: String, from sourceLanguage: String, to targetLanguage: String) async throws -> String {
-        return try await performTranslationWithRetry(text: text, from: sourceLanguage, to: targetLanguage)
+        print("🔄 Performing single translation: \(sourceLanguage) -> \(targetLanguage)")
+        print("📝 Input text length: \(text.count)")
+        
+        let result = try await performTranslationWithRetry(text: text, from: sourceLanguage, to: targetLanguage)
+        
+        print("✅ Single translation result length: \(result.count)")
+        print("📄 Result preview: \(result.prefix(100))...")
+        
+        return result
     }
     
     private func performTranslationWithRetry(text: String, from sourceLanguage: String, to targetLanguage: String, attempt: Int = 1) async throws -> String {
@@ -179,12 +193,21 @@ class GoogleTranslateParser: ObservableObject {
         ]
         
         guard let url = components.url else {
+            print("❌ Failed to create URL from components")
             throw TranslationError.networkError
         }
         
-        let (data, _) = try await performNetworkRequestWithRetry(url: url, attempt: attempt)
+        print("🌐 Request URL: \(url.absoluteString.prefix(200))...")
+        print("📏 Text length in URL: \(text.count)")
+        
+        let (data, response) = try await performNetworkRequestWithRetry(url: url, attempt: attempt)
+        
+        if let httpResponse = response as? HTTPURLResponse {
+            print("🌐 HTTP Response Status: \(httpResponse.statusCode)")
+        }
         
         guard let responseString = String(data: data, encoding: .utf8) else {
+            print("❌ Failed to decode response as UTF-8, data length: \(data.count)")
             throw TranslationError.invalidResponse
         }
         
@@ -192,20 +215,45 @@ class GoogleTranslateParser: ObservableObject {
     }
     
     private func parseTranslationResponse(_ responseString: String) throws -> String {
+        print("📡 Raw response length: \(responseString.count) characters")
         
-        guard let data = responseString.data(using: .utf8),
-              let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any],
-              let translations = json.first as? [Any] else {
+        guard let data = responseString.data(using: .utf8) else {
+            print("❌ Failed to convert response to UTF-8")
             throw TranslationError.invalidResponse
         }
         
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [Any] else {
+            print("❌ Failed to parse JSON response")
+            print("Response preview: \(responseString.prefix(500))")
+            throw TranslationError.invalidResponse
+        }
+        
+        guard let translations = json.first as? [Any] else {
+            print("❌ No translation array found in JSON")
+            print("JSON structure: \(json)")
+            throw TranslationError.invalidResponse
+        }
+        
+        print("📊 Found \(translations.count) translation parts")
+        
         var translatedText = ""
-        for translation in translations {
+        for (index, translation) in translations.enumerated() {
             if let translationArray = translation as? [Any],
                let text = translationArray.first as? String {
                 translatedText += text
+                print("📄 Part \(index): '\(text)'")
+            } else {
+                print("⚠️ Skipping malformed translation part at index \(index): \(translation)")
             }
         }
+        
+        guard !translatedText.isEmpty else {
+            print("❌ No text extracted from translation response")
+            throw TranslationError.noTranslationAvailable
+        }
+        
+        print("🔤 Final parsed text length: \(translatedText.count)")
+        print("🔤 Final text preview: \(translatedText.prefix(200))...")
         
         return translatedText
     }
@@ -326,41 +374,181 @@ class GoogleTranslateParser: ObservableObject {
         let chunks = splitIntoChunks(text: text, maxLength: maxTextLength)
         var translatedChunks: [String] = []
         
-        for chunk in chunks {
+        print("🔤 Translating long text in \(chunks.count) chunks")
+        
+        for (index, chunk) in chunks.enumerated() {
+            print("📝 Chunk \(index + 1)/\(chunks.count): \(chunk.prefix(50))...")
+            
             let translatedChunk = try await performSingleTranslation(text: chunk, from: sourceLanguage, to: targetLanguage)
             translatedChunks.append(translatedChunk)
             
+            print("✅ Translated chunk \(index + 1): \(translatedChunk.prefix(50))...")
+            
             // Add small delay between requests to avoid rate limiting
-            try await Task.sleep(nanoseconds: 100_000_000) // 0.1 second
+            if index < chunks.count - 1 {
+                try await Task.sleep(nanoseconds: 100_000_000) // 0.1 second
+            }
         }
         
-        return translatedChunks.joined(separator: " ")
+        // Join chunks more intelligently
+        let result = joinTranslatedChunks(translatedChunks)
+        print("🎯 Final translation: \(result.prefix(100))...")
+        
+        return result
+    }
+    
+    private func joinTranslatedChunks(_ chunks: [String]) -> String {
+        guard !chunks.isEmpty else { return "" }
+        
+        var result = ""
+        
+        for (index, chunk) in chunks.enumerated() {
+            let trimmedChunk = chunk.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmedChunk.isEmpty { continue }
+            
+            if index == 0 {
+                result = trimmedChunk
+            } else {
+                // Check if we need a space between chunks
+                let lastChar = result.last
+                let firstChar = trimmedChunk.first
+                
+                let needsSpace = !(lastChar?.isPunctuation == true || 
+                                 firstChar?.isPunctuation == true ||
+                                 lastChar?.isWhitespace == true ||
+                                 firstChar?.isWhitespace == true)
+                
+                if needsSpace {
+                    result += " " + trimmedChunk
+                } else {
+                    result += trimmedChunk
+                }
+            }
+        }
+        
+        return result
     }
     
     private func splitIntoChunks(text: String, maxLength: Int) -> [String] {
         var chunks: [String] = []
         var currentChunk = ""
         
-        let sentences = text.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        // Split text into sentences while preserving punctuation
+        let sentences = splitIntoSentences(text)
         
         for sentence in sentences {
             let trimmedSentence = sentence.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmedSentence.isEmpty { continue }
             
-            let sentenceWithPunctuation = trimmedSentence + ". "
+            // Check if adding this sentence would exceed the limit
+            let potentialChunk = currentChunk.isEmpty ? trimmedSentence : currentChunk + " " + trimmedSentence
             
-            if currentChunk.count + sentenceWithPunctuation.count <= maxLength {
-                currentChunk += sentenceWithPunctuation
+            if potentialChunk.count <= maxLength {
+                currentChunk = potentialChunk
+            } else {
+                // If we have a current chunk, save it and start new one
+                if !currentChunk.isEmpty {
+                    chunks.append(currentChunk)
+                    currentChunk = trimmedSentence
+                } else {
+                    // If even single sentence is too long, split by words
+                    let wordChunks = splitLongSentenceByWords(trimmedSentence, maxLength: maxLength)
+                    chunks.append(contentsOf: wordChunks)
+                }
+            }
+        }
+        
+        // Add the last chunk if it's not empty
+        if !currentChunk.isEmpty {
+            chunks.append(currentChunk)
+        }
+        
+        // If no proper splitting was possible, fallback to character-based chunking
+        if chunks.isEmpty && !text.isEmpty {
+            chunks = splitByCharacters(text, maxLength: maxLength)
+        }
+        
+        return chunks
+    }
+    
+    private func splitIntoSentences(_ text: String) -> [String] {
+        var sentences: [String] = []
+        var currentSentence = ""
+        var i = text.startIndex
+        
+        while i < text.endIndex {
+            let char = text[i]
+            currentSentence.append(char)
+            
+            // Check if this is end of sentence
+            if char == "." || char == "!" || char == "?" {
+                // Look ahead to see if there's more content (not just whitespace)
+                var nextIndex = text.index(after: i)
+                var hasMoreContent = false
+                
+                while nextIndex < text.endIndex {
+                    let nextChar = text[nextIndex]
+                    if !nextChar.isWhitespace && !nextChar.isNewline {
+                        hasMoreContent = true
+                        break
+                    }
+                    nextIndex = text.index(after: nextIndex)
+                }
+                
+                // If there's more meaningful content after this punctuation, end sentence
+                if hasMoreContent {
+                    sentences.append(currentSentence)
+                    currentSentence = ""
+                }
+            }
+            
+            i = text.index(after: i)
+        }
+        
+        // Add remaining text as last sentence
+        if !currentSentence.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            sentences.append(currentSentence)
+        }
+        
+        return sentences
+    }
+    
+    private func splitLongSentenceByWords(_ sentence: String, maxLength: Int) -> [String] {
+        let words = sentence.components(separatedBy: .whitespacesAndNewlines)
+        var chunks: [String] = []
+        var currentChunk = ""
+        
+        for word in words {
+            let potentialChunk = currentChunk.isEmpty ? word : currentChunk + " " + word
+            
+            if potentialChunk.count <= maxLength {
+                currentChunk = potentialChunk
             } else {
                 if !currentChunk.isEmpty {
-                    chunks.append(currentChunk.trimmingCharacters(in: .whitespaces))
+                    chunks.append(currentChunk)
+                    currentChunk = word
+                } else {
+                    // Word is too long even by itself, split it
+                    chunks.append(contentsOf: splitByCharacters(word, maxLength: maxLength))
                 }
-                currentChunk = sentenceWithPunctuation
             }
         }
         
         if !currentChunk.isEmpty {
-            chunks.append(currentChunk.trimmingCharacters(in: .whitespaces))
+            chunks.append(currentChunk)
+        }
+        
+        return chunks
+    }
+    
+    private func splitByCharacters(_ text: String, maxLength: Int) -> [String] {
+        var chunks: [String] = []
+        let textArray = Array(text)
+        
+        for i in stride(from: 0, to: textArray.count, by: maxLength) {
+            let endIndex = min(i + maxLength, textArray.count)
+            let chunk = String(textArray[i..<endIndex])
+            chunks.append(chunk)
         }
         
         return chunks

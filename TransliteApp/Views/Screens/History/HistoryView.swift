@@ -29,7 +29,23 @@ struct HistoryView: View {
                 AppColors.appBackground
                     .ignoresSafeArea()
                 
-            VStack {
+            VStack(spacing: 0) {
+                // Header
+                VStack(spacing: 8) {
+                    Text("history_title".localized)
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(AppColors.primaryText)
+                        .shadow(color: AppColors.shadow, radius: 1, x: 0, y: 1)
+                    
+                    Text("history_description".localized)
+                        .font(.subheadline)
+                        .foregroundColor(AppColors.secondaryText)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 16)
+                
                 // Search and filter bar
                 HStack {
                     HStack {
@@ -106,8 +122,6 @@ struct HistoryView: View {
                     .id(historyManager.refreshTrigger) // Force refresh when favorites change
                 }
             }
-            .navigationTitle("history_title".localized)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
 //                ToolbarItem(placement: .navigationBarLeading) {
 //                    Button("done".localized) {
